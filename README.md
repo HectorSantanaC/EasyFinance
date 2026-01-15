@@ -1,20 +1,36 @@
-EasyFinance
-=============
+# EasyFinance 💰
 
-Aplicación web simple para gestionar ingresos, gastos y metas de ahorro.
+EasyFinance es una aplicación web para la gestión de finanzas personales que permite registrar ingresos y gastos, visualizar un resumen mensual y seguir metas de ahorro. Proyecto desarrollado como parte del Ciclo Formativo de Grado Superior en Desarrollo de Aplicaciones Web (DAW).
 
-Archivos principales:
-- componentes/index.html — interfaz de usuario (abrir en navegador).
-- componentes/style.css — estilos.
-- componentes/script.js — lógica y persistencia (localStorage).
+## Características principales
 
-Cómo probar
-----------
-1. Abrir `componentes/index.html` en tu navegador (doble clic o `file://` URL).
-2. Agrega ingresos o gastos desde el formulario principal.
-3. Crea metas en la columna derecha y usa "Agregar" para depositar hacia la meta.
+- Registro, edición y eliminación de ingresos.
+- Registro, edición y eliminación de gastos.
+- Dashboard con resumen mensual de ingresos, gastos y saldo.
+- Gráficos por categoría (ingresos/gastos).
+- Filtros por fecha, categoría y tipo de movimiento.
+- Gestión de metas de ahorro (creación, edición, eliminación).
+- Visualización del progreso de cada meta de ahorro.
+- Gestión básica de perfil de usuario y cambio de contraseña.
+- Rol administrador para gestión de usuarios y categorías base.
 
-Notas
------
-- Los datos se guardan en el navegador usando `localStorage`.
-- No requiere servidor; todo funciona localmente.
+## Tecnologías utilizadas
+
+- **Backend**: Java, Spring Boot.
+- **Frontend**: HTML5, CSS3, JavaScript, Bootstrap, Thymeleaf.
+- **Base de datos**: MySQL.
+- **Control de versiones**: Git y GitHub.
+
+## Requisitos previos
+
+- JDK 17 (o versión compatible).
+- Maven (si el proyecto usa Maven).
+- MySQL Workbench 8.0 CE.
+- Git instalado.
+- IDE recomendado: IntelliJ IDEA / Eclipse / VS Code con extensiones para Java.
+
+## Puesta en marcha del proyecto
+
+1. Clonar el repositorio:
+   ```bash
+   git clone git@github.com:HectorSantanaC/EasyFinance.git
