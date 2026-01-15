@@ -1,0 +1,69 @@
+# Archivos compilados de Java
+*.class
+*.jar
+*.war
+*.ear
+
+# Logs
+*.log
+
+# Maven
+target/
+pom.xml.tag
+pom.xml.releaseBackup
+pom.xml.versionsBackup
+pom.xml.next
+release.properties
+dependency-reduced-pom.xml
+
+# Gradle (si usas Gradle en lugar de Maven)
+.gradle/
+build/
+
+# Spring Boot
+HELP.md
+.springBeans
+
+# IDEs - IntelliJ IDEA
+.idea/
+*.iml
+*.iws
+*.ipr
+out/
+
+# IDEs - Eclipse
+.classpath
+.project
+.settings/
+.metadata/
+bin/
+
+# IDEs - VS Code
+.vscode/
+
+# IDEs - NetBeans
+nbproject/
+nbbuild/
+dist/
+nbdist/
+
+# Sistema operativo
+.DS_Store
+Thumbs.db
+
+# Archivos de configuración con datos sensibles
+application-local.properties
+application-dev.properties
+*.env
+
+# Base de datos local (si guardas backups)
+*.sql
+*.db
+
+# Node modules (si usas npm para frontend)
+node_modules/
+
+# Archivos temporales
+*~
+*.swp
+*.tmp

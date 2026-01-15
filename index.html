@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>EasyFinance</title>
+
+  <link rel="stylesheet" href="../node_modules/bootstrap/dist/css/bootstrap.min.css">
+  <link rel="stylesheet" href="./css/style.css">
+</head>
+
+<body>
+  <div class="container-fluid">
+    <div class="row">
+      <!-- Sidebar -->
+      <div class="col-2 text-center bg-body-tertiary">
+        <nav>
+          <div>
+            <a href="#">
+              <img src="./assets/img/logo-easyfinance.png" class="logo mt-3" alt="Logo EasyFinance">
+            </a>
+          </div>
+
+          <ul class="nav flex-column">
+            <li class="nav-item">
+              <a class="nav-link active" aria-current="page" href="#">Panel de control</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#">Registros</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#">Metas de ahorro</a>
+            </li>
+          </ul>
+        </nav>
+      </div>
+
+      <!-- App Container -->
+      <div class="app-container col-10">
+
+        <!-- Header -->
+        <header class="row">
+
+          <!-- Navbar -->
+          <div class="col-12 p-0">
+            <nav class="navbar bg-body-tertiary">
+              <div class="container-fluid">
+                <form class="d-flex" role="search">
+                  <input class="form-control me-2" type="search" placeholder="Buscar" aria-label="Buscar" />
+                  <button class="btn btn-outline-success" type="submit">Buscar</button>
+                </form>
+                <a class="navbar-brand">Avatar</a>
+              </div>
+            </nav>
+          </div>
+        </header>
+
+        <!-- Main -->
+        <main class="row">
+          <div class="col-12">
+
+            <div class="row align-items-center mb-5">
+              <div class="col mt-3">
+                <h1 class="mb-1">Panel de control</h1>
+                <p class="text-muted mb-0">Enero 2026</p>
+              </div>
+              <div class="col-auto">
+                <button class="btn btn-success px-4">
+                  <i class="bi bi-plus-lg"></i>Añadir
+                </button>
+              </div>
+            </div>
+
+            <!-- Saldo principal -->
+            <div class="card mb-5 p-4">
+              <div class="row align-items-center">
+                <div class="col-md-8">
+                  <div class="saldo-header text-success mb-1">1.575€</div>
+                  <div class="text-success fw-bold">+275€ del mes pasado</div>
+                  <small class="text-muted">Saldo disponible</small>
+                </div>
+                <div class="col-md-4 text-end">
+                  <div class="btn-group">
+                    <button class="btn btn-outline-light btn-sm">Este mes</button>
+                    <button class="btn btn-outline-light btn-sm">Año</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- KPI Cards horizontales -->
+            <div class="row mb-5">
+              <div class="col-lg-4 col-md-6 col-12 mb-4 mb-lg-0">
+                <div class="card p-4 kpi-card-ingresos">
+                  <div>Ingresos</div>
+                  <div class="h3 text-success mb-0">2.800€</div>
+                  <small class="text-success">+12% vs mes pasado</small>
+                </div>
+              </div>
+              <div class="col-lg-4 col-md-6 col-12 mb-4 mb-lg-0">
+                <div class="card p-4 kpi-card-gastos">
+                  <div>Gastos</div>
+                  <div class="h3 text-danger mb-0">1.225€</div>
+                  <small class="text-muted">-8% vs mes pasado</small>
+                </div>
+              </div>
+              <div class="col-lg-4 col-md-6 col-12 mb-4 mb-lg-0">
+                <div class="card p-4 kpi-card-ahorros">
+                  <div>Ahorros</div>
+                  <div class="h3 text-primary mb-0">6.854€</div>
+                  <small class="text-muted">-8% vs mes pasado</small>
+                </div>
+              </div>
+            </div>
+
+            <!-- Gráficos -->
+            <div class="row mb-5">
+              <div class="col-lg-8 col-12 mb-4 mb-lg-0">
+                <div class="card p-4">
+                  <h5 class="mb-3">Ingresos y gastos</h5>
+                  <div class="chart-container">
+                    <canvas id="balanceChart"></canvas>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-lg-4 col-12">
+                <div class="card p-4">
+                  <h5 class="mb-3">Gastos por categoría</h5>
+                  <div class="chart-container">
+                    <canvas id="gastosChart"></canvas>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Tabla transacciones -->
+            <div class="card mb-5">
+              <div class="card-header d-flex justify-content-between align-items-center">
+                <h5 class="mb-0">Transacciones recientes</h5>
+                <div>
+                  <select class="form-select form-select-sm">
+                    <option>Todas</option>
+                    <option>Ingresos</option>
+                    <option>Gastos</option>
+                  </select>
+                </div>
+              </div>
+              <div class="table-responsive">
+                <table class="table table-hover mb-0">
+                  <thead>
+                    <tr>
+                      <th>Fecha</th>
+                      <th>Descripción</th>
+                      <th>Categoría</th>
+                      <th>Importe</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>25 Ene</td>
+                      <td>Transferencia ahorro</td>
+                      <td><span class="badge bg-success">Ahorro</span></td>
+                      <td class="text-success fw-bold">+200€</td>
+                    </tr>
+                    <tr>
+                      <td>20 Ene</td>
+                      <td>Cine</td>
+                      <td><span class="badge bg-danger">Ocio</span></td>
+                      <td class="text-danger fw-bold">-45€</td>
+                    </tr>
+                    <tr>
+                      <td>15 Ene</td>
+                      <td>Supermercado</td>
+                      <td><span class="badge bg-warning">Comida</span></td>
+                      <td class="text-danger fw-bold">-250€</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </main>
+
+        <!-- Footer -->
+        <footer class="row">
+          <div class="col-12">
+            <p>Copyright © EasyFinance 2026</p>
+          </div>
+        </footer>
+      </div>
+    </div>
+  </div>
+
+  <script src="../node_modules/bootstrap/dist/js/bootstrap.min.js"></script>
+  <script src="./js/index.js"></script>
+
+</body>
+
+</html>
