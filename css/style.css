@@ -1,3 +1,35 @@
+:root {
+  --bg-primary: #f8f9fa;          /* Fondo principal gris muy claro */
+  --bg-secondary: #ffffff;        /* Tarjetas y cards blanco puro */
+  --bg-sidebar: #1a1f36;          /* Sidebar azul marino oscuro */
+  
+  /* Textos */
+  --text-primary: #242c34;        /* Texto principal casi negro */
+  --text-secondary: #6c757d;      /* Texto secundario gris medio */
+  --text-muted: #adb5bd;          /* Texto desactivado gris claro */
+  --text-inverse: #ffffff;        /* Texto sobre fondos oscuros */
+  
+  /* Colores funcionales */
+  --primary: #288cfa;             /* Azul principal - acciones y enlaces */
+  --primary-hover: #1c6fd6;       /* Azul hover más oscuro */
+  --primary-light: #7ebcf9;       /* Azul claro para badges */
+  
+  --success: #10b981;             /* Verde - ingresos y positivo */
+  --success-light: #d1fae5;       /* Verde claro fondo */
+  
+  --danger: #ef4444;              /* Rojo - gastos y alertas */
+  --danger-light: #fee2e2;        /* Rojo claro fondo */
+  
+  --warning: #f59e0b;             /* Naranja - advertencias */
+  --warning-light: #fef3c7;       /* Naranja claro fondo */
+  
+  /* Bordes y sombras */
+  --border-color: #e5e7eb;        /* Bordes sutiles */
+  --shadow-sm: 0 1px 3px rgba(0,0,0,0.1);
+  --shadow-md: 0 4px 6px rgba(0,0,0,0.07);
+  --shadow-lg: 0 10px 25px rgba(0,0,0,0.08);
+}
+
 * {
   padding: 0;
   margin: 0;
@@ -7,4 +39,43 @@
 .logo {
   width: 100px;
   height: 100px;
+}
+
+body {
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
+}
+
+.app-container {
+  display: grid;
+  min-height: 100vh;
+  grid-template-rows: auto 1fr auto auto;
+}
+
+.navbar {
+  background: var(--bg-secondary) !important;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.saldo-principal {
+  font-size: 2.5rem;
+  font-weight: 700;
+}
+
+.card {
+  background: var(--bg-secondary);
+  border: 1px solid var(--border-color);
+  box-shadow: var(--shadow-md);
+}
+
+.kpi-card-gastos {
+  border-left: 4px solid var(--danger);
+}
+
+.kpi-card-ahorros {
+  border-left: 4px solid var(--primary);
+}
+
+.kpi-card-ingresos {
+  border-left: 4px solid var(--success);
 }
