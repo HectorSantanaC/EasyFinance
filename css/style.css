@@ -36,25 +36,40 @@
   box-sizing: border-box;
 }
 
-.logo {
-  width: 100px;
-  height: 100px;
-}
-
 body {
   background-color: var(--bg-primary);
   color: var(--text-primary);
 }
 
+/* 
+#############################
+          Sidebar 
+#############################
+*/
+.logo {
+  width: 100px;
+  height: 100px;
+}
+
+/* 
+#############################
+          Navbar
+#############################
+*/
+.navbar {
+  background: var(--bg-secondary) !important;
+  border-bottom: 1px solid var(--border-color);
+}
+
+/* 
+#############################
+      Main Container 
+#############################
+*/
 .app-container {
   display: grid;
   min-height: 100vh;
   grid-template-rows: auto 1fr auto auto;
-}
-
-.navbar {
-  background: var(--bg-secondary) !important;
-  border-bottom: 1px solid var(--border-color);
 }
 
 .saldo-principal {
@@ -72,10 +87,24 @@ body {
   border-left: 4px solid var(--danger);
 }
 
+.kpi-card-ingresos {
+  border-left: 4px solid var(--success);
+}
+
 .kpi-card-ahorros {
   border-left: 4px solid var(--primary);
 }
 
-.kpi-card-ingresos {
-  border-left: 4px solid var(--success);
+/* 
+#############################
+          Footer 
+#############################
+*/
+.app-container footer {
+  grid-row: 3 / span ;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem 0;
+  text-align: center;
 }
