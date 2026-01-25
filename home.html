@@ -7,6 +7,7 @@
   <title>EasyFinance</title>
 
   <link rel="stylesheet" href="../node_modules/bootstrap/dist/css/bootstrap.min.css">
+  <link rel="stylesheet" href="../node_modules/bootstrap-icons/font/bootstrap-icons.min.css">
   <link rel="stylesheet" href="./css/style.css">
 </head>
 
@@ -14,41 +15,66 @@
   <div class="container-fluid">
     <div class="row">
       <!-- Sidebar -->
-      <div class="col-2 text-center bg-body-tertiary">
-        <nav>
-          <div>
-            <a href="#">
-              <img src="./assets/img/logo-easyfinance.png" class="logo mt-3" alt="Logo EasyFinance">
+      <nav class="col-lg-2 col-md-3 d-md-block sidebar collapse" id="sidebarMenu">
+        <div class="position-sticky">
+          <!-- Botón cerrar (solo mobile) -->
+          <div class="d-md-none text-end p-3">
+            <button type="button" class="btn-close-sidebar" data-bs-toggle="collapse" data-bs-target="#sidebarMenu"
+              aria-label="Cerrar menú">
+              <i class="bi bi-x-lg"></i>
+            </button>
+          </div>
+
+          <div class="text-center">
+            <a href="#" class="d-inline-block">
+              <img src="./assets/img/logo-easyfinance.png" class="logo mt-4 mb-2" alt="Logo EasyFinance">
             </a>
           </div>
 
           <!-- Divider -->
-          <hr class="sidebar-divider ">
+          <hr class="sidebar-divider">
 
           <ul class="nav flex-column">
             <li class="nav-item">
-              <a class="nav-link active" aria-current="page" href="#">Dashboard</a>
+              <a class="nav-link active" aria-current="page" href="#" data-bs-toggle="collapse"
+                data-bs-target="#sidebarMenu">
+                <i class="bi bi-speedometer2 me-2"></i>
+                Dashboard
+              </a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="#">Registros</a>
+              <a class="nav-link" href="#" data-bs-toggle="collapse" data-bs-target="#sidebarMenu">
+                <i class="bi bi-receipt me-2"></i>
+                Registros
+              </a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="#">Metas de Ahorro</a>
+              <a class="nav-link" href="#" data-bs-toggle="collapse" data-bs-target="#sidebarMenu">
+                <i class="bi bi-piggy-bank-fill me-2"></i>
+                Metas de Ahorro
+              </a>
             </li>
           </ul>
-        </nav>
-      </div>
+        </div>
+      </nav>
+
 
       <!-- App Container -->
-      <div class="app-container col-10">
+      <div class="col-lg-10 col-md-9 ms-sm-auto app-container">
 
         <!-- Header -->
         <header class="row">
-
           <!-- Navbar -->
           <div class="col-12 p-0">
             <nav class="navbar bg-body-tertiary">
               <div class="container-fluid">
+                <!-- Botón hamburguesa (solo visible en mobile) -->
+                <button class="navbar-toggler d-md-none" type="button" data-bs-toggle="collapse"
+                  data-bs-target="#sidebarMenu" aria-controls="sidebarMenu" aria-expanded="false"
+                  aria-label="Toggle navigation">
+                  <span class="navbar-toggler-icon"></span>
+                </button>
+
                 <form class="d-flex" role="search">
                   <input class="form-control me-2" type="search" placeholder="Buscar" aria-label="Buscar" />
                   <button class="btn btn-outline-success" type="submit">Buscar</button>
@@ -65,12 +91,12 @@
 
             <section class="row align-items-center mb-5">
               <div class="col mt-3">
-                <h1 class="mb-1">Panel de control</h1>
+                <h1 class="mb-1">Dashboard</h1>
                 <p class="text-muted mb-0">Enero 2026</p>
               </div>
               <div class="col-auto">
                 <button class="btn btn-success px-4">
-                  <i class="bi bi-plus-lg"></i>Añadir
+                  <i class="bi bi-plus-lg me-2"></i>Añadir
                 </button>
               </div>
             </section>
@@ -79,7 +105,7 @@
             <section class="card mb-5 p-4">
               <div class="row align-items-center">
                 <div class="col-md-8">
-                  <div class="saldo-principal text-success mb-1">1.575€</div>
+                  <div class="principal-balance text-success mb-1">1.575€</div>
                   <div class="text-success fw-bold">+275€ del mes pasado</div>
                   <small class="text-muted">Saldo disponible</small>
                 </div>
@@ -95,21 +121,21 @@
             <!-- KPI Cards horizontales -->
             <section class="row mb-5">
               <div class="col-lg-4 col-md-6 col-12 mb-4 mb-lg-0">
-                <div class="card p-4 kpi-card-ingresos">
+                <div class="card p-4 kpi-card-income">
                   <div>Ingresos</div>
                   <div class="h3 text-success mb-0">2.800€</div>
                   <small class="text-success">+12% vs mes pasado</small>
                 </div>
               </div>
               <div class="col-lg-4 col-md-6 col-12 mb-4 mb-lg-0">
-                <div class="card p-4 kpi-card-gastos">
+                <div class="card p-4 kpi-card-expenses">
                   <div>Gastos</div>
                   <div class="h3 text-danger mb-0">1.225€</div>
                   <small class="text-muted">-8% vs mes pasado</small>
                 </div>
               </div>
               <div class="col-lg-4 col-md-6 col-12 mb-4 mb-lg-0">
-                <div class="card p-4 kpi-card-ahorros">
+                <div class="card p-4 kpi-card-savings">
                   <div>Ahorros</div>
                   <div class="h3 text-primary mb-0">6.854€</div>
                   <small class="text-muted">-8% vs mes pasado</small>
@@ -196,7 +222,7 @@
     </div>
   </div>
 
-  <script src="../node_modules/bootstrap/dist/js/bootstrap.min.js"></script>
+  <script src="../node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
   <script src="./js/index.js"></script>
 
 </body>
