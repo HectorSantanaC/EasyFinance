@@ -1,36 +1,83 @@
 # EasyFinance 💰
 
-EasyFinance es una aplicación web para la gestión de finanzas personales que permite registrar ingresos y gastos, visualizar un resumen mensual y seguir metas de ahorro. Proyecto desarrollado como parte del Ciclo Formativo de Grado Superior en Desarrollo de Aplicaciones Web (DAW).
+> Aplicación web de gestión financiera personal desarrollada con Spring Boot
 
-## Características principales
+EasyFinance es una plataforma intuitiva para controlar tus finanzas personales: registra ingresos y gastos, visualiza estadísticas en tiempo real y alcanza tus metas de ahorro. Proyecto académico del Ciclo Formativo de Grado Superior en Desarrollo de Aplicaciones Web (DAW).
 
-- Registro, edición y eliminación de ingresos.
-- Registro, edición y eliminación de gastos.
-- Dashboard con resumen mensual de ingresos, gastos y saldo.
-- Gráficos por categoría (ingresos/gastos).
-- Filtros por fecha, categoría y tipo de movimiento.
-- Gestión de metas de ahorro (creación, edición, eliminación).
-- Visualización del progreso de cada meta de ahorro.
-- Gestión básica de perfil de usuario y cambio de contraseña.
-- Rol administrador para gestión de usuarios y categorías base.
+---
 
-## Tecnologías utilizadas
+## 📋 Características Principales
 
-- **Backend**: Java, Spring Boot.
-- **Frontend**: HTML5, CSS3, JavaScript, Bootstrap, Thymeleaf.
-- **Base de datos**: MySQL.
-- **Control de versiones**: Git y GitHub.
+### Gestión de Movimientos
+- ✅ Registro, edición y eliminación de ingresos
+- ✅ Registro, edición y eliminación de gastos
+- ✅ Filtros por fecha, categoría y tipo de movimiento
 
-## Requisitos previos
+### Dashboard y Visualización
+- 📊 Resumen mensual de ingresos, gastos y saldo disponible
+- 📈 Gráficos interactivos por categoría
+- 📅 Estadísticas y comparativas
 
-- JDK 17 (o versión compatible).
-- Maven (si el proyecto usa Maven).
-- MySQL Workbench 8.0 CE.
-- Git instalado.
-- IDE recomendado: IntelliJ IDEA / Eclipse / VS Code con extensiones para Java.
+### Metas de Ahorro
+- 🎯 Creación y gestión de metas personalizadas
+- 📊 Seguimiento visual del progreso
+- ✏️ Edición y eliminación de metas
 
-## Puesta en marcha del proyecto
+### Gestión de Usuario
+- 👤 Perfil de usuario personalizable
+- 🔒 Cambio seguro de contraseña
+- 🛡️ Autenticación con Spring Security
 
-1. Clonar el repositorio:
-   ```bash
-   git clone git@github.com:HectorSantanaC/EasyFinance.git
+### Panel Administrativo
+- 👥 Gestión de usuarios registrados
+- 🏷️ Administración de categorías globales
+
+---
+
+## 🛠️ Tecnologías Utilizadas
+
+### Backend
+- **Framework**: Spring Boot 3.x
+- **Lenguaje**: Java 17
+- **Seguridad**: Spring Security
+- **Persistencia**: JPA/Hibernate
+- **Gestor de dependencias**: Maven
+
+### Frontend
+- **Estructura**: HTML5 semántico
+- **Estilos**: CSS3 + Bootstrap 5
+- **Interactividad**: JavaScript (Vanilla)
+- **Gráficos**: Chart.js
+- **Motor de plantillas**: Thymeleaf
+
+### Base de Datos
+- **SGBD**: MySQL 8.x
+- **Diseño**: Modelo relacional normalizado
+
+### Control de Versiones
+- **Git** + **GitHub**
+- **Metodología**: Git Flow (ramas `main` y `develop`)
+
+---
+
+## 📦 Requisitos Previos
+
+Antes de ejecutar el proyecto, asegúrate de tener instalado:
+
+- ☕ **JDK 17** o superior
+- 📦 **Maven 3.8+**
+- 🗄️ **MySQL 8.4+**
+- 🔧 **Git**
+- 💻 **IDE recomendado**: IntelliJ IDEA, Eclipse o VS Code (con extensiones Java)
+
+> 💡 **Recomendación**: Instala MySQL Workbench 8.0 CE para administrar la base de datos de forma visual.
+
+---
+
+## 🚀 Instalación y Puesta en Marcha
+
+### 1. Clonar el Repositorio
+
+```bash
+git clone git@github.com:HectorSantanaC/EasyFinance.git
+cd EasyFinance
