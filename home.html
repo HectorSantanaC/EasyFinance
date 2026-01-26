@@ -147,8 +147,8 @@
 
             <!-- Gráficos -->
             <section class="row mb-5">
-              <div class="col-lg-8 col-12 mb-4 mb-lg-0">
-                <div class="card p-4">
+              <div class="col-lg-8 col-12">
+                <div class="card p-4 h-100">
                   <h5 class="mb-3">Ingresos y gastos</h5>
                   <div class="chart-container">
                     <canvas id="balanceChart"></canvas>
@@ -157,10 +157,10 @@
               </div>
 
               <div class="col-lg-4 col-12">
-                <div class="card p-4">
+                <div class="card p-4 h-100">
                   <h5 class="mb-3">Gastos por categoría</h5>
                   <div class="chart-container">
-                    <canvas id="gastosChart"></canvas>
+                    <canvas id="expenseChart"></canvas>
                   </div>
                 </div>
               </div>
@@ -213,20 +213,19 @@
             </section>
           </div>
         </main>
-
-
       </div>
     </div>
+
+    <!-- Footer -->
+    <footer class="row">
+      <div class="col-12">
+        <p>Copyright © EasyFinance 2026</p>
+      </div>
+    </footer>
   </div>
 
-  <!-- Footer -->
-  <footer class="row">
-    <div class="col-12">
-      <p>Copyright © EasyFinance 2026</p>
-    </div>
-  </footer>
-
   <script src="../node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="./node_modules/chart.js/dist/chart.umd.min.js"></script>
   <script src="./js/index.js"></script>
 
 </body>
