@@ -72,6 +72,7 @@ document.addEventListener("DOMContentLoaded", function () {
           data: [300, 150, 200, 100],
           backgroundColor: ["#FF6384", "#36A2EB", "#FFCE56", "#4BC0C0"],
           borderWidth: 2,
+          hoverOffset: 15,
         },
       ],
     },
