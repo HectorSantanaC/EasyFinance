@@ -261,7 +261,7 @@ body {
           Footer 
 #############################
 */
-.app-container footer {
+footer {
   grid-row: 3 / span ;
   display: flex;
   align-items: center;
