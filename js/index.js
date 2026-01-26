@@ -60,4 +60,41 @@ document.addEventListener("DOMContentLoaded", function () {
       },
     },
   });
+
+  // Gráfico donut - gastos por categoría
+  const ctx2 = document.getElementById("expenseChart").getContext("2d");
+  const graficoCircular = new Chart(ctx2, {
+    type: "doughnut",
+    data: {
+      labels: ["Comida", "Transporte", "Entretenimiento", "Servicios"],
+      datasets: [
+        {
+          data: [300, 150, 200, 100],
+          backgroundColor: ["#FF6384", "#36A2EB", "#FFCE56", "#4BC0C0"],
+          borderWidth: 2,
+        },
+      ],
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      plugins: {
+        legend: {
+          position: "bottom",
+        },
+        tooltip: {
+          callbacks: {
+            label: function (context) {
+              let label = "";
+              if (label) {
+                label += ": ";
+              }
+              label += context.parsed + "€";
+              return " " + label;
+            },
+          },
+        },
+      },
+    },
+  });
 });
