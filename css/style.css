@@ -63,8 +63,8 @@ body {
 /* Contenedor principal de la sidebar */
 .sidebar {
   background: var(--bg-secondary);
-  min-height: 100vh;
-  position: sticky;
+  height: 100vh;
+  position: fixed;
   top: 0;
   padding: 0;
   border-right: 1px solid var(--border-color);
