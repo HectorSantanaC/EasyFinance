@@ -262,10 +262,86 @@ body {
 #############################
 */
 footer {
-  grid-row: 3 / span ;
+  grid-row: 3 / span;
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 1rem 0;
-  text-align: center;
+  background-color: var(--bg-secondary);
+  width: 100%;
+  position: relative;
+  z-index: 10;
+}
+
+.footer-content {
+  width: 100%;
+  margin-left: 0;
+}
+
+.footer-copyright {
+  flex: 1;
+}
+
+.footer-copyright p {
+  color: var(--primary);
+  font-size: 0.95rem;
+}
+
+.footer-copyright small {
+  display: block;
+  margin-top: 0.25rem;
+}
+
+.footer-links ul li a {
+  position: relative;
+  transition: all 0.3s ease;
+  font-size: 0.95rem;
+}
+
+.footer-links ul li a::after {
+  content: '';
+  position: absolute;
+  bottom: -2px;
+  left: 0;
+  width: 0;
+  height: 2px;
+  background-color: var(--primary);
+  transition: width 0.3s ease;
+}
+
+.footer-links ul li a:hover {
+  color: var(--primary) !important;
+}
+
+.footer-links ul li a:hover::after {
+  width: 100%;
+}
+
+.footer-social a {
+  display: inline-block;
+  transition: all 0.3s ease;
+  color: var(--text-secondary) !important;
+  font-size: 1.25rem;
+}
+
+.footer-social a:hover {
+  color: var(--primary) !important;
+  transform: scale(1.15);
+}
+
+/* Responsive footer */
+@media (max-width: 768px) {
+  .footer-content {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .footer-copyright,
+  .footer-links {
+    margin-bottom: 1.5rem !important;
+  }
+
+  .footer-links ul {
+    flex-wrap: wrap;
+    justify-content: center;
+  }
 }
