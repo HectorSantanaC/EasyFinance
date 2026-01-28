@@ -98,7 +98,7 @@
                 <p class="text-muted mb-0">Enero 2026</p>
               </div>
               <div class="col-auto">
-                <button class="btn btn-success px-4">
+                <button class="btn btn-success px-4" type="button" id="addBtn" aria-label="Agregar nueva transacción">
                   <i class="bi bi-plus-lg me-2"></i>Añadir
                 </button>
               </div>
@@ -113,9 +113,9 @@
                   <small class="text-muted">Saldo disponible</small>
                 </div>
                 <div class="col-md-4 text-end">
-                  <div class="btn-group">
-                    <button class="btn btn-outline-light btn-sm">Este mes</button>
-                    <button class="btn btn-outline-light btn-sm">Año</button>
+                  <div class="btn-group" role="group" aria-label="Filtro de período">
+                    <button class="btn btn-outline-light btn-sm" type="button">Este mes</button>
+                    <button class="btn btn-outline-light btn-sm" type="button">Año</button>
                   </div>
                 </div>
               </div>
@@ -125,21 +125,21 @@
             <section id="kpi-cards" class="row mb-5" aria-label="Indicadores clave de rendimiento">
               <div class="col-lg-4 col-md-6 col-12 mb-4 mb-lg-0">
                 <div class="card p-4 kpi-card-income">
-                  <div>Ingresos</div>
+                  <h6 class="card-subtitle mb-2">Ingresos</h6>
                   <div class="h3 text-success mb-0">2.800€</div>
                   <small class="text-success">+12% vs mes pasado</small>
                 </div>
               </div>
               <div class="col-lg-4 col-md-6 col-12 mb-4 mb-lg-0">
                 <div class="card p-4 kpi-card-expenses">
-                  <div>Gastos</div>
+                  <h6 class="card-subtitle mb-2">Gastos</h6>
                   <div class="h3 text-danger mb-0">1.225€</div>
                   <small class="text-muted">-8% vs mes pasado</small>
                 </div>
               </div>
               <div class="col-lg-4 col-md-6 col-12 mb-4 mb-lg-0">
                 <div class="card p-4 kpi-card-savings">
-                  <div>Ahorros</div>
+                  <h6 class="card-subtitle mb-2">Ahorros</h6>
                   <div class="h3 text-primary mb-0">6.854€</div>
                   <small class="text-muted">-8% vs mes pasado</small>
                 </div>
@@ -230,10 +230,10 @@
           <!-- Links -->
           <nav class="footer-links mb-4 mb-md-0" aria-label="Enlaces del pie de página">
             <ul class="list-unstyled d-flex gap-4 mb-0">
-              <li><a href="#" class="text-secondary text-decoration-none fw-500 hover-link">Privacidad</a></li>
-              <li><a href="#" class="text-secondary text-decoration-none fw-500 hover-link">Términos</a></li>
-              <li><a href="#" class="text-secondary text-decoration-none fw-500 hover-link">Contacto</a></li>
-              <li><a href="#" class="text-secondary text-decoration-none fw-500 hover-link">Ayuda</a></li>
+              <li><a href="#" class="text-secondary text-decoration-none fw-500">Privacidad</a></li>
+              <li><a href="#" class="text-secondary text-decoration-none fw-500">Términos</a></li>
+              <li><a href="#" class="text-secondary text-decoration-none fw-500">Contacto</a></li>
+              <li><a href="#" class="text-secondary text-decoration-none fw-500">Ayuda</a></li>
             </ul>
           </nav>
 
