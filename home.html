@@ -16,7 +16,7 @@
     <div class="row">
       <!-- Sidebar -->
       <aside class="col-lg-2 col-md-3 d-md-block sidebar collapse" id="sidebarMenu">
-        <nav>
+        <nav role="navigation" aria-label="Menú principal">
 
           <!-- Botón cerrar (solo mobile) -->
           <div class="d-md-none text-end p-3">
@@ -28,8 +28,8 @@
 
           <!-- Logo -->
           <div class="text-center">
-            <a href="#" class="d-inline-block">
-              <img src="../assets/img/logo-easyfinance.png" class="logo mt-4 mb-2" alt="Logo EasyFinance">
+            <a href="#" class="d-inline-block" aria-label="EasyFinance Home">
+              <img src="./assets/img/logo-easyfinance.png" class="logo mt-4 mb-2" alt="Logo de EasyFinance - Gestor de finanzas personales">
             </a>
           </div>
 
@@ -37,7 +37,7 @@
           <hr class="sidebar-divider">
 
           <!-- Navegación principal -->
-          <ul class="nav flex-column">
+          <ul class="nav flex-column" role="menubar">
             <li class="nav-item">
               <a class="nav-link active" aria-current="page" href="#" data-bs-toggle="collapse"
                 data-bs-target="#sidebarMenu">
@@ -75,12 +75,13 @@
                 <!-- Botón hamburguesa (solo visible en mobile) -->
                 <button class="navbar-toggler d-md-none" type="button" data-bs-toggle="collapse"
                   data-bs-target="#sidebarMenu" aria-controls="sidebarMenu" aria-expanded="false"
-                  aria-label="Toggle navigation">
+                  aria-label="Abrir menú de navegación">
                   <span class="navbar-toggler-icon"></span>
                 </button>
 
                 <form class="d-flex" role="search">
-                  <input class="form-control me-2" type="search" placeholder="Buscar" aria-label="Buscar" />
+                  <label for="searchInput" class="visually-hidden">Buscar</label>
+                  <input id="searchInput" class="form-control me-2" type="search" placeholder="Buscar" aria-label="Buscar transacciones" />
                   <button class="btn btn-outline-success" type="submit">Buscar</button>
                 </form>
                 <a class="navbar-brand">Avatar</a>
@@ -90,10 +91,10 @@
         </header>
 
         <!-- Main -->
-        <main class="row">
+        <main class="row" role="main">
           <div class="col-12">
 
-            <section class="row align-items-center mb-5">
+            <section id="dashboard-header" class="row align-items-center mb-5" aria-label="Encabezado del dashboard">
               <div class="col mt-3">
                 <h1 class="mb-1">Dashboard</h1>
                 <p class="text-muted mb-0">Enero 2026</p>
@@ -106,7 +107,7 @@
             </section>
 
             <!-- Saldo principal -->
-            <section class="card mb-5 p-4">
+            <section id="principal-balance" class="card mb-5 p-4" aria-label="Saldo disponible">
               <div class="row align-items-center">
                 <div class="col-md-8">
                   <div class="principal-balance text-success mb-1">1.575€</div>
@@ -123,7 +124,7 @@
             </section>
 
             <!-- KPI Cards horizontales -->
-            <section class="row mb-5">
+            <section id="kpi-cards" class="row mb-5" aria-label="Indicadores clave de rendimiento">
               <div class="col-lg-4 col-md-6 col-12 mb-4 mb-lg-0">
                 <div class="card p-4 kpi-card-income">
                   <div>Ingresos</div>
@@ -148,7 +149,7 @@
             </section>
 
             <!-- Gráficos -->
-            <section class="row mb-5">
+            <section id="charts-section" class="row mb-5" aria-label="Gráficos de análisis">
               <div class="col-lg-8 col-12">
                 <div class="card p-4 h-100">
                   <h5 class="mb-3">Ingresos y gastos</h5>
@@ -169,11 +170,12 @@
             </section>
 
             <!-- Tabla transacciones -->
-            <section class="card mb-5">
+            <section id="transactions-section" class="card mb-5" aria-label="Transacciones recientes">
               <div class="card-header d-flex justify-content-between align-items-center">
                 <h5 class="mb-0">Transacciones recientes</h5>
                 <div>
-                  <select class="form-select form-select-sm">
+                  <label for="transactionFilter" class="visually-hidden">Filtrar transacciones</label>
+                  <select id="transactionFilter" class="form-select form-select-sm" aria-label="Filtrar por tipo de transacción">
                     <option>Todas</option>
                     <option>Ingresos</option>
                     <option>Gastos</option>
@@ -219,7 +221,7 @@
     </div>
 
     <!-- Footer -->
-    <footer class="row">
+    <footer class="row" role="contentinfo">
       <div class="col-12">
         <p>Copyright © EasyFinance 2026</p>
       </div>
