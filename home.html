@@ -68,9 +68,8 @@
         <header class="row">
 
           <!-- Navbar -->
-          <div class="col-12 p-0">
-            <nav class="navbar bg-body-tertiary">
-              <div class="container-fluid">
+          <nav class="navbar bg-body-tertiary col-12">
+            <div class="container-fluid">
 
                 <!-- Botón hamburguesa (solo visible en mobile) -->
                 <button class="navbar-toggler d-md-none" type="button" data-bs-toggle="collapse"
@@ -85,9 +84,8 @@
                   <button class="btn btn-outline-success" type="submit">Buscar</button>
                 </form>
                 <a class="navbar-brand">Avatar</a>
-              </div>
-            </nav>
-          </div>
+            </div>
+          </nav>
         </header>
 
         <!-- Main -->
@@ -173,14 +171,12 @@
             <section id="transactions-section" class="card mb-5" aria-label="Transacciones recientes">
               <div class="card-header d-flex justify-content-between align-items-center">
                 <h5 class="mb-0">Transacciones recientes</h5>
-                <div>
-                  <label for="transactionFilter" class="visually-hidden">Filtrar transacciones</label>
-                  <select id="transactionFilter" class="form-select form-select-sm" aria-label="Filtrar por tipo de transacción">
-                    <option>Todas</option>
-                    <option>Ingresos</option>
-                    <option>Gastos</option>
-                  </select>
-                </div>
+                <label for="transactionFilter" class="visually-hidden">Filtrar transacciones</label>
+                <select id="transactionFilter" class="form-select form-select-sm" aria-label="Filtrar por tipo de transacción">
+                  <option>Todas</option>
+                  <option>Ingresos</option>
+                  <option>Gastos</option>
+                </select>
               </div>
               <div class="table-responsive">
                 <table class="table table-hover mb-0">
