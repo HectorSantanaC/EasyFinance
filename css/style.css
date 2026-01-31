@@ -417,6 +417,16 @@ footer {
     z-index: 1100;
   }
 
+  /* Ocultar logo del sidebar en mobile */
+  .sidebar > nav > div:nth-child(2) {
+    display: none !important;
+  }
+
+  /* Ocultar primer divisor en mobile para evitar espacio */
+  .sidebar > nav > hr:first-of-type {
+    display: none;
+  }
+
   .sidebar.collapse.show {
     max-width: 320px;
     z-index: 1100;
