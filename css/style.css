@@ -410,8 +410,21 @@ footer {
     RESPONSIVE - Media queries móvil
    =========================================== */
 
-/* Footer */
-@media (max-width: 768px) {
+@media (max-width: 767px) {
+
+  /* Sidebar */
+  .sidebar {
+    z-index: 1100;
+  }
+
+  .sidebar.collapse.show {
+    max-width: 320px;
+    z-index: 1100;
+    background: var(--bg-secondary);
+    box-shadow: 0 6px 24px rgba(0,0,0,0.25);
+  }
+
+  /* Footer */
   .footer-content {
     flex-direction: column;
     text-align: center;
@@ -425,19 +438,5 @@ footer {
   .footer-links ul {
     flex-wrap: wrap;
     justify-content: center;
-  }
-}
-
-/* Sidebar */
-@media (max-width: 768px) {
-    .sidebar {
-    z-index: 1100;
-  }
-
-  .sidebar.collapse.show {
-    max-width: 320px;
-    z-index: 1100;
-    background: var(--bg-secondary);
-    box-shadow: 0 6px 24px rgba(0,0,0,0.25);
   }
 }
