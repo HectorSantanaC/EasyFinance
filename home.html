@@ -29,7 +29,8 @@
           <!-- Logo -->
           <div class="text-center">
             <a href="#" class="d-inline-block" aria-label="EasyFinance Home">
-              <img src="./assets/img/logo-easyfinance.png" class="logo mt-4 mb-2" alt="Logo de EasyFinance - Gestor de finanzas personales">
+              <img src="./assets/img/logo-easyfinance.png" class="logo mt-4 mb-2"
+                alt="Logo de EasyFinance - Gestor de finanzas personales">
             </a>
           </div>
 
@@ -57,6 +58,32 @@
                 Metas de Ahorro
               </a>
             </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#" data-bs-toggle="collapse" data-bs-target="#sidebarMenu">
+                <i class="bi bi-tags me-2"></i>
+                Categorías
+              </a>
+            </li>
+          </ul>
+
+          <!-- Divider Admin -->
+          <hr class="sidebar-divider">
+          <h6 id="admin-heading" class="admin-title text-uppercase small text-muted mb-2">ADMINISTRACIÓN</h6>
+
+          <!-- Navegación de administración -->
+          <ul class="nav flex-column" role="menubar">
+            <li class="nav-item">
+              <a class="nav-link" href="#">
+                <i class="bi bi-people me-2"></i>
+                Gestionar Usuarios
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#">
+                <i class="bi bi-gear me-2"></i>
+                Categorías Globales
+              </a>
+            </li>
           </ul>
         </nav>
       </aside>
@@ -71,19 +98,20 @@
           <nav class="navbar bg-body-tertiary">
             <div class="container-fluid">
 
-                <!-- Menú hamburguesa (solo visible en mobile) -->
-                <button class="navbar-toggler d-md-none" type="button" data-bs-toggle="collapse"
-                  data-bs-target="#sidebarMenu" aria-controls="sidebarMenu" aria-expanded="false"
-                  aria-label="Abrir menú de navegación">
-                  <span class="navbar-toggler-icon"></span>
-                </button>
+              <!-- Menú hamburguesa (solo visible en mobile) -->
+              <button class="navbar-toggler d-md-none" type="button" data-bs-toggle="collapse"
+                data-bs-target="#sidebarMenu" aria-controls="sidebarMenu" aria-expanded="false"
+                aria-label="Abrir menú de navegación">
+                <span class="navbar-toggler-icon"></span>
+              </button>
 
-                <form class="d-flex" role="search">
-                  <label for="searchInput" class="visually-hidden">Buscar</label>
-                  <input id="searchInput" class="form-control me-2" type="search" placeholder="Buscar" aria-label="Buscar transacciones" />
-                  <button class="btn btn-outline-success" type="submit">Buscar</button>
-                </form>
-                <a class="navbar-brand">Avatar</a>
+              <form class="d-flex" role="search">
+                <label for="searchInput" class="visually-hidden">Buscar</label>
+                <input id="searchInput" class="form-control me-2" type="search" placeholder="Buscar"
+                  aria-label="Buscar transacciones" />
+                <button class="btn btn-outline-success" type="submit">Buscar</button>
+              </form>
+              <a class="navbar-brand">Avatar</a>
             </div>
           </nav>
         </header>
@@ -172,7 +200,8 @@
               <div class="card-header d-flex justify-content-between align-items-center">
                 <h5 class="mb-0">Transacciones recientes</h5>
                 <label for="transactionFilter" class="visually-hidden">Filtrar transacciones</label>
-                <select id="transactionFilter" class="form-select form-select-sm" aria-label="Filtrar por tipo de transacción">
+                <select id="transactionFilter" class="form-select form-select-sm"
+                  aria-label="Filtrar por tipo de transacción">
                   <option>Todas</option>
                   <option>Ingresos</option>
                   <option>Gastos</option>
@@ -219,8 +248,9 @@
     <!-- Footer -->
     <footer class="row bg-light mt-5" role="contentinfo">
       <div class="col-12">
-        <div class="footer-content d-flex flex-column flex-md-row justify-content-between align-items-center py-5 px-4 border-top">
-          
+        <div
+          class="footer-content d-flex flex-column flex-md-row justify-content-between align-items-center py-5 px-4 border-top">
+
           <!-- Copyright -->
           <div class="footer-copyright mb-4 mb-md-0 text-center text-md-start">
             <p class="mb-0 text-secondary fw-500">Copyright © EasyFinance 2026</p>
