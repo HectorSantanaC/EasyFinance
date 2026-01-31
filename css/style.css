@@ -55,6 +55,95 @@ body {
 }
 
 /* ===========================================
+    BOTONES - Estilos personalizados
+   =========================================== */
+
+/* Botón primario (acción principal) */
+.btn-primary-custom {
+  background: linear-gradient(135deg, var(--primary) 0%, var(--primary-hover) 100%);
+  color: var(--text-inverse);
+  border: none;
+  font-weight: 600;
+  padding: 0.625rem 1.5rem;
+  border-radius: 8px;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 12px rgba(var(--primary-rgb), 0.25);
+}
+
+.btn-primary-custom:hover {
+  background: linear-gradient(135deg, var(--primary-hover) 0%, var(--primary) 100%);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(var(--primary-rgb), 0.35);
+  color: var(--text-inverse);
+}
+
+.btn-primary-custom:active {
+  transform: translateY(0);
+  box-shadow: 0 2px 8px rgba(var(--primary-rgb), 0.25);
+}
+
+.btn-primary-custom:focus {
+  outline: 2px solid var(--primary);
+  outline-offset: 2px;
+  box-shadow: 0 4px 12px rgba(var(--primary-rgb), 0.25), 
+              0 0 0 4px rgba(var(--primary-rgb), 0.15);
+}
+
+/* Botón secundario (acciones alternas) */
+.btn-secondary-custom {
+  background: transparent;
+  color: var(--primary);
+  border: 1.5px solid var(--primary);
+  font-weight: 600;
+  padding: 0.5625rem 1.25rem;
+  border-radius: 8px;
+  transition: all 0.3s ease;
+}
+
+.btn-secondary-custom:hover {
+  background: rgba(var(--primary-rgb), 0.08);
+  border-color: var(--primary-hover);
+  color: var(--primary-hover);
+}
+
+.btn-secondary-custom:active {
+  background: rgba(var(--primary-rgb), 0.12);
+  color: var(--primary-hover);
+}
+
+.btn-secondary-custom:focus {
+  outline: 2px solid var(--primary);
+  outline-offset: 2px;
+  background: rgba(var(--primary-rgb), 0.08);
+}
+
+/* Botón cerrar menú hamburguesa */
+.btn-close-sidebar {
+  background: transparent;
+  border: none;
+  font-size: 1.75rem;
+  color: var(--text-secondary);
+  cursor: pointer;
+  width: 44px;
+  height: 44px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 8px;
+  transition: all 0.3s ease;
+  padding: 0;
+}
+
+.btn-close-sidebar:hover {
+  background-color: rgba(239, 68, 68, 0.1);
+  color: var(--danger);
+}
+
+.btn-close-sidebar:active {
+  transform: scale(0.95);
+}
+
+/* ===========================================
     SIDEBAR - Navegación principal lateral
    =========================================== */
 
@@ -191,6 +280,7 @@ body {
 /* ===========================================
     NAVBAR - Barra de navegación superior
    =========================================== */
+
 .navbar-sticky {
   position: sticky;
   top: 0;
@@ -206,35 +296,10 @@ body {
   min-height: 70px;
 }
 
-/* Botón cerrar menú hamburguesa */
-.btn-close-sidebar {
-  background: transparent;
-  border: none;
-  font-size: 1.75rem;
-  color: var(--text-secondary);
-  cursor: pointer;
-  width: 44px;
-  height: 44px;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  border-radius: 8px;
-  transition: all 0.3s ease;
-  padding: 0;
-}
-
-.btn-close-sidebar:hover {
-  background-color: rgba(239, 68, 68, 0.1);
-  color: var(--danger);
-}
-
-.btn-close-sidebar:active {
-  transform: scale(0.95);
-}
-
 /* ===========================================
     MAIN CONTAINER - Área de contenido
    =========================================== */
+
 .app-container {
   display: flex;
   min-height: 100vh;
@@ -273,6 +338,7 @@ body {
 /* ===========================================
     FOOTER - Pie de página
    =========================================== */
+
 footer {
   grid-row: 3 / span;
   display: flex;
