@@ -186,6 +186,27 @@ body {
   }
 }
 
+/* 
+#############################
+          Navbar
+#############################
+*/
+
+.navbar-sticky {
+  position: sticky;
+  top: 0;
+  z-index: 1030;
+  background: var(--bg-secondary);
+  box-shadow: var(--shadow-sm);
+}
+
+.navbar {
+  background: var(--bg-secondary) !important;
+  border-bottom: 1px solid var(--border-color);
+    padding: 1rem 1.5rem;
+  min-height: 70px;
+}
+
 /* Botón cerrar menú hamburguesa */
 .btn-close-sidebar {
   background: transparent;
@@ -214,23 +235,19 @@ body {
 
 /* 
 #############################
-          Navbar
-#############################
-*/
-.navbar {
-  background: var(--bg-secondary) !important;
-  border-bottom: 1px solid var(--border-color);
-}
-
-/* 
-#############################
       Main Container 
 #############################
 */
 .app-container {
-  display: grid;
+  display: flex;
   min-height: 100vh;
-  grid-template-rows: auto 1fr auto auto;
+  flex-direction: column;
+  padding: 0;
+}
+
+.main-content {
+  flex: 1;
+  padding: 0 1rem;
 }
 
 .principal-balance {
