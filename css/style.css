@@ -296,6 +296,18 @@ body {
   min-height: 70px;
 }
 
+.navbar-avatar img {
+  width: 50px;
+  height: 50px;
+  border: 2px solid var(--border-color);
+  object-fit: cover;
+  transition: all 0.3s ease;
+}
+
+.navbar-avatar img:hover {
+  transform: scale(1.05);
+}
+
 /* ===========================================
     MAIN CONTAINER - Área de contenido
    =========================================== */
