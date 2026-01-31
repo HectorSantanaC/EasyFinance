@@ -292,7 +292,7 @@ body {
 .navbar {
   background: var(--bg-secondary) !important;
   border-bottom: 1px solid var(--border-color);
-    padding: 1rem 1.5rem;
+  padding: 0 1.5rem;
   min-height: 70px;
 }
 
