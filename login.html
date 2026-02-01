@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Iniciar sesión - EasyFinance</title>
+
+  <link rel="stylesheet" href="../node_modules/bootstrap/dist/css/bootstrap.min.css">
+  <link rel="stylesheet" href="../node_modules/bootstrap-icons/font/bootstrap-icons.min.css">
+  <link rel="stylesheet" href="../css/style.css">
+</head>
+
+<body class="bg-light">
+
+  <!-- Contenedor principal -->
+  <div class="container">
+    <div class="row justify-content-center align-items-center min-vh-100 py-4">
+      <div class="col-12 col-sm-10 col-md-8 col-lg-6 col-xl-5">
+
+        <!-- Card de login -->
+        <main class="card shadow-lg border-0">
+          <div class="card-body p-4 p-lg-5">
+
+            <!-- Logo y título -->
+            <div class="text-center mb-4">
+              <img src="/assets/img/logo-easyfinance.png" alt="Logo EasyFinance" class="img-fluid mb-3"
+                style="max-height: 70px;">
+              <h1 class="h2 fw-bold text-primary mb-2">Bienvenido</h1>
+              <p class="text-muted mb-0">Inicia sesión para continuar</p>
+            </div>
+
+            <!-- Formulario de login -->
+            <form action="" method="POST" class="needs-validation" novalidate>
+
+              <!-- Email -->
+              <div class="mb-3">
+                <label for="email" class="form-label fw-semibold">
+                  <i class="bi bi-envelope me-1 text-primary"></i>Correo electrónico
+                </label>
+                <input type="email" class="form-control form-control-lg" id="email" name="email"
+                  placeholder="correo@ejemplo.com" required autocomplete="email" autofocus>
+              </div>
+
+              <!-- Contraseña -->
+              <div class="mb-3">
+                <label for="password" class="form-label fw-semibold">
+                  <i class="bi bi-lock me-1 text-primary"></i>Contraseña
+                </label>
+                <div class="input-group input-group-lg">
+                  <input type="password" class="form-control" id="password" name="password" placeholder="Tu contraseña"
+                    required autocomplete="current-password">
+                  <button class="btn btn-outline-secondary" type="button" id="togglePassword"
+                    aria-label="Mostrar contraseña">
+                    <i class="bi bi-eye" id="togglePasswordIcon"></i>
+                  </button>
+                </div>
+              </div>
+
+              <!-- Recordarme y Olvidé contraseña -->
+              <div class="d-flex justify-content-between align-items-center mb-4">
+                <div class="form-check">
+                  <input class="form-check-input" type="checkbox" id="rememberMe" name="remember-me">
+                  <label class="form-check-label" for="rememberMe">
+                    Recordarme
+                  </label>
+                </div>
+                <a href="" class="text-decoration-none small">
+                  ¿Olvidaste tu contraseña?
+                </a>
+              </div>
+
+              <!-- Botón de login -->
+              <div class="d-grid mb-3">
+                <button type="submit" class="btn btn-primary btn-lg fw-semibold">
+                  <i class="bi bi-box-arrow-in-right me-2"></i>Iniciar sesión
+                </button>
+              </div>
+
+              <!-- Divider -->
+              <div class="position-relative my-4">
+                <hr class="border-secondary-subtle">
+                <span class="position-absolute top-50 start-50 translate-middle bg-white px-3 text-muted small">
+                  ¿No tienes cuenta?
+                </span>
+              </div>
+
+              <!-- Link a registro -->
+              <div class="text-center">
+                <a href="" class="btn btn-outline-primary w-100">
+                  <i class="bi bi-person-plus me-2"></i>Crear una cuenta
+                </a>
+              </div>
+
+            </form>
+          </div>
+        </main>
+
+        <!-- Footer -->
+        <footer class="text-center mt-3">
+          <p class="text-muted small mb-0">
+            © 2026 EasyFinance. Todos los derechos reservados.
+          </p>
+        </footer>
+
+      </div>
+    </div>
+  </div>
+
+  <script src="../node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+
+</body>
+
+</html>
