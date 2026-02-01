@@ -1,4 +1,8 @@
 document.addEventListener("DOMContentLoaded", function () {
+
+  // ============================================
+  // GRÁFICOS (Chart.js)
+  // ============================================
   
   // Gráfico de barras - Ingresos y gastos
   const ctx1 = document.getElementById("balanceChart").getContext("2d");
@@ -99,6 +103,10 @@ document.addEventListener("DOMContentLoaded", function () {
     },
   });
 
+  // ============================================
+  // MODAL DE NUEVA TRANSACCIÓN
+  // ============================================
+
   // Establecer fecha actual por defecto
   const transactionDateInput = document.getElementById('transactionDate');
   if (transactionDateInput) {
@@ -158,6 +166,21 @@ document.addEventListener("DOMContentLoaded", function () {
       form.reset();
       transactionDateInput.valueAsDate = new Date();
       toggleCamposSegunTipo();
+    });
+
+    // Solucionar advertencia aria-hidden al cerrar modal
+    modalElement.addEventListener('hide.bs.modal', function () {
+      
+      // Quitar el foco del botón de cerrar
+      const btnClose = this.querySelector('.btn-close');
+      if (btnClose && document.activeElement === btnClose) {
+        btnClose.blur();
+      }
+      
+      // Quitar foco de cualquier elemento enfocado dentro del modal
+      if (this.contains(document.activeElement)) {
+        document.activeElement.blur();
+      }
     });
   }
 });
