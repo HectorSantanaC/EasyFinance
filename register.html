@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Registro - EasyFinance</title>
+
+  <link rel="stylesheet" href="../node_modules/bootstrap/dist/css/bootstrap.min.css">
+  <link rel="stylesheet" href="../node_modules/bootstrap-icons/font/bootstrap-icons.min.css">
+  <link rel="stylesheet" href="../css/style.css">
+</head>
+
+<body class="bg-light">
+
+  <!-- Contenedor principal centrado -->
+  <div class="container">
+    <div class="row justify-content-center align-items-center min-vh-100 py-4">
+      <div class="col-12 col-md-10 col-lg-9 col-xl-8">
+
+        <!-- Card de registro -->
+        <div class="card shadow-lg border-0">
+          <div class="card-body p-4 p-lg-5">
+
+            <!-- Logo y título -->
+            <div class="text-center mb-4">
+              <img src="/assets/img/logo-easyfinance.png" alt="Logo EasyFinance" class="img-fluid mb-3"
+                style="max-height: 70px;">
+              <h1 class="h2 fw-bold text-primary mb-2">Crear cuenta</h1>
+              <p class="text-muted mb-0">Comienza a gestionar tus finanzas personales</p>
+            </div>
+
+            <!-- Formulario de registro -->
+            <form action="" method="POST" class="needs-validation" novalidate>
+
+              <div class="row">
+
+                <!-- Columna izquierda: Datos personales -->
+                <div class="col-12 col-md-6">
+
+                  <!-- Nombre -->
+                  <div class="mb-3">
+                    <label for="nombre" class="form-label fw-semibold">
+                      <i class="bi bi-person me-1 text-primary"></i>Nombre
+                    </label>
+                    <input type="text" class="form-control" id="nombre" name="nombre" placeholder="Tu nombre" required
+                      minlength="2" maxlength="50" autocomplete="given-name">
+                  </div>
+
+                  <!-- Apellidos -->
+                  <div class="mb-3">
+                    <label for="apellidos" class="form-label fw-semibold">
+                      <i class="bi bi-person-lines-fill me-1 text-primary"></i>Apellidos
+                    </label>
+                    <input type="text" class="form-control" id="apellidos" name="apellidos" placeholder="Tus apellidos"
+                      required minlength="2" maxlength="100" autocomplete="family-name">
+                  </div>
+
+                  <!-- Email -->
+                  <div class="mb-3 mb-md-0">
+                    <label for="email" class="form-label fw-semibold">
+                      <i class="bi bi-envelope me-1 text-primary"></i>Correo electrónico
+                    </label>
+                    <input type="email" class="form-control" id="email" name="email" placeholder="correo@ejemplo.com"
+                      required autocomplete="email">
+                  </div>
+
+                </div>
+
+                <!-- Columna derecha: Contraseñas -->
+                <div class="col-12 col-md-6">
+
+                  <!-- Contraseña -->
+                  <div class="mb-3">
+                    <label for="password" class="form-label fw-semibold">
+                      <i class="bi bi-lock me-1 text-primary"></i>Contraseña
+                    </label>
+                    <div class="input-group">
+                      <input type="password" class="form-control" id="password" name="password"
+                        placeholder="Mínimo 8 caracteres" required minlength="8" autocomplete="new-password">
+                      <button class="btn btn-outline-secondary" type="button" id="togglePassword"
+                        aria-label="Mostrar contraseña">
+                        <i class="bi bi-eye" id="togglePasswordIcon"></i>
+                      </button>
+                    </div>
+                    <small class="form-text text-muted d-block mt-1">
+                      <i class="bi bi-info-circle me-1"></i>Usa al menos 8 caracteres con letras y números.
+                    </small>
+                  </div>
+
+                  <!-- Confirmar contraseña -->
+                  <div class="mb-3 mb-md-0">
+                    <label for="confirmPassword" class="form-label fw-semibold">
+                      <i class="bi bi-lock-fill me-1 text-primary"></i>Confirmar contraseña
+                    </label>
+                    <input type="password" class="form-control" id="confirmPassword" name="confirmPassword"
+                      placeholder="Repite tu contraseña" required minlength="8" autocomplete="new-password">
+                  </div>
+
+                </div>
+
+              </div>
+
+              <!-- Divider -->
+              <hr class="my-4">
+
+              <!-- Botón de registro -->
+              <div class="d-grid mb-3">
+                <button type="submit" class="btn btn-primary btn-lg fw-semibold">
+                  <i class="bi bi-person-plus-fill me-2"></i>Crear cuenta
+                </button>
+              </div>
+
+              <!-- Divider con texto -->
+              <div class="position-relative my-4">
+                <hr class="border-secondary-subtle">
+                <span class="position-absolute top-50 start-50 translate-middle bg-white px-3 text-muted small">
+                  ¿Ya tienes cuenta?
+                </span>
+              </div>
+
+              <!-- Link a login -->
+              <div class="text-center">
+                <a href="#" class="btn btn-outline-primary w-100">
+                  <i class="bi bi-box-arrow-in-right me-2"></i>Inicia sesión aquí
+                </a>
+              </div>
+
+            </form>
+
+          </div>
+        </div>
+
+        <!-- Footer -->
+        <div class="text-center mt-3">
+          <p class="text-muted small mb-0">
+            © 2026 EasyFinance. Todos los derechos reservados.
+          </p>
+        </div>
+
+      </div>
+    </div>
+  </div>
+  <script src="../node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="../js/register.js"></script>
+
+</body>
+
+</html>
