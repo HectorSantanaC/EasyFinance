@@ -81,4 +81,51 @@ document.addEventListener('DOMContentLoaded', function() {
     });
   }
 
+  // ============================================
+  // ACTIVAR ENLACE ACTUAL EN SIDEBAR
+  // ============================================
+  
+  const currentPage = window.location.pathname.split('/').pop();
+  
+  document.querySelectorAll('#sidebarMenu .nav-link').forEach(link => {
+    const linkHref = link.getAttribute('href');
+    
+    if (linkHref === currentPage) {
+      link.classList.add('active');
+      link.setAttribute('aria-current', 'page');
+      
+      // Prevenir clic en página actual
+      link.addEventListener('click', function(e) {
+        e.preventDefault();
+      });
+    } else {
+      link.classList.remove('active');
+      link.removeAttribute('aria-current');
+    }
+  });
+
+  // ============================================
+  // CERRAR SIDEBAR EN MÓVIL AL NAVEGAR
+  // ============================================
+  
+  const sidebarLinks = document.querySelectorAll('#sidebarMenu .nav-link');
+  const sidebarCollapse = document.getElementById('sidebarMenu');
+  
+  sidebarLinks.forEach(link => {
+    link.addEventListener('click', function(e) {
+      // No cerrar si es el enlace activo (página actual)
+      if (this.classList.contains('active')) {
+        return;
+      }
+      
+      // Cerrar sidebar en móvil
+      if (window.innerWidth < 992 && sidebarCollapse) {
+        const bsCollapse = bootstrap.Collapse.getInstance(sidebarCollapse);
+        if (bsCollapse) {
+          bsCollapse.hide();
+        }
+      }
+    });
+  });
+
 });
