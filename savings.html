@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Metas de Ahorro - EasyFinance</title>
+
+  <link rel="stylesheet" href="../node_modules/bootstrap/dist/css/bootstrap.min.css">
+  <link rel="stylesheet" href="../node_modules/bootstrap-icons/font/bootstrap-icons.min.css">
+  <link rel="stylesheet" href="../css/style.css">
+</head>
+
+<body>
+  <div class="container-fluid">
+    <div class="row">
+
+      <!-- Sidebar -->
+      <aside class="col-lg-2 col-md-3 d-md-block sidebar collapse" id="sidebarMenu">
+        <nav role="navigation" aria-label="Menú principal">
+
+          <!-- Botón cerrar (solo mobile) -->
+          <div class="d-md-none text-end p-3">
+            <button type="button" class="btn-close-sidebar" data-bs-toggle="collapse" data-bs-target="#sidebarMenu"
+              aria-label="Cerrar menú">
+              <i class="bi bi-x-lg"></i>
+            </button>
+          </div>
+
+          <!-- Logo -->
+          <div class="text-center">
+            <a href="#" class="d-inline-block" aria-label="EasyFinance Home">
+              <img src="./assets/img/logo-easyfinance.png" class="logo mt-4 mb-2"
+                alt="Logo de EasyFinance - Gestor de finanzas personales">
+            </a>
+          </div>
+
+          <!-- Divider -->
+          <hr class="sidebar-divider">
+
+          <!-- Navegación principal -->
+          <ul class="nav flex-column" role="menubar">
+            <li class="nav-item">
+              <a class="nav-link" aria-current="page" href="home.html">
+                <i class="bi bi-speedometer2 me-2"></i>
+                Dashboard
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="transactions.html">
+                <i class="bi bi-receipt me-2"></i>
+                Transacciones
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="savings.html">
+                <i class="bi bi-piggy-bank-fill me-2"></i>
+                Metas de Ahorro
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#">
+                <i class="bi bi-tags me-2"></i>
+                Categorías
+              </a>
+            </li>
+          </ul>
+
+          <!-- Divider Admin -->
+          <hr class="sidebar-divider">
+          <h6 id="admin-heading" class="admin-title text-uppercase small text-muted mb-2">ADMINISTRACIÓN</h6>
+
+          <!-- Navegación de administración -->
+          <ul class="nav flex-column" role="menubar">
+            <li class="nav-item">
+              <a class="nav-link" href="#">
+                <i class="bi bi-people me-2"></i>
+                Gestionar Usuarios
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#">
+                <i class="bi bi-gear me-2"></i>
+                Categorías Globales
+              </a>
+            </li>
+          </ul>
+
+          <!-- Divider Mobile Actions -->
+          <hr class="sidebar-divider d-md-none">
+
+          <!-- Búsqueda en sidebar (solo mobile) -->
+          <form class="d-md-none mb-3 px-3" role="search">
+            <label for="searchInputMobile" class="visually-hidden">Buscar</label>
+            <input id="searchInputMobile" class="form-control" type="search" placeholder="Buscar"
+              aria-label="Buscar transacciones" />
+          </form>
+
+          <!-- Avatar en sidebar (solo mobile) -->
+          <div class="d-md-none mb-3 px-3">
+            <a href="#" class="d-flex align-items-center text-decoration-none bx-3">
+              <img src="./assets/img/user.png" alt="Usuario" class="rounded-circle me-2" width="40" height="40">
+              <span class="text-secondary fw-500">Mi Perfil</span>
+            </a>
+          </div>
+        </nav>
+      </aside>
+
+      <!-- App Container -->
+      <div class="col-lg-10 col-md-9 ms-sm-auto app-container">
+
+        <!-- Header -->
+        <header class="navbar-sticky">
+
+          <!-- Navbar -->
+          <nav class="navbar bg-body-tertiary">
+            <div class="container-fluid">
+
+              <!-- Menú hamburguesa mobile -->
+              <button class="navbar-toggler d-md-none" type="button" data-bs-toggle="collapse"
+                data-bs-target="#sidebarMenu" aria-controls="sidebarMenu" aria-expanded="false"
+                aria-label="Abrir menú de navegación">
+                <span class="navbar-toggler-icon"></span>
+              </button>
+
+              <!-- Logo mobile -->
+              <a href="#" class="navbar-brand d-md-none mb-0">
+                <img src="./assets/img/logo-easyfinance.png" alt="EasyFinance" height="60">
+              </a>
+
+              <!-- Búsqueda desktop -->
+              <form class="d-none d-md-flex" role="search">
+                <label for="searchInput" class="visually-hidden">Buscar</label>
+                <input id="searchInput" class="form-control me-2" type="search" placeholder="Buscar"
+                  aria-label="Buscar transacciones" />
+                <button class="btn-secondary-custom" type="submit">Buscar</button>
+              </form>
+
+              <!-- Avatar desktop -->
+              <a href="#" class="navbar-brand navbar-avatar d-none d-md-flex mb-0">
+                <img src="./assets/img/user.png" alt="Usuario"
+                  class="rounded-circle border border-1 border-light-subtle">
+              </a>
+            </div>
+          </nav>
+        </header>
+
+        <!-- Main -->
+        <main class="main-content" role="main">
+          <div class="col-12">
+
+            <!-- Header de la página -->
+            <section id="goals-header" class="row align-items-center mb-5" aria-label="Encabezado de metas de ahorro">
+              <div class="col mt-3">
+                <h1 class="mb-1">Metas de Ahorro</h1>
+                <p class="text-muted mb-0">Planifica y alcanza tus objetivos financieros</p>
+              </div>
+              <div class="col-auto">
+                <button class="btn-primary-custom" type="button" data-bs-toggle="modal" data-bs-target="#modalNewGoal"
+                  aria-label="Agregar nueva meta de ahorro">
+                  <i class="bi bi-plus-lg me-2"></i>Nueva meta
+                </button>
+              </div>
+            </section>
+
+            <!-- Filtros -->
+            <section class="card mb-5 p-4" aria-label="Filtros de metas">
+              <h5 class="mb-3">
+                <i class="bi bi-funnel me-2"></i>Filtros
+              </h5>
+              <form class="row g-3" id="formFiltros">
+
+                <div class="col-md-4">
+                  <label for="filtroEstado" class="form-label">Estado</label>
+                  <select class="form-select" id="filtroEstado">
+                    <option value="">Todas</option>
+                    <option value="EN_PROGRESO">En progreso</option>
+                    <option value="COMPLETADA">Completadas</option>
+                    <option value="VENCIDA">Vencidas</option>
+                  </select>
+                </div>
+
+                <div class="col-md-4">
+                  <label for="filtroFechaDesde" class="form-label">Fecha inicio desde</label>
+                  <input type="date" class="form-control" id="filtroFechaDesde">
+                </div>
+
+                <div class="col-md-4">
+                  <label for="filtroFechaHasta" class="form-label">Fecha inicio hasta</label>
+                  <input type="date" class="form-control" id="filtroFechaHasta">
+                </div>
+
+                <div class="col-12">
+                  <button type="submit" class="btn-primary-custom">
+                    <i class="bi bi-search me-2"></i>Filtrar
+                  </button>
+                  <button type="button" class="btn-secondary-custom ms-2" id="btnLimpiarFiltros">
+                    <i class="bi bi-x-circle me-2"></i>Limpiar
+                  </button>
+                </div>
+
+              </form>
+            </section>
+
+            <!-- KPI Cards -->
+            <section id="kpi-cards" class="row mb-5" aria-label="Resumen de metas">
+              <div class="col-lg-4 col-md-6 col-12 mb-4 mb-lg-0">
+                <div class="card p-4 kpi-card-income">
+                  <h6 class="card-subtitle mb-2">Metas Activas</h6>
+                  <div class="h3 text-success mb-0" id="totalMetasActivas">0</div>
+                  <small class="text-succes">En progreso</small>
+                </div>
+              </div>
+              <div class="col-lg-4 col-md-6 col-12 mb-4 mb-lg-0">
+                <div class="card p-4 kpi-card-savings">
+                  <h6 class="card-subtitle mb-2">Total Ahorrado</h6>
+                  <div class="h3 text-primary mb-0" id="totalAhorrado">€0.00</div>
+                  <small class="text-primary">Todas las metas</small>
+                </div>
+              </div>
+              <div class="col-lg-4 col-md-6 col-12 mb-4 mb-lg-0">
+                <div class="card p-4 kpi-card-expenses">
+                  <h6 class="card-subtitle mb-2">Objetivo Total</h6>
+                  <div class="h3 text-danger mb-0" id="objetivoTotal">€0.00</div>
+                  <small class="text-danger">Todas las metas</small>
+                </div>
+              </div>
+            </section>
+
+            <!-- Tabla metas de ahorro -->
+            <section id="goals-section" class="card mb-5" aria-label="Listado de metas de ahorro">
+              <div class="card-header d-flex justify-content-between align-items-center">
+                <h5 class="mb-0">
+                  <i class="bi bi-list-ul me-2"></i>Mis metas de ahorro
+                </h5>
+                <span class="badge bg-primary" id="contadorMetas">0 metas</span>
+              </div>
+
+              <div class="table-responsive">
+                <table class="table table-hover mb-0">
+                  <thead>
+                    <tr>
+                      <th>Nombre</th>
+                      <th>Descripción</th>
+                      <th class="text-end">Objetivo</th>
+                      <th class="text-end">Ahorrado</th>
+                      <th class="text-center">Progreso</th>
+                      <th>Fecha Inicio</th>
+                      <th>Fecha Límite</th>
+                      <th class="text-center">Acciones</th>
+                    </tr>
+                  </thead>
+                  <tbody id="bodyMetas">
+                    <tr class="text-center">
+                      <td colspan="8" class="py-5 text-muted">
+                        <i class="bi bi-piggy-bank fs-1 d-block mb-2"></i>
+                        No hay metas de ahorro para mostrar
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </section>
+
+          </div>
+        </main>
+
+        <!-- Footer -->
+        <footer class="bg-light mt-5" role="contentinfo">
+          <div class="col-12">
+            <div
+              class="footer-content d-flex flex-column flex-md-row justify-content-between align-items-center py-5 px-4 border-top">
+
+              <!-- Copyright -->
+              <div class="footer-copyright mb-4 mb-md-0 text-center text-md-start">
+                <p class="mb-0 text-secondary fw-500">Copyright © EasyFinance 2026</p>
+                <small class="text-muted">Todos los derechos reservados</small>
+              </div>
+
+              <!-- Links -->
+              <nav class="footer-links mb-4 mb-md-0" aria-label="Enlaces del pie de página">
+                <ul class="list-unstyled d-flex gap-4 mb-0">
+                  <li><a href="#" class="text-secondary text-decoration-none fw-500">Privacidad</a></li>
+                  <li><a href="#" class="text-secondary text-decoration-none fw-500">Términos</a></li>
+                  <li><a href="#" class="text-secondary text-decoration-none fw-500">Contacto</a></li>
+                  <li><a href="#" class="text-secondary text-decoration-none fw-500">Ayuda</a></li>
+                </ul>
+              </nav>
+
+              <!-- Social Links -->
+              <div class="footer-social d-flex gap-4 mx-4">
+                <a href="#" class="social-link" aria-label="Síguenos en Instagram">
+                  <i class="bi bi-instagram"></i>
+                </a>
+                <a href="#" class="social-link" aria-label="Síguenos en LinkedIn">
+                  <i class="bi bi-linkedin"></i>
+                </a>
+              </div>
+            </div>
+          </div>
+        </footer>
+
+      </div>
+    </div>
+  </div>
+
+  <script src="../node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="../js/savings.js"></script>
+  <script src="../js/common.js"></script>
+
+  <!-- Modal Nueva Meta de Ahorro -->
+  <div class="modal fade" id="modalNewGoal" tabindex="-1" aria-labelledby="modalNewGoalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+
+        <!-- Modal Header -->
+        <div class="modal-header">
+          <h5 class="modal-title" id="modalNewGoalLabel">Nueva Meta de Ahorro</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+        </div>
+
+        <!-- Modal Body -->
+        <div class="modal-body">
+          <form id="formNewGoal" action="" method="POST">
+
+            <!-- Nombre de la meta -->
+            <div class="mb-3">
+              <label for="goalName" class="form-label">Nombre de la meta <span class="text-danger">*</span></label>
+              <input type="text" class="form-control" id="goalName" name="nombre"
+                placeholder="Ej: Vacaciones, Fondo de emergencia..." maxlength="100" required>
+            </div>
+
+            <!-- Descripción -->
+            <div class="mb-3">
+              <label for="goalDescription" class="form-label">Descripción</label>
+              <textarea class="form-control" id="goalDescription" name="descripcion" rows="3"
+                placeholder="Describe tu objetivo de ahorro (opcional)" maxlength="255"></textarea>
+            </div>
+
+            <!-- Importe objetivo -->
+            <div class="mb-3">
+              <label for="goalAmount" class="form-label">Importe objetivo (€) <span class="text-danger">*</span></label>
+              <input type="number" class="form-control" id="goalAmount" name="importe" step="0.01" min="0.01"
+                placeholder="0.00" required>
+              <small class="form-text text-muted">Cantidad total que deseas ahorrar</small>
+            </div>
+
+            <!-- Fecha de inicio -->
+            <div class="mb-3">
+              <label for="goalStartDate" class="form-label">Fecha de inicio <span class="text-danger">*</span></label>
+              <input type="date" class="form-control" id="goalStartDate" name="fechaInicio" required>
+            </div>
+
+            <!-- Fecha límite -->
+            <div class="mb-3">
+              <label for="goalEndDate" class="form-label">Fecha límite</label>
+              <input type="date" class="form-control" id="goalEndDate" name="fechaFin">
+              <small class="form-text text-muted">Opcional. Fecha en la que deseas alcanzar tu meta</small>
+            </div>
+
+          </form>
+        </div>
+
+        <!-- Modal Footer -->
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+          <button type="submit" form="formNewGoal" class="btn btn-secondary-custom">Guardar meta</button>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+</body>
+
+</html>
