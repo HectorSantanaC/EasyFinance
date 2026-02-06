@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Categorías Globales - EasyFinance Admin</title>
+
+  <link rel="stylesheet" href="../node_modules/bootstrap/dist/css/bootstrap.min.css">
+  <link rel="stylesheet" href="../node_modules/bootstrap-icons/font/bootstrap-icons.min.css">
+  <link rel="stylesheet" href="../css/style.css">
+</head>
+
+<body>
+  <div class="container-fluid">
+    <div class="row">
+
+      <!-- Sidebar -->
+      <aside class="col-lg-2 col-md-3 d-md-block sidebar collapse" id="sidebarMenu">
+        <nav role="navigation" aria-label="Menú principal">
+
+          <!-- Botón cerrar (solo mobile) -->
+          <div class="d-md-none text-end p-3">
+            <button type="button" class="btn-close-sidebar" data-bs-toggle="collapse" data-bs-target="#sidebarMenu"
+              aria-label="Cerrar menú">
+              <i class="bi bi-x-lg"></i>
+            </button>
+          </div>
+
+          <!-- Logo -->
+          <div class="text-center">
+            <a href="#" class="d-inline-block" aria-label="EasyFinance Home">
+              <img src="./assets/img/logo-easyfinance.png" class="logo mt-4 mb-2"
+                alt="Logo de EasyFinance - Gestor de finanzas personales">
+            </a>
+          </div>
+
+          <!-- Divider -->
+          <hr class="sidebar-divider">
+
+          <!-- Navegación principal -->
+          <ul class="nav flex-column" role="menubar">
+            <li class="nav-item">
+              <a class="nav-link" aria-current="page" href="home.html">
+                <i class="bi bi-speedometer2 me-2"></i>
+                Dashboard
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="transactions.html">
+                <i class="bi bi-receipt me-2"></i>
+                Transacciones
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="savings.html">
+                <i class="bi bi-piggy-bank-fill me-2"></i>
+                Metas de Ahorro
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="categories.html">
+                <i class="bi bi-tags me-2"></i>
+                Categorías
+              </a>
+            </li>
+          </ul>
+
+          <!-- Divider Admin -->
+          <hr class="sidebar-divider">
+          <h6 id="admin-heading" class="admin-title text-uppercase small text-muted mb-2">ADMINISTRACIÓN</h6>
+
+          <!-- Navegación de administración -->
+          <ul class="nav flex-column" role="menubar">
+            <li class="nav-item">
+              <a class="nav-link" href="#">
+                <i class="bi bi-people me-2"></i>
+                Gestionar Usuarios
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="admin-categories.html">
+                <i class="bi bi-gear me-2"></i>
+                Categorías Globales
+              </a>
+            </li>
+          </ul>
+
+          <!-- Divider Mobile Actions -->
+          <hr class="sidebar-divider d-md-none">
+
+          <!-- Búsqueda en sidebar (solo mobile) -->
+          <form class="d-md-none mb-3 px-3" role="search">
+            <label for="searchInputMobile" class="visually-hidden">Buscar</label>
+            <input id="searchInputMobile" class="form-control" type="search" placeholder="Buscar"
+              aria-label="Buscar transacciones" />
+          </form>
+
+          <!-- Avatar en sidebar (solo mobile) -->
+          <div class="d-md-none mb-3 px-3">
+            <a href="#" class="d-flex align-items-center text-decoration-none bx-3">
+              <img src="./assets/img/user.png" alt="Usuario" class="rounded-circle me-2" width="40" height="40">
+              <span class="text-secondary fw-500">Mi Perfil</span>
+            </a>
+          </div>
+        </nav>
+      </aside>
+
+      <!-- App Container -->
+      <div class="col-lg-10 col-md-9 ms-sm-auto app-container">
+
+        <!-- Header -->
+        <header class="navbar-sticky">
+
+          <!-- Navbar -->
+          <nav class="navbar bg-body-tertiary">
+            <div class="container-fluid">
+
+              <!-- Menú hamburguesa mobile -->
+              <button class="navbar-toggler d-md-none" type="button" data-bs-toggle="collapse"
+                data-bs-target="#sidebarMenu" aria-controls="sidebarMenu" aria-expanded="false"
+                aria-label="Abrir menú de navegación">
+                <span class="navbar-toggler-icon"></span>
+              </button>
+
+              <!-- Logo mobile -->
+              <a href="#" class="navbar-brand d-md-none mb-0">
+                <img src="./assets/img/logo-easyfinance.png" alt="EasyFinance" height="60">
+              </a>
+
+              <!-- Búsqueda desktop -->
+              <form class="d-none d-md-flex" role="search">
+                <label for="searchInput" class="visually-hidden">Buscar</label>
+                <input id="searchInput" class="form-control me-2" type="search" placeholder="Buscar"
+                  aria-label="Buscar transacciones" />
+                <button class="btn-secondary-custom" type="submit">Buscar</button>
+              </form>
+
+              <!-- Avatar desktop -->
+              <a href="#" class="navbar-brand navbar-avatar d-none d-md-flex mb-0">
+                <img src="./assets/img/user.png" alt="Usuario"
+                  class="rounded-circle border border-1 border-light-subtle">
+              </a>
+            </div>
+          </nav>
+        </header>
+
+        <!-- Main -->
+        <main class="main-content" role="main">
+          <div class="col-12">
+
+            <!-- Header de la página -->
+            <section id="admin-categories-header" class="row align-items-center mb-5"
+              aria-label="Encabezado de categorías globales">
+              <div class="col mt-3">
+                <div class="d-flex align-items-center mb-2">
+                  <span class="badge bg-danger me-2">ADMIN</span>
+                  <h1 class="mb-0">Categorías Globales</h1>
+                </div>
+                <p class="text-muted mb-0">Gestiona las categorías base disponibles para todos los usuarios</p>
+              </div>
+              <div class="col-auto">
+                <button class="btn-primary-custom" type="button" data-bs-toggle="modal"
+                  data-bs-target="#modalNewGlobalCategory" aria-label="Agregar nueva categoría global">
+                  <i class="bi bi-plus-lg me-2"></i>Nueva categoría global
+                </button>
+              </div>
+            </section>
+
+            <!-- Alerta informativa -->
+            <div class="alert alert-warning mb-4" role="alert">
+              <i class="bi bi-exclamation-triangle me-2"></i>
+              <strong>Atención:</strong> Las categorías globales están disponibles para <strong>todos los
+                usuarios</strong> del sistema.
+              Modificar o eliminar una categoría global afectará a todos los usuarios que la utilicen en sus
+              transacciones.
+            </div>
+
+            <!-- Filtros -->
+            <section class="card mb-5 p-4" aria-label="Filtros de categorías">
+              <h5 class="mb-3">
+                <i class="bi bi-funnel me-2"></i>Filtros
+              </h5>
+              <form class="row g-3" id="formFiltros">
+
+                <div class="col-md-6">
+                  <label for="filtroTipo" class="form-label">Tipo</label>
+                  <select class="form-select" id="filtroTipo">
+                    <option value="">Todas</option>
+                    <option value="INGRESO">Ingresos</option>
+                    <option value="GASTO">Gastos</option>
+                  </select>
+                </div>
+
+                <div class="col-12">
+                  <button type="submit" class="btn-primary-custom">
+                    <i class="bi bi-search me-2"></i>Filtrar
+                  </button>
+                  <button type="button" class="btn-secondary-custom ms-2" id="btnLimpiarFiltros">
+                    <i class="bi bi-x-circle me-2"></i>Limpiar
+                  </button>
+                </div>
+
+              </form>
+            </section>
+
+            <!-- Tabla categorías globales -->
+            <section id="categories-section" class="card mb-5" aria-label="Listado de categorías globales">
+              <div class="card-header d-flex justify-content-between align-items-center">
+                <h5 class="mb-0">
+                  <i class="bi bi-list-ul me-2"></i>Categorías del sistema
+                </h5>
+                <span class="badge bg-primary" id="contadorCategorias">0 categorías</span>
+              </div>
+
+              <div class="table-responsive">
+                <table class="table table-hover mb-0">
+                  <thead>
+                    <tr>
+                      <th>ID</th>
+                      <th>Nombre</th>
+                      <th>Tipo</th>
+                      <th class="text-center">Usuarios usando</th>
+                      <th class="text-center">Total transacciones</th>
+                      <th class="text-center">Estado</th>
+                      <th class="text-center">Acciones</th>
+                    </tr>
+                  </thead>
+                  <tbody id="bodyCategoriasGlobales">
+                    <tr class="text-center">
+                      <td colspan="7" class="py-5 text-muted">
+                        <i class="bi bi-gear fs-1 d-block mb-2"></i>
+                        No hay categorías globales para mostrar
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </section>
+
+          </div>
+        </main>
+
+        <!-- Footer -->
+        <footer class="bg-light mt-5" role="contentinfo">
+          <div class="col-12">
+            <div
+              class="footer-content d-flex flex-column flex-md-row justify-content-between align-items-center py-5 px-4 border-top">
+
+              <!-- Copyright -->
+              <div class="footer-copyright mb-4 mb-md-0 text-center text-md-start">
+                <p class="mb-0 text-secondary fw-500">Copyright © EasyFinance 2026</p>
+                <small class="text-muted">Todos los derechos reservados</small>
+              </div>
+
+              <!-- Links -->
+              <nav class="footer-links mb-4 mb-md-0" aria-label="Enlaces del pie de página">
+                <ul class="list-unstyled d-flex gap-4 mb-0">
+                  <li><a href="#" class="text-secondary text-decoration-none fw-500">Privacidad</a></li>
+                  <li><a href="#" class="text-secondary text-decoration-none fw-500">Términos</a></li>
+                  <li><a href="#" class="text-secondary text-decoration-none fw-500">Contacto</a></li>
+                  <li><a href="#" class="text-secondary text-decoration-none fw-500">Ayuda</a></li>
+                </ul>
+              </nav>
+
+              <!-- Social Links -->
+              <div class="footer-social d-flex gap-4 mx-4">
+                <a href="#" class="social-link" aria-label="Síguenos en Instagram">
+                  <i class="bi bi-instagram"></i>
+                </a>
+                <a href="#" class="social-link" aria-label="Síguenos en LinkedIn">
+                  <i class="bi bi-linkedin"></i>
+                </a>
+              </div>
+            </div>
+          </div>
+        </footer>
+
+      </div>
+    </div>
+  </div>
+
+  <script src="../node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="../js/common.js"></script>
+
+  <!-- Modal Nueva Categoría Global -->
+  <div class="modal fade" id="modalNewGlobalCategory" tabindex="-1" aria-labelledby="modalNewGlobalCategoryLabel"
+    aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+
+        <!-- Modal Header -->
+        <div class="modal-header">
+          <h5 class="modal-title" id="modalNewGlobalCategoryLabel">
+            <i class="bi bi-gear me-2"></i>Nueva Categoría Global
+          </h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+        </div>
+
+        <!-- Modal Body -->
+        <div class="modal-body">
+          <form id="formNewGlobalCategory" action="" method="POST">
+
+            <input type="hidden" id="globalCategoryId" name="id">
+
+            <!-- Nombre de la categoría -->
+            <div class="mb-3">
+              <label for="globalCategoryName" class="form-label">Nombre de la categoría <span
+                  class="text-danger">*</span></label>
+              <input type="text" class="form-control" id="globalCategoryName" name="nombre"
+                placeholder="Ej: Alimentación, Salario, Vivienda..." maxlength="50" required>
+            </div>
+
+            <!-- Tipo de categoría -->
+            <div class="mb-3">
+              <label for="globalCategoryType" class="form-label">Tipo <span class="text-danger">*</span></label>
+              <select class="form-select" id="globalCategoryType" name="tipo" required>
+                <option value="">Selecciona un tipo</option>
+                <option value="INGRESO">Ingreso</option>
+                <option value="GASTO">Gasto</option>
+              </select>
+            </div>
+
+            <!-- Alerta -->
+            <div class="alert alert-warning mb-0">
+              <i class="bi bi-exclamation-triangle me-2"></i>
+              <small><strong>Importante:</strong> Esta categoría estará disponible para <strong>todos los
+                  usuarios</strong> del sistema.</small>
+            </div>
+
+          </form>
+        </div>
+
+        <!-- Modal Footer -->
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+          <button type="submit" form="formNewGlobalCategory" class="btn btn-secondary-custom">
+            <i class="bi bi-save me-2"></i>Guardar categoría global
+          </button>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</body>
+
+</html>
