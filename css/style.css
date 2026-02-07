@@ -143,6 +143,25 @@ body {
   transform: scale(0.95);
 }
 
+/* Botón especial para CTA section */
+.cta .btn-light {
+  background: white;
+  color: var(--primary);
+  border: none;
+  font-weight: 600;
+  padding: 0.75rem 2rem;
+  border-radius: 8px;
+  transition: all 0.3s ease;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+}
+
+.cta .btn-light:hover {
+  background: #f8f9fa;
+  color: var(--primary-hover);
+  transform: translateY(-3px);
+  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.2);
+}
+
 /* ===========================================
     SIDEBAR - Navegación principal lateral
    =========================================== */
@@ -461,4 +480,126 @@ footer {
     flex-wrap: wrap;
     justify-content: center;
   }
+}
+
+/* ===========================================
+    INDEX.HTML - Landing Page
+   =========================================== */
+
+/* Hero Section */
+.hero {
+  min-height: 80vh;
+  display: flex;
+  align-items: center;
+  background: linear-gradient(
+    to bottom right,
+    var(--bg-primary) 0%,
+    #ffffff 50%,
+    var(--bg-primary) 100%
+  );
+
+  h1 {
+    color: var(--text-primary);
+    line-height: 1.2;
+    font-weight: 700;
+  }
+
+  .lead {
+    font-size: 1.125rem;
+    color: var(--text-secondary);
+    line-height: 1.7;
+    max-width: 550px;
+  }
+
+  /* Imagen del dashboard */
+  img {
+    transition: transform 0.4s ease;
+  }
+
+  img:hover {
+    transform: scale(1.03);
+  }
+}
+
+/* Features Section */
+.features {
+  background-color: var(--bg-secondary);
+  padding: 5rem 0;
+
+  h2 {
+    color: var(--text-primary);
+    font-size: 2.25rem;
+    margin-bottom: 3.5rem;
+  }
+
+  /* Cards */
+  .card {
+    transition: all 0.3s ease;
+    cursor: pointer;
+    border: 1px solid var(--border-color);
+    background: var(--bg-secondary);
+  }
+
+  .card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 12px 28px rgba(0, 0, 0, 0.12) !important;
+    border-color: rgba(var(--primary-rgb), 0.3);
+  }
+
+  .card:hover .icon-feature {
+    color: var(--primary-hover);
+    transform: scale(1.15) rotate(5deg);
+  }
+
+  /* Títulos de las cards */
+  .card h5 {
+    color: var(--text-primary);
+    font-weight: 600;
+    margin-bottom: 0.75rem;
+  }
+}
+
+/* Iconos */
+.icon-feature {
+  color: var(--primary);
+  font-size: 3rem;
+  transition: all 0.3s ease;
+  display: inline-block;
+}
+
+/* CTA Section */
+.cta {
+  background: linear-gradient(135deg, var(--primary) 0%, var(--primary-hover) 100%);
+  position: relative;
+  overflow: hidden;
+  padding: 5rem 0;
+
+  
+}
+
+/* Patrón decorativo de fondo */
+.cta::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: 
+    radial-gradient(circle at 20% 50%, rgba(255,255,255,0.08) 0%, transparent 50%),
+    radial-gradient(circle at 80% 80%, rgba(255,255,255,0.08) 0%, transparent 50%);
+  pointer-events: none;
+}
+
+/* Navbar del landing */
+.navbar-light {
+  padding: 1rem 0;
+}
+
+.navbar-light .navbar-brand img {
+  transition: transform 0.3s ease;
+}
+
+.navbar-light .navbar-brand img:hover {
+  transform: scale(1.05);
 }
