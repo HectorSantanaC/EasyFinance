@@ -19,7 +19,7 @@
   
   /* Colores funcionales */
   --success: #2ea87c;             /* Verde - ingresos y positivo */
-  --success-light: ##d1f5e8;       /* Verde claro fondo */
+  --success-light: #d1f5e8;       /* Verde claro fondo */
 
   --info: #0d6efd;                /* Azul - ahorros */
   --info-hover: #0a58ca;          /* Azul hover más oscuro */
