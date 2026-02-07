@@ -759,14 +759,6 @@ footer {
   }
 }
 
-/* Iconos */
-.icon-feature {
-  color: var(--primary);
-  font-size: 3rem;
-  transition: all 0.3s ease;
-  display: inline-block;
-}
-
 /* CTA Section */
 .cta {
   background: linear-gradient(
@@ -820,4 +812,23 @@ footer {
 
 .navbar-light .navbar-brand img:hover {
   transform: scale(1.05);
+}
+
+/* ===========================================
+    ICONOS
+   =========================================== */
+
+/* Iconos Cards Index */
+.icon-feature {
+  color: var(--primary);
+  font-size: 3rem;
+  transition: all 0.3s ease;
+  display: inline-block;
+}
+
+/* Iconos de formularios */
+.icon-form-label {
+  color: var(--primary);
+  font-size: inherit; /* Hereda tamaño del label */
+  transition: color 0.3s ease;
 }
