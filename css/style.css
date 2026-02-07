@@ -338,8 +338,8 @@ small,
   background: rgba(var(--primary-rgb), 0.08);
 }
 
-/* Botón cerrar menú hamburguesa */
-.btn-close-sidebar {
+/* Botón cerrar Universal */
+.btn-close-custom {
   background: transparent;
   border: none;
   font-size: 1.75rem;
@@ -355,12 +355,12 @@ small,
   padding: 0;
 }
 
-.btn-close-sidebar:hover {
+.btn-close-custom:hover {
   background-color: rgba(239, 68, 68, 0.1);
   color: var(--danger);
 }
 
-.btn-close-sidebar:active {
+.btn-close-custom:active {
   transform: scale(0.95);
 }
 
