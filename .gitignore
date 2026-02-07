@@ -1,69 +1,114 @@
-# Archivos compilados de Java
-*.class
-*.jar
-*.war
-*.ear
-
-# Logs
-*.log
-
-# Maven
+# ===========================================
+# MAVEN
+# ===========================================
 target/
+!.mvn/wrapper/maven-wrapper.jar
+!**/src/main/**/target/
+!**/src/test/**/target/
 pom.xml.tag
 pom.xml.releaseBackup
 pom.xml.versionsBackup
 pom.xml.next
 release.properties
 dependency-reduced-pom.xml
+*.jar
+*.war
+*.ear
+*.class
 
-# Gradle (si usas Gradle en lugar de Maven)
-.gradle/
-build/
+# ===========================================
+# LOGS
+# ===========================================
+*.log
+logs/
 
-# Spring Boot
-HELP.md
+# ===========================================
+# IDE - ECLIPSE / SPRING TOOLS
+# ===========================================
+.apt_generated
+.classpath
+.factorypath
+.project
+.settings/
 .springBeans
+.sts4-cache
+.metadata/
+bin/
 
-# IDEs - IntelliJ IDEA
+# ===========================================
+# IDE - INTELLIJ IDEA
+# ===========================================
 .idea/
 *.iml
 *.iws
 *.ipr
 out/
 
-# IDEs - Eclipse
-.classpath
-.project
-.settings/
-.metadata/
-bin/
+# ===========================================
+# IDE - NETBEANS
+# ===========================================
+/nbproject/private/
+/nbbuild/
+/dist/
+/nbdist/
+/.nb-gradle/
 
-# IDEs - VS Code
+# ===========================================
+# IDEs - VSCODE
+# ===========================================
 .vscode/
 
-# IDEs - NetBeans
-nbproject/
-nbbuild/
-dist/
-nbdist/
+# ===========================================
+# GRADLE
+# ===========================================
+.gradle/
+build/
+!**/src/main/**/build/
+!**/src/test/**/build/
 
-# Sistema operativo
+# ===========================================
+# SISTEMA OPERATIVO
+# ===========================================
 .DS_Store
+.DS_Store?
 Thumbs.db
+ehthumbs.db
+Desktop.ini
+*.swp
+*.swo
+*~
 
-# Archivos de configuración con datos sensibles
+# ===========================================
+# SPRING BOOT
+# ===========================================
+HELP.md
+
+# ===========================================
+# FRONTEND - NODE.JS
+# ===========================================
+frontend/node_modules/
+frontend/package-lock.json
+src/main/resources/static/libs/
+
+# ===========================================
+# CONFIGURACIÓN LOCAL
+# ===========================================
 application-local.properties
 application-dev.properties
 *.env
 
-# Base de datos local (si guardas backups)
-*.sql
-*.db
-
-# Node modules (si usas npm para frontend)
-node_modules/
-
-# Archivos temporales
-*~
-*.swp
+# ===========================================
+# BACKUPS Y TEMPORALES
+# ===========================================
+*.backup
+*.bak
 *.tmp
+*.tar.gz
+*.zip
+
+# ===========================================
+# BASE DE DATOS LOCAL
+# ===========================================
+*.db
+*.sqlite
+*.sqlite3

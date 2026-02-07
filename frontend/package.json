@@ -1,0 +1,22 @@
+{
+  "name": "easyfinance-frontend",
+  "version": "1.0.0",
+  "description": "Gestión de dependencias frontend para EasyFinance",
+  "license": "MIT",
+  "author": "Héctor Santana",
+  "type": "commonjs",
+  "scripts": {
+    "install-deps": "npm install",
+    "copy-libs": "node copy-libs.js",
+    "update-libs": "npm update && npm run copy-libs",
+    "postinstall": "npm run copy-libs"
+  },
+  "dependencies": {
+    "bootstrap": "^5.3.8",
+    "bootstrap-icons": "^1.13.1",
+    "chart.js": "^4.5.1"
+  },
+  "devDependencies": {
+    "fs-extra": "^11.2.0"
+  }
+}

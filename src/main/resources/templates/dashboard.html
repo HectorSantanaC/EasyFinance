@@ -1,0 +1,407 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>EasyFinance</title>
+
+  <link rel="stylesheet" href="../node_modules/bootstrap/dist/css/bootstrap.min.css">
+  <link rel="stylesheet" href="../node_modules/bootstrap-icons/font/bootstrap-icons.min.css">
+  <link rel="stylesheet" href="../css/style.css">
+</head>
+
+<body>
+  <div class="container-fluid">
+    <div class="row">
+      <!-- Sidebar -->
+      <aside class="col-lg-2 col-md-3 d-md-block sidebar collapse" id="sidebarMenu">
+        <nav role="navigation" aria-label="Menú principal">
+
+          <!-- Botón cerrar (solo mobile) -->
+          <div class="d-md-none text-end p-3">
+            <button type="button" class="btn-close-custom" data-bs-toggle="collapse" data-bs-target="#sidebarMenu"
+              aria-label="Cerrar menú">
+              <i class="bi bi-x-lg"></i>
+            </button>
+          </div>
+
+          <!-- Logo -->
+          <div class="text-center">
+            <a href="#" class="d-inline-block" aria-label="EasyFinance Home">
+              <img src="./assets/img/logo-easyfinance.png" class="logo mt-4 mb-2"
+                alt="Logo de EasyFinance - Gestor de finanzas personales">
+            </a>
+          </div>
+
+          <!-- Divider -->
+          <hr class="sidebar-divider">
+
+          <!-- Navegación principal -->
+          <ul class="nav flex-column" role="menubar">
+            <li class="nav-item">
+              <a class="nav-link" aria-current="page" href="dashboard.html">
+                <i class="bi bi-speedometer2 me-2"></i>
+                Dashboard
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="transactions.html">
+                <i class="bi bi-receipt me-2"></i>
+                Transacciones
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="savings.html">
+                <i class="bi bi-piggy-bank-fill me-2"></i>
+                Metas de Ahorro
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="categories.html">
+                <i class="bi bi-tags me-2"></i>
+                Categorías
+              </a>
+            </li>
+          </ul>
+
+          <!-- Divider Admin -->
+          <hr class="sidebar-divider">
+          <h6 id="admin-heading" class="admin-title text-uppercase small text-muted mb-2">ADMINISTRACIÓN</h6>
+
+          <!-- Navegación de administración -->
+          <ul class="nav flex-column" role="menubar">
+            <li class="nav-item">
+              <a class="nav-link" href="admin-users.html">
+                <i class="bi bi-people me-2"></i>
+                Gestionar Usuarios
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="admin-categories.html">
+                <i class="bi bi-gear me-2"></i>
+                Categorías Globales
+              </a>
+            </li>
+          </ul>
+
+          <!-- Divider Mobile Actions -->
+          <hr class="sidebar-divider d-md-none">
+
+          <!-- Búsqueda en sidebar (solo mobile) -->
+          <form class="d-md-none mb-3 px-3" role="search">
+            <label for="searchInputMobile" class="visually-hidden">Buscar</label>
+            <input id="searchInputMobile" class="form-control" type="search" placeholder="Buscar"
+              aria-label="Buscar transacciones" />
+          </form>
+
+          <!-- Avatar en sidebar (solo mobile) -->
+          <div class="d-md-none mb-3 px-3">
+            <a href="#" class="d-flex align-items-center text-decoration-none bx-3">
+              <img src="./assets/img/user.png" alt="Usuario" class="rounded-circle me-2" width="40" height="40">
+              <span class="text-secondary fw-500">Mi Perfil</span>
+            </a>
+          </div>
+        </nav>
+      </aside>
+
+      <!-- App Container -->
+      <div class="col-lg-10 col-md-9 ms-sm-auto app-container">
+
+        <!-- Header -->
+        <header class="navbar-sticky">
+
+          <!-- Navbar -->
+          <nav class="navbar bg-body-tertiary">
+            <div class="container-fluid">
+
+              <!-- Menú hamburguesa mobile -->
+              <button class="navbar-toggler d-md-none" type="button" data-bs-toggle="collapse"
+                data-bs-target="#sidebarMenu" aria-controls="sidebarMenu" aria-expanded="false"
+                aria-label="Abrir menú de navegación">
+                <span class="navbar-toggler-icon"></span>
+              </button>
+
+              <!-- Logo mobile -->
+              <a href="#" class="navbar-brand d-md-none mb-0">
+                <img src="./assets/img/logo-easyfinance.png" alt="EasyFinance" height="60">
+              </a>
+
+              <!-- Búsqueda desktop -->
+              <form class="d-none d-md-flex" role="search">
+                <label for="searchInput" class="visually-hidden">Buscar</label>
+                <input id="searchInput" class="form-control me-2" type="search" placeholder="Buscar"
+                  aria-label="Buscar transacciones" />
+                <button class="btn-secondary-custom" type="submit">Buscar</button>
+              </form>
+
+              <!-- Avatar desktop -->
+              <a href="#" class="navbar-brand navbar-avatar d-none d-md-flex mb-0">
+                <img src="./assets/img/user.png" alt="Usuario"
+                  class="rounded-circle border border-1 border-light-subtle">
+              </a>
+            </div>
+          </nav>
+        </header>
+
+        <!-- Main -->
+        <main class="main-content" role="main">
+          <div class="col-12">
+
+            <section id="dashboard-header" class="row align-items-center mb-5" aria-label="Encabezado del dashboard">
+              <div class="col mt-3">
+                <h1 class="mb-1">Dashboard</h1>
+                <p class="text-muted mb-0">Enero 2026</p>
+              </div>
+              <div class="col-auto">
+                <button class="btn-primary-custom" type="button" id="addBtn" data-bs-toggle="modal"
+                  data-bs-target="#modalNewTransaction" aria-label="Agregar nueva transacción">
+                  <i class="bi bi-plus-lg me-2"></i>Nueva transacción
+                </button>
+              </div>
+            </section>
+
+            <!-- Saldo principal -->
+            <section id="principal-balance" class="card mb-5 p-4" aria-label="Saldo disponible">
+              <div class="row align-items-center">
+                <div class="col-md-8">
+                  <div class="principal-balance text-success mb-1">1.575€</div>
+                  <div class="text-success fw-bold">+275€ del mes pasado</div>
+                  <small class="text-muted">Saldo disponible</small>
+                </div>
+                <div class="col-md-4 text-end">
+                  <div class="btn-group" role="group" aria-label="Filtro de período">
+                    <button class="btn btn-outline-light btn-sm" type="button">Este mes</button>
+                    <button class="btn btn-outline-light btn-sm" type="button">Año</button>
+                  </div>
+                </div>
+              </div>
+            </section>
+
+            <!-- KPI Cards horizontales -->
+            <section id="kpi-cards" class="row mb-5" aria-label="Indicadores clave de rendimiento">
+              <div class="col-lg-4 col-md-6 col-12 mb-4 mb-lg-0">
+                <div class="card p-4 kpi-card-income">
+                  <h6 class="card-subtitle mb-2">Ingresos</h6>
+                  <div class="h3 text-success mb-0">2.800€</div>
+                  <small class="text-success">+12% vs mes pasado</small>
+                </div>
+              </div>
+              <div class="col-lg-4 col-md-6 col-12 mb-4 mb-lg-0">
+                <div class="card p-4 kpi-card-expenses">
+                  <h6 class="card-subtitle mb-2">Gastos</h6>
+                  <div class="h3 text-danger mb-0">1.225€</div>
+                  <small class="text-muted">-8% vs mes pasado</small>
+                </div>
+              </div>
+              <div class="col-lg-4 col-md-6 col-12 mb-4 mb-lg-0">
+                <div class="card p-4 kpi-card-savings">
+                  <h6 class="card-subtitle mb-2">Ahorros</h6>
+                  <div class="h3 text-primary mb-0">6.854€</div>
+                  <small class="text-muted">-8% vs mes pasado</small>
+                </div>
+              </div>
+            </section>
+
+            <!-- Gráficos -->
+            <section id="charts-section" class="row mb-5" aria-label="Gráficos de análisis">
+              <div class="col-lg-8 col-12">
+                <div class="card p-4 h-100">
+                  <h5 class="mb-3">Ingresos y gastos</h5>
+                  <div class="chart-container h-100">
+                    <canvas id="balanceChart"></canvas>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-lg-4 col-12">
+                <div class="card p-4 h-100">
+                  <h5 class="mb-3">Gastos por categoría</h5>
+                  <div class="chart-container">
+                    <canvas id="expenseChart"></canvas>
+                  </div>
+                </div>
+              </div>
+            </section>
+
+            <!-- Tabla transacciones -->
+            <section id="transactions-section" class="card mb-5" aria-label="Transacciones recientes">
+              <div class="card-header d-flex justify-content-between align-items-center">
+                <h5 class="mb-0">Transacciones recientes</h5>
+                <label for="transactionFilter" class="visually-hidden">Filtrar transacciones</label>
+                <select id="transactionFilter" class="form-select form-select-sm"
+                  aria-label="Filtrar por tipo de transacción">
+                  <option>Todas</option>
+                  <option>Ingresos</option>
+                  <option>Gastos</option>
+                </select>
+              </div>
+              <div class="table-responsive">
+                <table class="table table-hover mb-0">
+                  <thead>
+                    <tr>
+                      <th>Fecha</th>
+                      <th>Descripción</th>
+                      <th>Categoría</th>
+                      <th>Importe</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>25 Ene</td>
+                      <td>Transferencia ahorro</td>
+                      <td><span class="badge bg-success">Ahorro</span></td>
+                      <td class="text-success fw-bold">+200€</td>
+                    </tr>
+                    <tr>
+                      <td>20 Ene</td>
+                      <td>Cine</td>
+                      <td><span class="badge bg-danger">Ocio</span></td>
+                      <td class="text-danger fw-bold">-45€</td>
+                    </tr>
+                    <tr>
+                      <td>15 Ene</td>
+                      <td>Supermercado</td>
+                      <td><span class="badge bg-warning">Comida</span></td>
+                      <td class="text-danger fw-bold">-250€</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </section>
+          </div>
+        </main>
+
+        <!-- Footer -->
+        <footer class="bg-light mt-5" role="contentinfo">
+          <div class="col-12">
+            <div
+              class="footer-content d-flex flex-column flex-md-row justify-content-between align-items-center py-5 px-4 border-top">
+
+              <!-- Copyright -->
+              <div class="footer-copyright mb-4 mb-md-0 text-center text-md-start">
+                <p class="mb-0 text-secondary fw-500">Copyright © EasyFinance 2026</p>
+                <small class="text-muted">Todos los derechos reservados</small>
+              </div>
+
+              <!-- Links -->
+              <nav class="footer-links mb-4 mb-md-0" aria-label="Enlaces del pie de página">
+                <ul class="list-unstyled d-flex gap-4 mb-0">
+                  <li><a href="#" class="text-secondary text-decoration-none fw-500">Privacidad</a></li>
+                  <li><a href="#" class="text-secondary text-decoration-none fw-500">Términos</a></li>
+                  <li><a href="#" class="text-secondary text-decoration-none fw-500">Contacto</a></li>
+                  <li><a href="#" class="text-secondary text-decoration-none fw-500">Ayuda</a></li>
+                </ul>
+              </nav>
+
+              <!-- Social Links -->
+              <div class="footer-social d-flex gap-4 mx-4">
+                <a href="#" class="social-link" aria-label="Síguenos en Instagram">
+                  <i class="bi bi-instagram"></i>
+                </a>
+                <a href="#" class="social-link" aria-label="Síguenos en LinkedIn">
+                  <i class="bi bi-linkedin"></i>
+                </a>
+              </div>
+            </div>
+          </div>
+        </footer>
+      </div>
+    </div>
+  </div>
+
+  <script src="../node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="../node_modules/chart.js/dist/chart.umd.min.js"></script>
+  <script src="../js/home.js"></script>
+  <script src="../js/common.js"></script>
+
+  <!-- Modal Nueva Transacción -->
+  <div class="modal fade" id="modalNewTransaction" tabindex="-1" aria-labelledby="modalNewTransactionLabel"
+    aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+
+        <!-- Modal Header -->
+        <div class="modal-header">
+          <h5 class="modal-title" id="modalNewTransactionLabel">Nueva Transacción</h5>
+          <button type="button" class="btn-close-custom ms-auto" data-bs-dismiss="modal" aria-label="Cerrar">
+            <i class="bi bi-x-lg"></i>
+          </button>
+        </div>
+
+        <!-- Modal Body -->
+        <div class="modal-body">
+          <form id="formNewTransaction" action="" method="POST">
+
+            <!-- Tipo de transacción -->
+            <div class="mb-3">
+              <label for="transactionType" class="form-label">Tipo de transacción</label>
+              <select class="form-select" id="transactionType" name="tipo" required>
+                <option value="">Selecciona un tipo</option>
+                <option value="INGRESO">Ingreso</option>
+                <option value="GASTO">Gasto</option>
+                <option value="AHORRO">Ahorro</option>
+              </select>
+            </div>
+
+            <!-- Descripción -->
+            <div class="mb-3">
+              <label for="transactionDescription" class="form-label">Descripción</label>
+              <input type="text" class="form-control" id="transactionDescription" name="descripcion"
+                placeholder="Ej: Supermercado, Nómina..." required>
+            </div>
+
+            <!-- Importe -->
+            <div class="mb-3">
+              <label for="transactionAmount" class="form-label">Importe (€)</label>
+              <input type="number" class="form-control" id="transactionAmount" name="importe" step="0.01" min="0.01"
+                placeholder="0.00" required>
+            </div>
+
+            <!-- Categoría (se muestra para INGRESO y GASTO) -->
+            <div class="mb-3" id="campoCategoria">
+              <label for="transactionCategory" class="form-label">Categoría</label>
+              <select class="form-select" id="transactionCategory" name="idCategoria">
+                <option value="">Selecciona una categoría</option>
+                <option value="1">Comida</option>
+                <option value="2">Ocio</option>
+                <option value="3">Transporte</option>
+                <option value="4">Salud</option>
+                <option value="5">Otros</option>
+              </select>
+            </div>
+
+            <!-- Meta de ahorro (se muestra solo para AHORRO) -->
+            <div class="mb-3" id="campoMeta" style="display: none;">
+              <label for="transactionGoal" class="form-label">Meta de ahorro</label>
+              <select class="form-select" id="transactionGoal" name="idMeta">
+                <option value="">Selecciona una meta</option>
+                <option value="1">Vacaciones 2026</option>
+                <option value="2">Fondo de emergencia</option>
+                <option value="3">Coche nuevo</option>
+                <option value="4">Reforma casa</option>
+              </select>
+            </div>
+
+            <!-- Fecha -->
+            <div class="mb-3">
+              <label for="transactionDate" class="form-label">Fecha</label>
+              <input type="date" class="form-control" id="transactionDate" name="fecha" required>
+            </div>
+
+          </form>
+        </div>
+
+        <!-- Modal Footer -->
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+          <button type="submit" form="formNewTransaction" class="btn btn-secondary-custom">Guardar transacción</button>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+</body>
+
+</html>

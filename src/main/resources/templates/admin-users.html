@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Gestión de Usuarios - EasyFinance Admin</title>
+
+  <link rel="stylesheet" href="../node_modules/bootstrap/dist/css/bootstrap.min.css">
+  <link rel="stylesheet" href="../node_modules/bootstrap-icons/font/bootstrap-icons.min.css">
+  <link rel="stylesheet" href="../css/style.css">
+</head>
+
+<body>
+  <div class="container-fluid">
+    <div class="row">
+
+      <!-- Sidebar -->
+      <aside class="col-lg-2 col-md-3 d-md-block sidebar collapse" id="sidebarMenu">
+        <nav role="navigation" aria-label="Menú principal">
+
+          <!-- Botón cerrar (solo mobile) -->
+          <div class="d-md-none text-end p-3">
+            <button type="button" class="btn-close-custom" data-bs-toggle="collapse" data-bs-target="#sidebarMenu"
+              aria-label="Cerrar menú">
+              <i class="bi bi-x-lg"></i>
+            </button>
+          </div>
+
+          <!-- Logo -->
+          <div class="text-center">
+            <a href="#" class="d-inline-block" aria-label="EasyFinance Home">
+              <img src="./assets/img/logo-easyfinance.png" class="logo mt-4 mb-2"
+                alt="Logo de EasyFinance - Gestor de finanzas personales">
+            </a>
+          </div>
+
+          <!-- Divider -->
+          <hr class="sidebar-divider">
+
+          <!-- Navegación principal -->
+          <ul class="nav flex-column" role="menubar">
+            <li class="nav-item">
+              <a class="nav-link" aria-current="page" href="dashboard.html">
+                <i class="bi bi-speedometer2 me-2"></i>
+                Dashboard
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="transactions.html">
+                <i class="bi bi-receipt me-2"></i>
+                Transacciones
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="savings.html">
+                <i class="bi bi-piggy-bank-fill me-2"></i>
+                Metas de Ahorro
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="categories.html">
+                <i class="bi bi-tags me-2"></i>
+                Categorías
+              </a>
+            </li>
+          </ul>
+
+          <!-- Divider Admin -->
+          <hr class="sidebar-divider">
+          <h6 id="admin-heading" class="admin-title text-uppercase small text-muted mb-2">ADMINISTRACIÓN</h6>
+
+          <!-- Navegación de administración -->
+          <ul class="nav flex-column" role="menubar">
+            <li class="nav-item">
+              <a class="nav-link" href="admin-users.html">
+                <i class="bi bi-people me-2"></i>
+                Gestionar Usuarios
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="admin-categories.html">
+                <i class="bi bi-gear me-2"></i>
+                Categorías Globales
+              </a>
+            </li>
+          </ul>
+
+          <!-- Divider Mobile Actions -->
+          <hr class="sidebar-divider d-md-none">
+
+          <!-- Búsqueda en sidebar (solo mobile) -->
+          <form class="d-md-none mb-3 px-3" role="search">
+            <label for="searchInputMobile" class="visually-hidden">Buscar</label>
+            <input id="searchInputMobile" class="form-control" type="search" placeholder="Buscar"
+              aria-label="Buscar transacciones" />
+          </form>
+
+          <!-- Avatar en sidebar (solo mobile) -->
+          <div class="d-md-none mb-3 px-3">
+            <a href="#" class="d-flex align-items-center text-decoration-none bx-3">
+              <img src="./assets/img/user.png" alt="Usuario" class="rounded-circle me-2" width="40" height="40">
+              <span class="text-secondary fw-500">Mi Perfil</span>
+            </a>
+          </div>
+        </nav>
+      </aside>
+
+      <!-- App Container -->
+      <div class="col-lg-10 col-md-9 ms-sm-auto app-container">
+
+        <!-- Header -->
+        <header class="navbar-sticky">
+
+          <!-- Navbar -->
+          <nav class="navbar bg-body-tertiary">
+            <div class="container-fluid">
+
+              <!-- Menú hamburguesa mobile -->
+              <button class="navbar-toggler d-md-none" type="button" data-bs-toggle="collapse"
+                data-bs-target="#sidebarMenu" aria-controls="sidebarMenu" aria-expanded="false"
+                aria-label="Abrir menú de navegación">
+                <span class="navbar-toggler-icon"></span>
+              </button>
+
+              <!-- Logo mobile -->
+              <a href="#" class="navbar-brand d-md-none mb-0">
+                <img src="./assets/img/logo-easyfinance.png" alt="EasyFinance" height="60">
+              </a>
+
+              <!-- Búsqueda desktop -->
+              <form class="d-none d-md-flex" role="search">
+                <label for="searchInput" class="visually-hidden">Buscar</label>
+                <input id="searchInput" class="form-control me-2" type="search" placeholder="Buscar"
+                  aria-label="Buscar transacciones" />
+                <button class="btn-secondary-custom" type="submit">Buscar</button>
+              </form>
+
+              <!-- Avatar desktop -->
+              <a href="#" class="navbar-brand navbar-avatar d-none d-md-flex mb-0">
+                <img src="./assets/img/user.png" alt="Usuario"
+                  class="rounded-circle border border-1 border-light-subtle">
+              </a>
+            </div>
+          </nav>
+        </header>
+
+        <!-- Main -->
+        <main class="main-content" role="main">
+          <div class="col-12">
+
+            <!-- Header de la página -->
+            <section id="admin-users-header" class="row align-items-center mb-5"
+              aria-label="Encabezado de gestión de usuarios">
+              <div class="col mt-3">
+                <div class="d-flex align-items-center mb-2">
+                  <span class="badge bg-danger me-2">ADMIN</span>
+                  <h1 class="mb-0">Gestión de Usuarios</h1>
+                </div>
+                <p class="text-muted mb-0">Administra los usuarios registrados en el sistema</p>
+              </div>
+            </section>
+
+            <!-- Alerta informativa -->
+            <div class="alert alert-info mb-4" role="alert">
+              <i class="bi bi-shield-lock me-2"></i>
+              <strong>Privacidad:</strong> No tienes acceso a los datos financieros privados de los usuarios
+              (transacciones, metas de ahorro, saldos). Solo puedes gestionar cuentas y permisos.
+            </div>
+
+            <!-- Filtros -->
+            <section class="card mb-5 p-4" aria-label="Filtros de usuarios">
+              <h5 class="mb-3">
+                <i class="bi bi-funnel me-2"></i>Filtros
+              </h5>
+              <form class="row g-3" id="formFiltros">
+
+                <div class="col-md-3">
+                  <label for="filtroRol" class="form-label">Rol</label>
+                  <select class="form-select" id="filtroRol">
+                    <option value="">Todos</option>
+                    <option value="USER">Usuario</option>
+                    <option value="ADMIN">Administrador</option>
+                  </select>
+                </div>
+
+                <div class="col-md-3">
+                  <label for="filtroEstado" class="form-label">Estado</label>
+                  <select class="form-select" id="filtroEstado">
+                    <option value="">Todos</option>
+                    <option value="ACTIVO">Activos</option>
+                    <option value="INACTIVO">Inactivos</option>
+                  </select>
+                </div>
+
+                <div class="col-md-3">
+                  <label for="filtroFechaDesde" class="form-label">Registrado desde</label>
+                  <input type="date" class="form-control" id="filtroFechaDesde">
+                </div>
+
+                <div class="col-md-3">
+                  <label for="filtroFechaHasta" class="form-label">Registrado hasta</label>
+                  <input type="date" class="form-control" id="filtroFechaHasta">
+                </div>
+
+                <div class="col-12">
+                  <button type="submit" class="btn-primary-custom">
+                    <i class="bi bi-search me-2"></i>Filtrar
+                  </button>
+                  <button type="button" class="btn-secondary-custom ms-2" id="btnLimpiarFiltros">
+                    <i class="bi bi-x-circle me-2"></i>Limpiar
+                  </button>
+                </div>
+
+              </form>
+            </section>
+
+            <!-- Estadísticas rápidas -->
+            <section class="row mb-4" aria-label="Estadísticas de usuarios">
+              <div class="col-md-3 mb-3">
+                <div class="card text-center p-3">
+                  <h6 class="text-muted mb-1">Total Usuarios</h6>
+                  <h3 class="text-primary mb-0" id="totalUsuarios">0</h3>
+                </div>
+              </div>
+              <div class="col-md-3 mb-3">
+                <div class="card text-center p-3">
+                  <h6 class="text-muted mb-1">Usuarios Activos</h6>
+                  <h3 class="text-success mb-0" id="usuariosActivos">0</h3>
+                </div>
+              </div>
+              <div class="col-md-3 mb-3">
+                <div class="card text-center p-3">
+                  <h6 class="text-muted mb-1">Administradores</h6>
+                  <h3 class="text-warning mb-0" id="totalAdmins">0</h3>
+                </div>
+              </div>
+              <div class="col-md-3 mb-3">
+                <div class="card text-center p-3">
+                  <h6 class="text-muted mb-1">Nuevos (últimos 30 días)</h6>
+                  <h3 class="text-info mb-0" id="usuariosNuevos">0</h3>
+                </div>
+              </div>
+            </section>
+
+            <!-- Tabla usuarios -->
+            <section id="users-section" class="card mb-5" aria-label="Listado de usuarios">
+              <div class="card-header d-flex justify-content-between align-items-center">
+                <h5 class="mb-0">
+                  <i class="bi bi-list-ul me-2"></i>Usuarios del sistema
+                </h5>
+                <span class="badge bg-primary" id="contadorUsuarios">0 usuarios</span>
+              </div>
+
+              <div class="table-responsive">
+                <table class="table table-hover mb-0">
+                  <thead>
+                    <tr>
+                      <th>Email</th>
+                      <th>Nombre</th>
+                      <th>Apellidos</th>
+                      <th>Rol</th>
+                      <th>Fecha Registro</th>
+                      <th class="text-center">Estado</th>
+                      <th class="text-center">Acciones</th>
+                    </tr>
+                  </thead>
+                  <tbody id="bodyUsuarios">
+                    <tr class="text-center">
+                      <td colspan="7" class="py-5 text-muted">
+                        <i class="bi bi-people fs-1 d-block mb-2"></i>
+                        No hay usuarios para mostrar
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </section>
+
+          </div>
+        </main>
+
+        <!-- Footer -->
+        <footer class="bg-light mt-5" role="contentinfo">
+          <div class="col-12">
+            <div
+              class="footer-content d-flex flex-column flex-md-row justify-content-between align-items-center py-5 px-4 border-top">
+
+              <!-- Copyright -->
+              <div class="footer-copyright mb-4 mb-md-0 text-center text-md-start">
+                <p class="mb-0 text-secondary fw-500">Copyright © EasyFinance 2026</p>
+                <small class="text-muted">Todos los derechos reservados</small>
+              </div>
+
+              <!-- Links -->
+              <nav class="footer-links mb-4 mb-md-0" aria-label="Enlaces del pie de página">
+                <ul class="list-unstyled d-flex gap-4 mb-0">
+                  <li><a href="#" class="text-secondary text-decoration-none fw-500">Privacidad</a></li>
+                  <li><a href="#" class="text-secondary text-decoration-none fw-500">Términos</a></li>
+                  <li><a href="#" class="text-secondary text-decoration-none fw-500">Contacto</a></li>
+                  <li><a href="#" class="text-secondary text-decoration-none fw-500">Ayuda</a></li>
+                </ul>
+              </nav>
+
+              <!-- Social Links -->
+              <div class="footer-social d-flex gap-4 mx-4">
+                <a href="#" class="social-link" aria-label="Síguenos en Instagram">
+                  <i class="bi bi-instagram"></i>
+                </a>
+                <a href="#" class="social-link" aria-label="Síguenos en LinkedIn">
+                  <i class="bi bi-linkedin"></i>
+                </a>
+              </div>
+            </div>
+          </div>
+        </footer>
+
+      </div>
+    </div>
+  </div>
+
+  <script src="../node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="../js/common.js"></script>
+
+</body>
+
+</html>
