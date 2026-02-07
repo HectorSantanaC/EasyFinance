@@ -1,46 +1,46 @@
 :root {
-  --bg-primary: #f8f9fa;          /* Fondo principal gris muy claro */
-  --bg-secondary: #ffffff;        /* Tarjetas y cards blanco puro */
-  
+  --bg-primary: #f8f9fa; /* Fondo principal gris muy claro */
+  --bg-secondary: #ffffff; /* Tarjetas y cards blanco puro */
+
   /* Textos */
-  --text-primary: #242c34;        /* Texto principal casi negro */
-  --text-secondary: #6c757d;      /* Texto secundario gris medio */
-  --text-muted: #adb5bd;          /* Texto desactivado gris claro */
-  --text-inverse: #ffffff;        /* Texto sobre fondos oscuros */
+  --text-primary: #242c34; /* Texto principal casi negro */
+  --text-secondary: #6c757d; /* Texto secundario gris medio */
+  --text-muted: #adb5bd; /* Texto desactivado gris claro */
+  --text-inverse: #ffffff; /* Texto sobre fondos oscuros */
 
   /* Colores principales*/
-  --primary: #2ea87c;             /* Verde esmeralda del logo */
-  --primary-hover: #258f69;       /* Verde más oscuro para hover */
-  --primary-light: #5bc496;       /* Verde claro para badges */
-  
-  --secondary: #1a3d6d;           /* Azul marino del logo */
-  --secondary-hover: #153055;     /* Azul más oscuro */
-  --secondary-light: #2e5a99;     /* Azul claro */
-  
-  /* Colores funcionales */
-  --success: #2ea87c;             /* Verde - ingresos y positivo */
-  --success-light: #d1f5e8;       /* Verde claro fondo */
+  --primary: #2ea87c; /* Verde esmeralda del logo */
+  --primary-hover: #258f69; /* Verde más oscuro para hover */
+  --primary-light: #5bc496; /* Verde claro para badges */
 
-  --info: #0d6efd;                /* Azul - ahorros */
-  --info-hover: #0a58ca;          /* Azul hover más oscuro */
-  --info-light: #cfe2ff;          /* Azul claro fondo */
-  
-  --danger: #ef4444;              /* Rojo - gastos y alertas */
-  --danger-light: #fee2e2;        /* Rojo claro fondo */
-  
-  --warning: #f59e0b;             /* Naranja - advertencias */
-  --warning-light: #fef3c7;       /* Naranja claro fondo */
-  
+  --secondary: #1a3d6d; /* Azul marino del logo */
+  --secondary-hover: #153055; /* Azul más oscuro */
+  --secondary-light: #2e5a99; /* Azul claro */
+
+  /* Colores funcionales */
+  --success: #2ea87c; /* Verde - ingresos y positivo */
+  --success-light: #d1f5e8; /* Verde claro fondo */
+
+  --info: #0d6efd; /* Azul - ahorros */
+  --info-hover: #0a58ca; /* Azul hover más oscuro */
+  --info-light: #cfe2ff; /* Azul claro fondo */
+
+  --danger: #ef4444; /* Rojo - gastos y alertas */
+  --danger-light: #fee2e2; /* Rojo claro fondo */
+
+  --warning: #f59e0b; /* Naranja - advertencias */
+  --warning-light: #fef3c7; /* Naranja claro fondo */
+
   /* Bordes y sombras */
-  --border-color: #e5e7eb;        /* Bordes sutiles */
-  --shadow-sm: 0 1px 3px rgba(0,0,0,0.1);
-  --shadow-md: 0 4px 6px rgba(0,0,0,0.07);
-  --shadow-lg: 0 10px 25px rgba(0,0,0,0.08);
+  --border-color: #e5e7eb; /* Bordes sutiles */
+  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.1);
+  --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.07);
+  --shadow-lg: 0 10px 25px rgba(0, 0, 0, 0.08);
 
   /* RGB para transparencias */
-  --primary-rgb: 46, 168, 124;    /* RGB del verde principal */
-  --secondary-rgb: 26, 61, 109;   /* RGB del azul marino */
-  --info-rgb: 13, 110, 253;       /* RGB del azul ahorros */
+  --primary-rgb: 46, 168, 124; /* RGB del verde principal */
+  --secondary-rgb: 26, 61, 109; /* RGB del azul marino */
+  --info-rgb: 13, 110, 253; /* RGB del azul ahorros */
 }
 
 * {
@@ -55,12 +55,228 @@ body {
 }
 
 /* ===========================================
+    TIPOGRAFÍA - Sistema global
+   =========================================== */
+
+/* Títulos principales */
+h1,
+.h1 {
+  color: var(--text-primary);
+  font-weight: 700;
+  line-height: 1.2;
+  margin-bottom: 1rem;
+  font-size: 2.5rem;
+}
+
+h2,
+.h2 {
+  color: var(--text-primary);
+  font-weight: 700;
+  line-height: 1.3;
+  margin-bottom: 0.875rem;
+  font-size: 2rem;
+}
+
+h3,
+.h3 {
+  color: var(--text-primary);
+  font-weight: 600;
+  line-height: 1.3;
+  margin-bottom: 0.75rem;
+  font-size: 1.75rem;
+}
+
+h4,
+.h4 {
+  color: var(--text-primary);
+  font-weight: 600;
+  line-height: 1.4;
+  margin-bottom: 0.75rem;
+  font-size: 1.5rem;
+}
+
+h5,
+.h5 {
+  color: var(--text-primary);
+  font-weight: 600;
+  line-height: 1.4;
+  margin-bottom: 0.625rem;
+  font-size: 1.25rem;
+}
+
+h6,
+.h6 {
+  color: var(--text-primary);
+  font-weight: 600;
+  line-height: 1.4;
+  margin-bottom: 0.5rem;
+  font-size: 1rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+/* Textos de párrafo */
+p {
+  color: var(--text-primary);
+  line-height: 1.6;
+  margin-bottom: 1rem;
+}
+
+/* Clase lead (texto destacado) */
+.lead {
+  font-size: 1.25rem;
+  font-weight: 400;
+  color: var(--text-secondary);
+  line-height: 1.7;
+  margin-bottom: 1.5rem;
+}
+
+/* Texto pequeño */
+small,
+.small {
+  font-size: 0.875rem;
+  color: var(--text-muted);
+  line-height: 1.5;
+}
+
+/* Clase display (títulos muy grandes) */
+.display-1 {
+  font-size: 6rem;
+  font-weight: 700;
+  line-height: 1.1;
+  color: var(--text-primary);
+}
+
+.display-2 {
+  font-size: 5.5rem;
+  font-weight: 700;
+  line-height: 1.1;
+  color: var(--text-primary);
+}
+
+.display-3 {
+  font-size: 4.5rem;
+  font-weight: 700;
+  line-height: 1.1;
+  color: var(--text-primary);
+}
+
+.display-4 {
+  font-size: 3.5rem;
+  font-weight: 700;
+  line-height: 1.2;
+  color: var(--text-primary);
+}
+
+/* Clases utilitarias de texto */
+.text-bold {
+  font-weight: 700;
+}
+
+.text-semibold {
+  font-weight: 600;
+}
+
+.text-medium {
+  font-weight: 500;
+}
+
+.text-normal {
+  font-weight: 400;
+}
+
+/* Colores de texto usando variables */
+.text-primary-custom {
+  color: var(--primary) !important;
+}
+
+.text-secondary-custom {
+  color: var(--secondary) !important;
+}
+
+.text-success-custom {
+  color: var(--success) !important;
+}
+
+.text-danger-custom {
+  color: var(--danger) !important;
+}
+
+.text-warning-custom {
+  color: var(--warning) !important;
+}
+
+.text-info-custom {
+  color: var(--info) !important;
+}
+
+.text-muted-custom {
+  color: var(--text-muted) !important;
+}
+
+/* Responsive typography */
+@media (max-width: 1024px) {
+  h1,
+  .h1 {
+    font-size: 2rem;
+  }
+  h2,
+  .h2 {
+    font-size: 1.75rem;
+  }
+  h3,
+  .h3 {
+    font-size: 1.5rem;
+  }
+
+  .display-1 {
+    font-size: 4rem;
+  }
+  .display-2 {
+    font-size: 3.5rem;
+  }
+  .display-3 {
+    font-size: 3rem;
+  }
+  .display-4 {
+    font-size: 2.5rem;
+  }
+
+  .lead {
+    font-size: 1.125rem;
+  }
+}
+
+@media (max-width: 767px) {
+  h1,
+  .h1 {
+    font-size: 1.75rem;
+  }
+  h2,
+  .h2 {
+    font-size: 1.5rem;
+  }
+
+  .display-4 {
+    font-size: 2rem;
+  }
+
+  .lead {
+    font-size: 1rem;
+  }
+}
+
+/* ===========================================
     BOTONES - Estilos personalizados
    =========================================== */
 
 /* Botón primario (acción principal) */
 .btn-primary-custom {
-  background: linear-gradient(135deg, var(--primary) 0%, var(--primary-hover) 100%);
+  background: linear-gradient(
+    135deg,
+    var(--primary) 0%,
+    var(--primary-hover) 100%
+  );
   color: var(--text-inverse);
   border: none;
   font-weight: 600;
@@ -71,7 +287,11 @@ body {
 }
 
 .btn-primary-custom:hover {
-  background: linear-gradient(135deg, var(--primary-hover) 0%, var(--primary) 100%);
+  background: linear-gradient(
+    135deg,
+    var(--primary-hover) 0%,
+    var(--primary) 100%
+  );
   transform: translateY(-2px);
   box-shadow: 0 6px 16px rgba(var(--primary-rgb), 0.35);
   color: var(--text-inverse);
@@ -85,8 +305,9 @@ body {
 .btn-primary-custom:focus {
   outline: 2px solid var(--primary);
   outline-offset: 2px;
-  box-shadow: 0 4px 12px rgba(var(--primary-rgb), 0.25), 
-              0 0 0 4px rgba(var(--primary-rgb), 0.15);
+  box-shadow:
+    0 4px 12px rgba(var(--primary-rgb), 0.25),
+    0 0 0 4px rgba(var(--primary-rgb), 0.15);
 }
 
 /* Botón secundario (acciones alternas) */
@@ -193,9 +414,9 @@ body {
     border: 0;
     height: 1px;
     background: linear-gradient(
-      to right, 
-      transparent, 
-      var(--border-color), 
+      to right,
+      transparent,
+      var(--border-color),
       transparent
     );
     margin: 1.5rem 1rem;
@@ -245,8 +466,8 @@ body {
   /* Link activo */
   .nav-link.active {
     background: linear-gradient(
-      135deg, 
-      var(--primary) 0%, 
+      135deg,
+      var(--primary) 0%,
       var(--primary-hover) 100%
     );
     color: var(--text-inverse);
@@ -256,7 +477,7 @@ body {
 
   /* Indicador visual para link activo */
   .nav-link.active::before {
-    content: '';
+    content: "";
     position: absolute;
     left: 0;
     top: 50%;
@@ -274,9 +495,15 @@ body {
     animation-fill-mode: forwards;
   }
 
-  .nav-item:nth-child(1) { animation-delay: 0.1s; }
-  .nav-item:nth-child(2) { animation-delay: 0.3s; }
-  .nav-item:nth-child(3) { animation-delay: 0.5s; }
+  .nav-item:nth-child(1) {
+    animation-delay: 0.1s;
+  }
+  .nav-item:nth-child(2) {
+    animation-delay: 0.3s;
+  }
+  .nav-item:nth-child(3) {
+    animation-delay: 0.5s;
+  }
 }
 
 .admin-title {
@@ -407,7 +634,7 @@ footer {
 }
 
 .footer-links ul li a::after {
-  content: '';
+  content: "";
   position: absolute;
   bottom: -2px;
   left: 0;
@@ -442,7 +669,6 @@ footer {
    =========================================== */
 
 @media (max-width: 767px) {
-
   /* Sidebar */
   .sidebar {
     z-index: 1100;
@@ -462,7 +688,7 @@ footer {
     max-width: 320px;
     z-index: 1100;
     background: var(--bg-secondary);
-    box-shadow: 0 6px 24px rgba(0,0,0,0.25);
+    box-shadow: 0 6px 24px rgba(0, 0, 0, 0.25);
   }
 
   /* Footer */
@@ -498,19 +724,6 @@ footer {
     var(--bg-primary) 100%
   );
 
-  h1 {
-    color: var(--text-primary);
-    line-height: 1.2;
-    font-weight: 700;
-  }
-
-  .lead {
-    font-size: 1.125rem;
-    color: var(--text-secondary);
-    line-height: 1.7;
-    max-width: 550px;
-  }
-
   /* Imagen del dashboard */
   img {
     transition: transform 0.4s ease;
@@ -525,12 +738,6 @@ footer {
 .features {
   background-color: var(--bg-secondary);
   padding: 5rem 0;
-
-  h2 {
-    color: var(--text-primary);
-    font-size: 2.25rem;
-    margin-bottom: 3.5rem;
-  }
 
   /* Cards */
   .card {
@@ -550,13 +757,6 @@ footer {
     color: var(--primary-hover);
     transform: scale(1.15) rotate(5deg);
   }
-
-  /* Títulos de las cards */
-  .card h5 {
-    color: var(--text-primary);
-    font-weight: 600;
-    margin-bottom: 0.75rem;
-  }
 }
 
 /* Iconos */
@@ -569,25 +769,35 @@ footer {
 
 /* CTA Section */
 .cta {
-  background: linear-gradient(135deg, var(--primary) 0%, var(--primary-hover) 100%);
+  background: linear-gradient(
+    135deg,
+    var(--primary) 0%,
+    var(--primary-hover) 100%
+  );
   position: relative;
   overflow: hidden;
   padding: 5rem 0;
-
-  
 }
 
 /* Patrón decorativo de fondo */
 .cta::before {
-  content: '';
+  content: "";
   position: absolute;
   top: 0;
   left: 0;
   right: 0;
   bottom: 0;
-  background: 
-    radial-gradient(circle at 20% 50%, rgba(255,255,255,0.08) 0%, transparent 50%),
-    radial-gradient(circle at 80% 80%, rgba(255,255,255,0.08) 0%, transparent 50%);
+  background:
+    radial-gradient(
+      circle at 20% 50%,
+      rgba(255, 255, 255, 0.08) 0%,
+      transparent 50%
+    ),
+    radial-gradient(
+      circle at 80% 80%,
+      rgba(255, 255, 255, 0.08) 0%,
+      transparent 50%
+    );
   pointer-events: none;
 }
 
