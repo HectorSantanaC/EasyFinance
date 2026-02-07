@@ -441,14 +441,14 @@ small,
     align-items: center;
     position: relative;
     border: 1px solid transparent;
-  }
 
-  /* Icono dentro del link */
-  .nav-link i {
-    font-size: 1.15rem;
-    width: 24px;
-    text-align: center;
-    transition: transform 0.3s ease;
+    /* Icono dentro del link */
+    i {
+      font-size: 1.15rem;
+      width: 24px;
+      text-align: center;
+      transition: transform 0.3s ease;
+    }
   }
 
   /* Efecto hover */
@@ -615,16 +615,16 @@ footer {
 
 .footer-copyright {
   flex: 1;
-}
 
-.footer-copyright p {
-  color: var(--primary);
-  font-size: 0.95rem;
-}
+  p {
+    color: var(--primary);
+    font-size: 0.95rem;
+  }
 
-.footer-copyright small {
-  display: block;
-  margin-top: 0.25rem;
+  small {
+    display: block;
+    margin-top: 0.25rem;
+  }
 }
 
 .footer-links ul li a {
@@ -777,6 +777,12 @@ footer {
   position: relative;
   overflow: hidden;
   padding: 5rem 0;
+
+  h2,
+  .lead,
+  p {
+    color: var(--text-inverse) !important; /* text-inverse = #ffffff */
+  }
 }
 
 /* Patrón decorativo de fondo */
@@ -800,6 +806,8 @@ footer {
     );
   pointer-events: none;
 }
+
+/* Forzar texto blanco en CTA */
 
 /* Navbar del landing */
 .navbar-light {
