@@ -6,9 +6,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Metas de Ahorro - EasyFinance</title>
 
-  <link rel="stylesheet" href="../node_modules/bootstrap/dist/css/bootstrap.min.css">
-  <link rel="stylesheet" href="../node_modules/bootstrap-icons/font/bootstrap-icons.min.css">
-  <link rel="stylesheet" href="../css/style.css">
+  <link rel="stylesheet" th:href="@{/libs/bootstrap/css/bootstrap.min.css}">
+  <link rel="stylesheet" th:href="@{/libs/bootstrap-icons/bootstrap-icons.min.css}">
+  <link rel="stylesheet" th:href="@{/css/style.css}">
 </head>
 
 <body>
@@ -30,7 +30,7 @@
           <!-- Logo -->
           <div class="text-center">
             <a href="#" class="d-inline-block" aria-label="EasyFinance Home">
-              <img src="./assets/img/logo-easyfinance.png" class="logo mt-4 mb-2"
+              <img th:src="@{/assets/images/logo-easyfinance.png}" class="logo mt-4 mb-2"
                 alt="Logo de EasyFinance - Gestor de finanzas personales">
             </a>
           </div>
@@ -41,25 +41,25 @@
           <!-- Navegación principal -->
           <ul class="nav flex-column" role="menubar">
             <li class="nav-item">
-              <a class="nav-link" aria-current="page" href="dashboard.html">
+              <a class="nav-link" aria-current="page" th:href="@{dashboard}">
                 <i class="bi bi-speedometer2 me-2"></i>
                 Dashboard
               </a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="transactions.html">
+              <a class="nav-link" th:href="@{transactions}">
                 <i class="bi bi-receipt me-2"></i>
                 Transacciones
               </a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="savings.html">
+              <a class="nav-link" th:href="@{savings}">
                 <i class="bi bi-piggy-bank-fill me-2"></i>
                 Metas de Ahorro
               </a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="categories.html">
+              <a class="nav-link" th:href="@{categories}">
                 <i class="bi bi-tags me-2"></i>
                 Categorías
               </a>
@@ -73,13 +73,13 @@
           <!-- Navegación de administración -->
           <ul class="nav flex-column" role="menubar">
             <li class="nav-item">
-              <a class="nav-link" href="admin-users.html">
+              <a class="nav-link" th:href="@{admin-users}">
                 <i class="bi bi-people me-2"></i>
                 Gestionar Usuarios
               </a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="admin-categories.html">
+              <a class="nav-link" th:href="@{admin-categories}">
                 <i class="bi bi-gear me-2"></i>
                 Categorías Globales
               </a>
@@ -99,7 +99,7 @@
           <!-- Avatar en sidebar (solo mobile) -->
           <div class="d-md-none mb-3 px-3">
             <a href="#" class="d-flex align-items-center text-decoration-none bx-3">
-              <img src="./assets/img/user.png" alt="Usuario" class="rounded-circle me-2" width="40" height="40">
+              <img th:src="@{/assets/images/user.png}" alt="Usuario" class="rounded-circle me-2" width="40" height="40">
               <span class="text-secondary fw-500">Mi Perfil</span>
             </a>
           </div>
@@ -125,7 +125,7 @@
 
               <!-- Logo mobile -->
               <a href="#" class="navbar-brand d-md-none mb-0">
-                <img src="./assets/img/logo-easyfinance.png" alt="EasyFinance" height="60">
+                <img th:src="@{/assets/images/logo-easyfinance.png}" alt="EasyFinance" height="60">
               </a>
 
               <!-- Búsqueda desktop -->
@@ -138,7 +138,7 @@
 
               <!-- Avatar desktop -->
               <a href="#" class="navbar-brand navbar-avatar d-none d-md-flex mb-0">
-                <img src="./assets/img/user.png" alt="Usuario"
+                <img th:src="@{/assets/images/user.png}" alt="Usuario"
                   class="rounded-circle border border-1 border-light-subtle">
               </a>
             </div>
@@ -304,9 +304,9 @@
     </div>
   </div>
 
-  <script src="../node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-  <script src="../js/savings.js"></script>
-  <script src="../js/common.js"></script>
+  <script th:src="@{/libs/bootstrap/js/bootstrap.bundle.min.js}"></script>
+  <script th:src="@{/js/common.js}"></script>
+  <script th:src="@{/js/savings.js}"></script>
 
   <!-- Modal Nueva Meta de Ahorro -->
   <div class="modal fade" id="modalNewGoal" tabindex="-1" aria-labelledby="modalNewGoalLabel" aria-hidden="true">

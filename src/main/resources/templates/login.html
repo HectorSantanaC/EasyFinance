@@ -6,9 +6,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Iniciar sesión - EasyFinance</title>
 
-  <link rel="stylesheet" href="../node_modules/bootstrap/dist/css/bootstrap.min.css">
-  <link rel="stylesheet" href="../node_modules/bootstrap-icons/font/bootstrap-icons.min.css">
-  <link rel="stylesheet" href="../css/style.css">
+  <link rel="stylesheet" th:href="@{/libs/bootstrap/css/bootstrap.min.css}">
+  <link rel="stylesheet" th:href="@{/libs/bootstrap-icons/bootstrap-icons.min.css}">
+  <link rel="stylesheet" th:href="@{/css/style.css}">
 </head>
 
 <body class="bg-light">
@@ -24,7 +24,7 @@
 
             <!-- Logo y título -->
             <div class="text-center mb-4">
-              <img src="/assets/img/logo-easyfinance.png" alt="Logo EasyFinance" class="img-fluid mb-3"
+              <img th:src="@{/assets/images/logo-easyfinance.png}" alt="Logo EasyFinance" class="img-fluid mb-3"
                 style="max-height: 70px;">
               <h1 class="h2 fw-bold mb-2">Bienvenido</h1>
               <p class="mb-0">Inicia sesión para continuar</p>
@@ -87,7 +87,7 @@
 
               <!-- Link a registro -->
               <div class="text-center">
-                <a href="/register.html" class="btn btn-secondary-custom w-100">
+                <a th:href="@{/register}" class="btn btn-secondary-custom w-100">
                   <i class="bi bi-person-plus me-2"></i>Crear una cuenta
                 </a>
               </div>
@@ -107,8 +107,8 @@
     </div>
   </div>
 
-  <script src="../node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-  <script src="../js/login.js"></script>
+  <script th:src="@{/libs/bootstrap/js/bootstrap.bundle.min.js}"></script>
+  <script th:src="@{/js/login.js}"></script>
 
 </body>
 

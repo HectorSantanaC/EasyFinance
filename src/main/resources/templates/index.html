@@ -6,9 +6,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>EasyFinance - Gestiona tus finanzas personales</title>
 
-  <link rel="stylesheet" href="../libs/bootstrap/css/bootstrap.min.css">
-  <link rel="stylesheet" href="../libs/bootstrap-icons/bootstrap-icons.min.css">
-  <link rel="stylesheet" href="../css/style.css">
+  <link rel="stylesheet" th:href="@{/libs/bootstrap/css/bootstrap.min.css}">
+  <link rel="stylesheet" th:href="@{/libs/bootstrap-icons/bootstrap-icons.min.css}">
+  <link rel="stylesheet" th:href="@{/css/style.css}">
 </head>
 
 <body>
@@ -17,12 +17,12 @@
   <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm">
     <div class="container">
       <a class="navbar-brand d-flex align-items-center" href="/">
-        <img src="/assets/images/logo-easyfinance.png" alt="EasyFinance" height="70" class="me-2">
+        <img th:src="@{/assets/images/logo-easyfinance.png}" alt="EasyFinance" height="70" class="me-2">
       </a>
 
       <div class="d-flex gap-2">
-        <a href="/login.html" class="btn btn-secondary-custom">Iniciar sesión</a>
-        <a href="/register.html" class="btn btn-primary-custom">Registrarse</a>
+        <a th:href="@{/login}" class="btn btn-secondary-custom">Iniciar sesión</a>
+        <a th:href="@{/register}" class="btn btn-primary-custom">Registrarse</a>
       </div>
     </div>
   </nav>
@@ -42,17 +42,17 @@
               y toma mejores decisiones.
             </p>
             <div class="d-flex gap-3">
-              <a href="/register.html" class="btn btn-primary-custom btn-lg">
+              <a th:href="@{/register}" class="btn btn-primary-custom btn-lg">
                 <i class="bi bi-rocket-takeoff me-2"></i>Empezar gratis
               </a>
-              <a href="/login.html" class="btn btn-secondary-custom btn-lg">
+              <a th:href="@{/login}" class="btn btn-secondary-custom btn-lg">
                 <i class="bi bi-box-arrow-in-right me-2"></i>Iniciar sesión
               </a>
             </div>
           </div>
 
           <div class="col-lg-6 text-center d-none d-lg-block ps-4">
-            <img src="/assets/images/dashboard-preview.png" alt="Dashboard EasyFinance"
+            <img th:src="@{/assets/images/dashboard-preview.png}" alt="Dashboard EasyFinance"
               class="img-fluid rounded shadow-lg">
           </div>
         </div>
@@ -109,7 +109,7 @@
       <div class="container text-center">
         <h2 class="fw-bold mb-3">¿Listo para tomar el control?</h2>
         <p class="lead mb-4">Únete a miles de usuarios que ya gestionan mejor su dinero</p>
-        <a href="/register.html" class="btn btn-light btn-lg">
+        <a th:href="@{/register}" class="btn btn-light btn-lg">
           <i class="bi bi-person-plus-fill me-2"></i>Crear cuenta gratis
         </a>
       </div>
@@ -151,7 +151,7 @@
           </div>
         </footer>
 
-  <script src="../libs/bootstrap/js/bootstrap.bundle.min.js"></script>
+  <script th:src="@{/libs/bootstrap/js/bootstrap.bundle.min.js}"></script>
 
 </body>
 
