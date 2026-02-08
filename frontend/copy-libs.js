@@ -53,8 +53,8 @@ try {
     // Chart.js
     console.log('Copiando Chart.js...');
     fs.copySync(
-        path.join(nodeModules, 'chart.js', 'dist', 'chart.umd.js'),
-        path.join(staticLibs, 'chart.js', 'chart.umd.js')
+        path.join(nodeModules, 'chart.js', 'dist', 'chart.umd.min.js'),
+        path.join(staticLibs, 'chart.js', 'chart.umd.min.js')
     );
 
     console.log('¡Dependencias copiadas exitosamente!');
