@@ -34,14 +34,14 @@ public class CategoryController {
     }
     
     @PostMapping
-    public ResponseEntity<Category> crear(@RequestBody Category c) {
-    	return ResponseEntity.ok(categoryService.guardar(c));
+    public ResponseEntity<Category> crear(@RequestBody Category category) {
+    	return ResponseEntity.ok(categoryService.guardar(category));
     }
     
     @PutMapping("/{id}")
-    public ResponseEntity<Category> actualizar(@PathVariable Long id, @RequestBody Category c) {
-    	c.setId(id);
-    	return ResponseEntity.ok(categoryService.guardar(c));
+    public ResponseEntity<Category> actualizar(@PathVariable Long id, @RequestBody Category category) {
+    	category.setId(id);
+    	return ResponseEntity.ok(categoryService.guardar(category));
     }
     
     @DeleteMapping("/{id}") 
