@@ -21,32 +21,32 @@ import es.easyfinance.services.CategoryService;
 public class CategoryController {
 	
 	@Autowired
-	private CategoryService service;
+	private CategoryService categoryService;
 
     @GetMapping
     public List<Category> listarTodas() {
-    	return service.listarTodas();
+    	return categoryService.listarTodas();
     }
     
     @GetMapping("/{id}")
     public Category buscarPorId(@PathVariable Long id) {
-    	return service.buscarPorId(id);
+    	return categoryService.buscarPorId(id);
     }
     
     @PostMapping
     public ResponseEntity<Category> crear(@RequestBody Category c) {
-    	return ResponseEntity.ok(service.guardar(c));
+    	return ResponseEntity.ok(categoryService.guardar(c));
     }
     
     @PutMapping("/{id}")
     public ResponseEntity<Category> actualizar(@PathVariable Long id, @RequestBody Category c) {
     	c.setId(id);
-    	return ResponseEntity.ok(service.guardar(c));
+    	return ResponseEntity.ok(categoryService.guardar(c));
     }
     
     @DeleteMapping("/{id}") 
     public ResponseEntity<Void> borrar(@PathVariable Long id){
-    	service.borrar(id);
+    	categoryService.borrar(id);
     	return ResponseEntity.ok().build();
     }
 
