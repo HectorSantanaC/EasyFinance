@@ -15,7 +15,7 @@ public class UserService {
 	private UserRepository userRepository;
 	
 	// Buscar usuario por id
-	public User findById(Long id) {
+	public User buscarPorId(Long id) {
 		return userRepository.findById(id).orElse(null);
 	}
 	
