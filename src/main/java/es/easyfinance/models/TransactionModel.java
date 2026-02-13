@@ -18,7 +18,7 @@ import jakarta.persistence.Table;
 
 @Entity
 @Table(name = "transacciones")
-public class Transaction {
+public class TransactionModel {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -26,14 +26,14 @@ public class Transaction {
 	
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "usuario_id")
-	private User usuarioId;
+	private UserModel usuarioId;
 	
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "categoria_id")
-	private Category categoriaId;
+	private CategoryModel categoriaId;
 	
 	@Enumerated(EnumType.STRING)
-	private TransactionType tipo;
+	private TransactionTypeModel tipo;
 	
 	@Column(precision = 10, scale = 2)
 	private BigDecimal cantidad;
@@ -43,14 +43,14 @@ public class Transaction {
 
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "meta_ahorro_id")
-	private SavingsGoal metaAhorroId;
+	private SavingsGoalModel metaAhorroId;
 	
 	private Long creadoPor;
 	private LocalDateTime fechaCreacion;
 	private Long modificadoPor;
 	private LocalDateTime fechaModificacion;
 	
-	public Transaction() {
+	public TransactionModel() {
 		super();
 	}
 
@@ -62,27 +62,27 @@ public class Transaction {
 		this.id = id;
 	}
 
-	public User getUsuarioId() {
+	public UserModel getUsuarioId() {
 		return usuarioId;
 	}
 
-	public void setUsuarioId(User usuarioId) {
+	public void setUsuarioId(UserModel usuarioId) {
 		this.usuarioId = usuarioId;
 	}
 
-	public Category getCategoriaId() {
+	public CategoryModel getCategoriaId() {
 		return categoriaId;
 	}
 
-	public void setCategoriaId(Category categoriaId) {
+	public void setCategoriaId(CategoryModel categoriaId) {
 		this.categoriaId = categoriaId;
 	}
 
-	public TransactionType getTipo() {
+	public TransactionTypeModel getTipo() {
 		return tipo;
 	}
 
-	public void setTipo(TransactionType tipo) {
+	public void setTipo(TransactionTypeModel tipo) {
 		this.tipo = tipo;
 	}
 
@@ -110,11 +110,11 @@ public class Transaction {
 		this.fecha = fecha;
 	}
 
-	public SavingsGoal getMetaAhorroId() {
+	public SavingsGoalModel getMetaAhorroId() {
 		return metaAhorroId;
 	}
 
-	public void setMetaAhorroId(SavingsGoal metaAhorroId) {
+	public void setMetaAhorroId(SavingsGoalModel metaAhorroId) {
 		this.metaAhorroId = metaAhorroId;
 	}
 

@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import es.easyfinance.models.SavingsGoal;
+import es.easyfinance.models.SavingsGoalModel;
 import es.easyfinance.services.SavingsGoalService;
 
 @RestController
@@ -24,22 +24,22 @@ public class SavingsGoalController {
 	private SavingsGoalService savingsGoalService;
 
     @GetMapping
-    public List<SavingsGoal> listarTodas() {
+    public List<SavingsGoalModel> listarTodas() {
     	return savingsGoalService.listarTodas();
     }
     
     @GetMapping("/{id}")
-    public SavingsGoal buscarPorId(@PathVariable Long id) {
+    public SavingsGoalModel buscarPorId(@PathVariable Long id) {
     	return savingsGoalService.buscarPorId(id);
     }
     
     @PostMapping
-    public ResponseEntity<SavingsGoal> crear(@RequestBody SavingsGoal savingsGoal) {
+    public ResponseEntity<SavingsGoalModel> crear(@RequestBody SavingsGoalModel savingsGoal) {
     	return ResponseEntity.ok(savingsGoalService.guardar(savingsGoal));
     }
     
     @PutMapping("/{id}")
-    public ResponseEntity<SavingsGoal> actualizar(@PathVariable Long id, @RequestBody SavingsGoal savingsGoal) {
+    public ResponseEntity<SavingsGoalModel> actualizar(@PathVariable Long id, @RequestBody SavingsGoalModel savingsGoal) {
     	savingsGoal.setId(id);
     	return ResponseEntity.ok(savingsGoalService.guardar(savingsGoal));
     }

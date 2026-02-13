@@ -5,17 +5,17 @@ import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
-import es.easyfinance.models.User;
+import es.easyfinance.models.UserModel;
 
-public interface UserRepository extends JpaRepository<User, Long> {
+public interface UserRepository extends JpaRepository<UserModel, Long> {
 	
     // Validación Registro
     boolean existsByEmail(String email);
 	
 	// Login
-    Optional<User> findByEmail(String email);
+    Optional<UserModel> findByEmail(String email);
     
     // Listar usuarios activos (Admin)
-    List<User> findByActivoTrue();
+    List<UserModel> findByActivoTrue();
     
 }

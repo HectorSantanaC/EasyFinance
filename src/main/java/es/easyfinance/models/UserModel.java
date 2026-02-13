@@ -14,7 +14,7 @@ import jakarta.persistence.Table;
 
 @Entity
 @Table(name = "usuarios")
-public class User {
+public class UserModel {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -26,7 +26,7 @@ public class User {
 	
 	@ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "rol_id")
-	private Rol rolId;
+	private RolModel rolId;
 	
 	private boolean activo = true;
 	private LocalDate fechaRegistro;
@@ -36,7 +36,7 @@ public class User {
 	private Long modificadoPor;
 	private LocalDateTime fechaModificacion;
 	
-	public User() {
+	public UserModel() {
 		super();
 	}
 
@@ -80,11 +80,11 @@ public class User {
 		this.apellidos = apellidos;
 	}
 
-	public Rol getRolId() {
+	public RolModel getRolId() {
 		return rolId;
 	}
 
-	public void setRolId(Rol rolId) {
+	public void setRolId(RolModel rolId) {
 		this.rolId = rolId;
 	}
 

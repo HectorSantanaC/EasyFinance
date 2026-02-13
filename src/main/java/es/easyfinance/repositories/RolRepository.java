@@ -5,12 +5,12 @@ import java.util.Optional;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import es.easyfinance.models.Rol;
+import es.easyfinance.models.RolModel;
 
 @Repository
-public interface RolRepository extends JpaRepository <Rol, Long> {
+public interface RolRepository extends JpaRepository <RolModel, Long> {
 	
-	Optional<Rol> findByNombre(String nombre);
+	Optional<RolModel> findByNombre(String nombre);
     
     boolean existsByNombre(String nombre);
 

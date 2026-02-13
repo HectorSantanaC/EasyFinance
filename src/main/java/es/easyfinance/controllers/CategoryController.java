@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import es.easyfinance.models.Category;
+import es.easyfinance.models.CategoryModel;
 import es.easyfinance.services.CategoryService;
 
 @RestController
@@ -24,22 +24,22 @@ public class CategoryController {
 	private CategoryService categoryService;
 
     @GetMapping
-    public List<Category> listarTodas() {
+    public List<CategoryModel> listarTodas() {
     	return categoryService.listarTodas();
     }
     
     @GetMapping("/{id}")
-    public Category buscarPorId(@PathVariable Long id) {
+    public CategoryModel buscarPorId(@PathVariable Long id) {
     	return categoryService.buscarPorId(id);
     }
     
     @PostMapping
-    public ResponseEntity<Category> crear(@RequestBody Category category) {
+    public ResponseEntity<CategoryModel> crear(@RequestBody CategoryModel category) {
     	return ResponseEntity.ok(categoryService.guardar(category));
     }
     
     @PutMapping("/{id}")
-    public ResponseEntity<Category> actualizar(@PathVariable Long id, @RequestBody Category category) {
+    public ResponseEntity<CategoryModel> actualizar(@PathVariable Long id, @RequestBody CategoryModel category) {
     	category.setId(id);
     	return ResponseEntity.ok(categoryService.guardar(category));
     }

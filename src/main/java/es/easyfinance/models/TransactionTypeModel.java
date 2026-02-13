@@ -1,6 +1,6 @@
 package es.easyfinance.models;
 
-public enum TransactionType {
+public enum TransactionTypeModel {
 	INGRESO,
 	GASTO,
 	AHORRO

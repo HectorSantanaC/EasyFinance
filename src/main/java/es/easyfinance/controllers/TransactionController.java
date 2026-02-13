@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import es.easyfinance.models.Transaction;
+import es.easyfinance.models.TransactionModel;
 import es.easyfinance.services.TransactionService;
 
 @RestController
@@ -24,22 +24,22 @@ public class TransactionController {
 	private TransactionService transactionService;
 
     @GetMapping
-    public List<Transaction> listarTodas() {
+    public List<TransactionModel> listarTodas() {
     	return transactionService.listarTodas();
     }
     
     @GetMapping("/{id}")
-    public Transaction buscarPorId(@PathVariable Long id) {
+    public TransactionModel buscarPorId(@PathVariable Long id) {
     	return transactionService.buscarPorId(id);
     }
     
     @PostMapping
-    public ResponseEntity<Transaction> crear(@RequestBody Transaction transaction) {
+    public ResponseEntity<TransactionModel> crear(@RequestBody TransactionModel transaction) {
     	return ResponseEntity.ok(transactionService.guardar(transaction));
     }
     
     @PutMapping("/{id}")
-    public ResponseEntity<Transaction> actualizar(@PathVariable Long id, @RequestBody Transaction transaction) {
+    public ResponseEntity<TransactionModel> actualizar(@PathVariable Long id, @RequestBody TransactionModel transaction) {
     	transaction.setId(id);
     	return ResponseEntity.ok(transactionService.guardar(transaction));
     }

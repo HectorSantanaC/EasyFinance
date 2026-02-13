@@ -12,7 +12,7 @@ import jakarta.persistence.Table;
 
 @Entity
 @Table(name = "categorias")
-public class Category {
+public class CategoryModel {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -22,7 +22,7 @@ public class Category {
 	private String descripcion;
 	
 	@Enumerated(EnumType.STRING)
-	private TransactionType tipo;
+	private TransactionTypeModel tipo;
 	
 	private boolean esGlobal = false;
 	private boolean activa = true;
@@ -31,7 +31,7 @@ public class Category {
 	private Long modificadoPor;
 	private LocalDateTime fechaModificacion;
 	
-	public Category() {
+	public CategoryModel() {
 		super();
 	}
 
@@ -59,11 +59,11 @@ public class Category {
 		this.descripcion = descripcion;
 	}
 
-	public TransactionType getTipo() {
+	public TransactionTypeModel getTipo() {
 		return tipo;
 	}
 
-	public void setTipo(TransactionType tipo) {
+	public void setTipo(TransactionTypeModel tipo) {
 		this.tipo = tipo;
 	}
 

@@ -16,7 +16,7 @@ import jakarta.persistence.Table;
 
 @Entity
 @Table(name = "metas_ahorro")
-public class SavingsGoal {
+public class SavingsGoalModel {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -24,7 +24,7 @@ public class SavingsGoal {
 	
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "usuario_id")
-	private User usuarioId;
+	private UserModel usuarioId;
 	
 	private String nombre;
 	private String descripcion;
@@ -44,7 +44,7 @@ public class SavingsGoal {
 	private Long modificadoPor;
 	private LocalDateTime fechaModificacion;
 	
-	public SavingsGoal() {
+	public SavingsGoalModel() {
 		super();
 	}
 
@@ -56,11 +56,11 @@ public class SavingsGoal {
 		this.id = id;
 	}
 
-	public User getUsuarioId() {
+	public UserModel getUsuarioId() {
 		return usuarioId;
 	}
 
-	public void setUsuarioId(User usuarioId) {
+	public void setUsuarioId(UserModel usuarioId) {
 		this.usuarioId = usuarioId;
 	}
 

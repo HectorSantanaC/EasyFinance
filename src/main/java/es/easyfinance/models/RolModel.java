@@ -10,7 +10,7 @@ import jakarta.persistence.Table;
 
 @Entity
 @Table(name = "roles")
-public class Rol {
+public class RolModel {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -23,7 +23,7 @@ public class Rol {
 	private Long modificadoPor;
 	private LocalDateTime fechaModificacion;
 
-	public Rol() {
+	public RolModel() {
 		super();
 	}
 

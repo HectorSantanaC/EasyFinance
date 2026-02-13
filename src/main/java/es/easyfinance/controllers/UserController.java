@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import es.easyfinance.models.User;
+import es.easyfinance.models.UserModel;
 import es.easyfinance.services.UserService;
 
 @RestController
@@ -24,43 +24,43 @@ public class UserController {
     private UserService userService;
 
 	@GetMapping
-	public List<User> listarTodos() {
+	public List<UserModel> listarTodos() {
 	    return userService.listarTodos();
 	}
 	
 	@GetMapping("/activos")
-	public List<User> listarActivos() {
+	public List<UserModel> listarActivos() {
 	    return userService.listarActivos();
 	}
 	
 	@GetMapping("/{id}")
-	public User buscarPorId(@PathVariable Long id) {
+	public UserModel buscarPorId(@PathVariable Long id) {
 	    return userService.buscarPorId(id);
 	}
 	
 	@PostMapping
-	public ResponseEntity<User> crear(@RequestBody User user) {
+	public ResponseEntity<UserModel> crear(@RequestBody UserModel user) {
 	    if (userService.emailExiste(user.getEmail())) {
 	        return ResponseEntity.badRequest().build();
 	    }
-	    User saved = userService.guardar(user);
+	    UserModel saved = userService.guardar(user);
 	    return ResponseEntity.ok(saved);
 	}
 	
 	@PutMapping("/{id}")
-	public ResponseEntity<User> actualizar(@PathVariable Long id, @RequestBody User user) {
-	    User existing = userService.buscarPorId(id);
+	public ResponseEntity<UserModel> actualizar(@PathVariable Long id, @RequestBody UserModel user) {
+	    UserModel existing = userService.buscarPorId(id);
 	    if (existing == null) {
 	        return ResponseEntity.notFound().build();
 	    }
 	    user.setId(id);
-	    User updated = userService.guardar(user);
+	    UserModel updated = userService.guardar(user);
 	    return ResponseEntity.ok(updated);
 	}
 	
 	@DeleteMapping("/{id}")
 	public ResponseEntity<Void> borrar(@PathVariable Long id) {
-	    User existing = userService.buscarPorId(id);
+	    UserModel existing = userService.buscarPorId(id);
 	    if (existing == null) {
 	        return ResponseEntity.notFound().build();
 	    }

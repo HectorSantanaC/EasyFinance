@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import es.easyfinance.models.Rol;
+import es.easyfinance.models.RolModel;
 import es.easyfinance.services.RolService;
 
 @RestController
@@ -19,17 +19,17 @@ public class RolController {
 	private RolService rolService;
 	
 	@GetMapping
-	public List<Rol> listarTodos() {
+	public List<RolModel> listarTodos() {
 		return rolService.listarTodos();
 	}
 	
 	@GetMapping("/{id}")
-	public Rol buscarPorId(@PathVariable Long id) {
+	public RolModel buscarPorId(@PathVariable Long id) {
 		return rolService.buscarPorId(id);
 	}
 	
 	@GetMapping("/nombre/{nombre}")
-	public Rol buscarPorNombre(@PathVariable String nombre) {
+	public RolModel buscarPorNombre(@PathVariable String nombre) {
 		return rolService.buscarPorNombre(nombre);
 	}
 
