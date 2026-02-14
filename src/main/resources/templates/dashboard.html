@@ -314,6 +314,7 @@
   <script th:src="@{/libs/chart.js/chart.umd.min.js}"></script>
   <script th:src="@{/js/home.js}"></script>
   <script th:src="@{/js/common.js}"></script>
+  <script th:src="@{/js/transactions.js}"></script>
 
   <!-- Modal Nueva Transacción -->
   <div class="modal fade" id="modalNewTransaction" tabindex="-1" aria-labelledby="modalNewTransactionLabel"
@@ -331,7 +332,7 @@
 
         <!-- Modal Body -->
         <div class="modal-body">
-          <form id="formNewTransaction" action="" method="POST">
+          <form id="formNewTransaction" method="POST">
 
             <!-- Tipo de transacción -->
             <div class="mb-3">

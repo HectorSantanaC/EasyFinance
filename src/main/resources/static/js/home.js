@@ -102,4 +102,30 @@ document.addEventListener("DOMContentLoaded", function () {
       },
     },
   });
+  
+  // + MODAL JS (igual que transactions.js)
+    const form = document.getElementById('formNewTransaction');
+    if (form) {
+      form.addEventListener('submit', async function(e) {
+          e.preventDefault();
+          const formData = new FormData(form);
+          try {
+              const response = await fetch('/api/transacciones', {
+                  method: 'POST', 
+                  body: formData
+              });
+              if (response.ok) {
+                  const modal = document.getElementById('modalNewTransaction');
+                  const modalInstance = bootstrap.Modal.getInstance(modal);
+                  modalInstance.hide();
+                  alert('¡Transacción guardada!');
+				  
+                  form.reset();
+                  // NO recarga = queda en dashboard
+              }
+          } catch(error) {
+              alert('Error: ' + error);
+          }
+      });
+    }
 });
