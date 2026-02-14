@@ -62,9 +62,10 @@ public class TransactionController {
         transaction.setFecha(LocalDate.parse(data.get("fecha")));
         transaction.setUsuarioId(usuarioActual());
         
-        // Categoria temporal
         CategoryModel categoria = new CategoryModel();
-        categoria.setId(1L);
+        String idCategory = data.get("idCategoria");
+        
+        categoria.setId(Long.parseLong(idCategory));
         transaction.setCategoriaId(categoria);
         
         return ResponseEntity.ok(transactionService.guardar(transaction));

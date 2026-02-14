@@ -1,5 +1,7 @@
 document.addEventListener('DOMContentLoaded', function() {
     
+	
+	// INSERTAR TRANSACCIONES
     const form = document.getElementById('formNewTransaction');
     const modal = document.getElementById('modalNewTransaction');
     
@@ -30,5 +32,26 @@ document.addEventListener('DOMContentLoaded', function() {
             alert('Error de conexión');
         }
     });
+	
+	// CARGAR CATEGORÍAS
+	    function cargarCategorias() {
+	        fetch('/api/categorias')
+	            .then(res => res.json())
+	            .then(categorias => {
+	                const select = document.getElementById('transactionCategory');
+	                if (select) {
+	                    select.innerHTML = '<option value="">Selecciona categoría</option>';
+	                    categorias.forEach(cat => {
+	                        const option = document.createElement('option');
+	                        option.value = cat.id;
+	                        option.textContent = cat.nombre;
+	                        select.appendChild(option);
+	                    });
+	                }
+	            })
+	            .catch(err => console.error('Categorías:', err));
+	    }
+	    
+	    cargarCategorias();
 });
 
