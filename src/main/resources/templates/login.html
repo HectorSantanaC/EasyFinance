@@ -31,14 +31,14 @@
             </div>
 
             <!-- Formulario de login -->
-            <form action="" method="POST" class="needs-validation" novalidate>
+            <form th:action="@{/loginprocess}" method="POST" class="needs-validation" novalidate>
 
               <!-- Email -->
               <div class="mb-3">
                 <label for="email" class="form-label fw-semibold">
                   <i class="bi bi-envelope me-1 icon-form-label"></i>Correo electrónico
                 </label>
-                <input type="email" class="form-control form-control-lg" id="email" name="email"
+                <input type="email" class="form-control form-control-lg" id="email" name="username"
                   placeholder="correo@ejemplo.com" required autocomplete="email" autofocus>
               </div>
 

@@ -24,7 +24,7 @@ public class UserModel {
 	private String nombre;
 	private String apellidos;
 	
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "rol_id")
 	private RolModel rolId;
 	
@@ -142,6 +142,11 @@ public class UserModel {
 
 	public void setFechaModificacion(LocalDateTime fechaModificacion) {
 		this.fechaModificacion = fechaModificacion;
+	}
+	
+	// Username para registro e inicio de sesión
+	public String getUsername() {
+		return email;
 	}
 
 }

@@ -21,7 +21,7 @@ public class UserService {
 	
 	 // Buscar usuario por email (para login, etc.)
     public UserModel buscarPorEmail(String email) {
-        return userRepository.findByEmail(email).orElse(null);
+        return userRepository.findByEmail(email);
     }
     
     // Listar todos los usuarios

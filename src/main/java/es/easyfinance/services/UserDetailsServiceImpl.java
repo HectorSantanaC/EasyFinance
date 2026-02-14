@@ -1,6 +1,6 @@
 package es.easyfinance.services;
 
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -13,26 +13,22 @@ import es.easyfinance.repositories.UserRepository;
 @Service
 public class UserDetailsServiceImpl implements UserDetailsService {
 	
-	private final UserRepository userRepository;
+	@Autowired
+	private UserRepository userRepository;
 
-    public UserDetailsServiceImpl(UserRepository userRepository) {
-        this.userRepository = userRepository;
-    }
 
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
-        UserModel userModel = userRepository.findByEmail(email)
-                .filter(u -> u.isActivo())
-                .orElseThrow(() -> new UsernameNotFoundException("Usuario no encontrado: " + email));
-
-        String rolNombre = userModel.getRolId() != null ? userModel.getRolId().getNombre() : "USER";
-        String authority = "ROLE_" + rolNombre.toUpperCase();
-
-        return User.builder()
-        		.username(userModel.getEmail())
+        UserModel userModel = userRepository.findByEmail(email);
+                
+        if (userModel == null) {
+        	throw new UsernameNotFoundException("Usuario no encontrado: " + email);
+        }
+        
+        return User.withUsername(userModel.getEmail())
         		.password(userModel.getContrasena())
-        		.authorities(new SimpleGrantedAuthority(authority))
+        		.authorities(userModel.getRolId().getNombre())
+        		.disabled(!userModel.isActivo())
         		.build();
     }
-
 }
