@@ -31,4 +31,8 @@ public class UserDetailsServiceImpl implements UserDetailsService {
         		.disabled(!userModel.isActivo())
         		.build();
     }
+    
+    public UserModel findByEmail(String email) {
+        return userRepository.findByEmail(email);
+    }
 }

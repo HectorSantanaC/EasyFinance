@@ -7,6 +7,8 @@ import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -22,6 +24,7 @@ import es.easyfinance.models.TransactionModel;
 import es.easyfinance.models.TransactionTypeModel;
 import es.easyfinance.models.UserModel;
 import es.easyfinance.services.TransactionService;
+import es.easyfinance.services.UserDetailsServiceImpl;
 
 @RestController
 @RequestMapping("/api/transacciones")
@@ -29,6 +32,15 @@ public class TransactionController {
 	
 	@Autowired
 	private TransactionService transactionService;
+	
+	@Autowired
+	private UserDetailsServiceImpl userDetailsService;
+	
+	private UserModel usuarioActual() {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        String email = auth.getName();
+        return userDetailsService.findByEmail(email);
+    }
 
     @GetMapping
     public List<TransactionModel> listarTodas() {
@@ -48,16 +60,12 @@ public class TransactionController {
         transaction.setCantidad(new BigDecimal(data.get("importe")));
         transaction.setTipo(TransactionTypeModel.valueOf(data.get("tipo")));
         transaction.setFecha(LocalDate.parse(data.get("fecha")));
+        transaction.setUsuarioId(usuarioActual());
         
         // Categoria temporal
         CategoryModel categoria = new CategoryModel();
         categoria.setId(1L);
         transaction.setCategoriaId(categoria);
-        
-        // Usuario temporal
-        UserModel usuario = new UserModel();
-        usuario.setId(2L);  // hector
-        transaction.setUsuarioId(usuario);
         
         return ResponseEntity.ok(transactionService.guardar(transaction));
     }
