@@ -12,7 +12,6 @@ import org.springframework.data.domain.Sort;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -46,22 +45,22 @@ public class TransactionController {
         return userDetailsService.findByEmail(email);
     }
 
-    @GetMapping
-    public String listar(@RequestParam(defaultValue = "0") int page,
-    		@RequestParam(defaultValue = "10") int size, Model model) {
-    	
-    	UserModel usuario = usuarioActual();
-        Pageable pageable = PageRequest.of(page, size, Sort.by("fecha").descending());
-        
-        Page<TransactionModel> transaccionesPage = transactionService.findAllByUsuario(usuario, pageable);
-        
-        model.addAttribute("transacciones", transaccionesPage.getContent());
-        model.addAttribute("currentPage", transaccionesPage.getNumber());
-        model.addAttribute("totalPages", transaccionesPage.getTotalPages());
-        model.addAttribute("totalItems", transaccionesPage.getTotalElements());
-        
-        return "transactions";
-    }
+	@GetMapping(produces = "application/json")
+	public ResponseEntity<Page<TransactionModel>> listar(
+	    @RequestParam(defaultValue = "0") int page,
+	    @RequestParam(defaultValue = "10") int size) {
+	    
+	    UserModel usuario = usuarioActual();
+	    if (usuario == null) {
+	        return ResponseEntity.status(401).build();
+	    }
+	    
+	    Pageable pageable = PageRequest.of(page, size, Sort.by("fecha").descending());
+	    Page<TransactionModel> pageTrans = transactionService.findAllByUsuario(usuario, pageable);
+	    
+	    return ResponseEntity.ok(pageTrans);
+	}
+
     
     @GetMapping("/{id}")
     public TransactionModel buscarPorId(@PathVariable Long id) {
@@ -94,10 +93,17 @@ public class TransactionController {
     	return ResponseEntity.ok(transactionService.guardar(transaction));
     }
     
-    @DeleteMapping("/{id}") 
-    public ResponseEntity<Void> borrar(@PathVariable Long id){
-    	transactionService.borrar(id);
-    	return ResponseEntity.ok().build();
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> borrar(@PathVariable Long id) {
+        // SEGURIDAD: solo propias
+        TransactionModel transaccion = transactionService.buscarPorId(id);
+        if (transaccion == null || !transaccion.getUsuarioId().getId().equals(usuarioActual().getId())) {
+            return ResponseEntity.notFound().build();
+        }
+        
+        transactionService.borrar(id);
+        return ResponseEntity.ok().build();
     }
+
 
 }
