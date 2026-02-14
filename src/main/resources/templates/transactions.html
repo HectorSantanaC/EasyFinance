@@ -262,14 +262,54 @@
                     </tr>
                   </thead>
                   <tbody id="bodyTransacciones">
-                    <tr class="text-center">
+                    <tr th:each="transaccion, transaccionStat : ${transacciones}"
+                      th:class="${transaccionStat.index % 2 == 0} ? 'table-light'">
+                      <td th:text="${#temporals.format(transaccion.fecha, 'dd/MM/yyyy')}"></td>
+                      <td th:text="${transaccion.descripcion}"></td>
+                      <td th:text="${transaccion.categoriaId?.nombre ?: 'Sin categoría'}"></td>
+                      <td>
+                        <span th:text="${transaccion.tipo?.name() ?: 'NULL'}"
+                          th:class="${transaccion.tipo?.name() == 'INGRESO'} ? 'badge bg-success' : 'badge bg-danger'">
+                        </span>
+                      </td>
+                      <td class="text-end fw-bold"
+                        th:text="${#numbers.formatDecimal(transaccion.cantidad, 1, 2)} + ' €'"></td>
+                      <td class="text-center">
+                        <button class="btn btn-sm btn-outline-primary">Editar</button>
+                        <button class="btn btn-sm btn-outline-danger">Borrar</button>
+                      </td>
+                    </tr>
+
+                    <tr th:if="${transacciones == null or transacciones.isEmpty()}" class="text-center">
                       <td colspan="6" class="py-5 text-muted">
                         <i class="bi bi-inbox fs-1 d-block mb-2"></i>
-                        No hay transacciones para mostrar
+                        <span
+                          th:text="${transacciones == null} ? 'Error: No se cargaron transacciones' : 'No hay transacciones para mostrar'">No
+                          hay transacciones para mostrar</span>
+
                       </td>
                     </tr>
                   </tbody>
                 </table>
+                <nav th:if="${totalPages > 1}">
+                  <ul class="pagination justify-content-center">
+                    <li class="page-item" th:class="${currentPage == 0} ? 'disabled'">
+                      <a class="page-link" th:href="@{/transactions(page=${currentPage - 1})}">Anterior</a>
+                    </li>
+                    <!-- Números de página -->
+                    <li th:each="i : ${#numbers.sequence(0, totalPages - 1)}" class="page-item"
+                      th:class="${i == currentPage} ? 'active'">
+                      <a class="page-link" th:href="@{/transactions(page=${i})}" th:text="${i + 1}"></a>
+                    </li>
+                    <li class="page-item" th:class="${currentPage == totalPages - 1} ? 'disabled'">
+                      <a class="page-link" th:href="@{/transactions(page=${currentPage + 1})}">Siguiente</a>
+                    </li>
+                  </ul>
+                  <div class="text-center mt-2">
+                    Mostrando <span th:text="${transacciones.size()}"></span> de <span th:text="${totalItems}"></span>
+                    transacciones.
+                  </div>
+                </nav>
               </div>
             </section>
 

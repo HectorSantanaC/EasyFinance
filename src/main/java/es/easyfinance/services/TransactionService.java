@@ -3,9 +3,12 @@ package es.easyfinance.services;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import es.easyfinance.models.TransactionModel;
+import es.easyfinance.models.UserModel;
 import es.easyfinance.repositories.TransactionRepository;
 
 @Service
@@ -14,10 +17,9 @@ public class TransactionService {
 	@Autowired
     private TransactionRepository transactionRepository;
 	
-	public List<TransactionModel> listarMisTransacciones() {
-        // Temporal: todas las transacciones
-        return listarTodas();
-    }
+	public Page<TransactionModel> findAllByUsuario(UserModel userModel, Pageable pageable) {
+		return transactionRepository.findByUsuarioId(userModel, pageable); 
+	}
 
     public TransactionModel buscarPorId(Long id) {
         return transactionRepository.findById(id).orElse(null);
