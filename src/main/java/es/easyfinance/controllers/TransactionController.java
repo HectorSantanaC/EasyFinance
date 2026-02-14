@@ -90,6 +90,7 @@ public class TransactionController {
     @PutMapping("/{id}")
     public ResponseEntity<TransactionModel> actualizar(@PathVariable Long id, @RequestBody TransactionModel transaction) {
     	transaction.setId(id);
+    	transaction.setUsuarioId(usuarioActual());
     	return ResponseEntity.ok(transactionService.guardar(transaction));
     }
     

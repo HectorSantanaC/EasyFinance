@@ -275,8 +275,14 @@
                       <td class="text-end fw-bold"
                         th:text="${#numbers.formatDecimal(transaccion.cantidad, 1, 2)} + ' €'"></td>
                       <td class="text-center">
-                        <button class="btn btn-sm btn-outline-primary">Editar</button>
-                        <button class="btn btn-sm btn-outline-danger">Borrar</button>
+                        <button class="btn btn-sm btn-secondary-custom me-1"
+                          th:onclick="'editarTransaccion(' + ${transaccion.id} + ')'">
+                          <i class="bi bi-pencil"></i>
+                        </button>
+                        <button class="btn btn-sm btn-danger-custom"
+                          th:onclick="'borrarTransaccion(' + ${transaccion.id} + ')'">
+                          <i class="bi bi-trash"></i>
+                        </button>
                       </td>
                     </tr>
 
@@ -440,6 +446,70 @@
       </div>
     </div>
   </div>
+
+  <!-- Modal Editar Transacción -->
+  <div class="modal fade" id="modalEditar" tabindex="-1">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <div class="modal-header text-white">
+          <h5 class="modal-title">
+            <i class="bi bi-pencil-square me-2"></i>Editar Transacción
+          </h5>
+          <button type="button" class="btn-close-custom ms-auto" data-bs-dismiss="modal" aria-label="Cerrar">
+            <i class="bi bi-x-lg"></i>
+          </button>
+        </div>
+        <div class="modal-body">
+          <form id="formEditar">
+            <input type="hidden" id="editId" name="id">
+
+            <div class="row mb-3">
+              <div class="col-md-8">
+                <label class="form-label fw-bold">Descripción</label>
+                <input type="text" id="editDescripcion" class="form-control" required>
+              </div>
+              <div class="col-md-4">
+                <label class="form-label fw-bold">Importe</label>
+                <input type="number" id="editImporte" step="0.01" class="form-control" required>
+              </div>
+            </div>
+
+            <div class="row mb-3">
+              <div class="col-md-6">
+                <label class="form-label fw-bold">Tipo</label>
+                <select id="editTipo" class="form-select">
+                  <option value="INGRESO">Ingreso</option>
+                  <option value="GASTO">Gasto</option>
+                </select>
+              </div>
+              <div class="col-md-6">
+                <label class="form-label fw-bold">Fecha</label>
+                <input type="date" id="editFecha" class="form-control" required>
+              </div>
+            </div>
+
+            <div class="mb-3">
+              <label class="form-label fw-bold">Categoría</label>
+              <select id="editCategoria" class="form-select">
+                <option value="">Sin categoría</option>
+                <!-- Llenar con JS o precargar -->
+              </select>
+            </div>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary-custom" data-bs-dismiss="modal">
+            Cancelar
+          </button>
+          <button type="button" id="btnGuardarEdit" class="btn btn-primary-custom">
+            <span class="spinner-border spinner-border-sm d-none me-2" id="spinnerEdit"></span>
+            Actualizar
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
 
 </body>
 
