@@ -20,7 +20,7 @@ document.addEventListener("DOMContentLoaded", function () {
         // Cerrar modal Bootstrap 5
         const modalInstance = bootstrap.Modal.getInstance(modal);
         modalInstance.hide();
-        alert("¡Transacción guardada!");
+        mostrarAlerta("¡Transacción guardada!", "success");
 
         // Recargar página
         location.reload();
@@ -29,7 +29,7 @@ document.addEventListener("DOMContentLoaded", function () {
       }
     } catch (error) {
       console.error("Error:", error);
-      alert("Error de conexión");
+      mostrarAlerta("Error actualizando", "danger");
     }
   });
 
