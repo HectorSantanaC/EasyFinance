@@ -13,6 +13,11 @@ public class TransactionService {
 	
 	@Autowired
     private TransactionRepository transactionRepository;
+	
+	public List<TransactionModel> listarMisTransacciones() {
+        // Temporal: todas las transacciones
+        return listarTodas();
+    }
 
     public TransactionModel buscarPorId(Long id) {
         return transactionRepository.findById(id).orElse(null);
