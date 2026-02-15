@@ -317,20 +317,16 @@ document.addEventListener("DOMContentLoaded", function () {
     `;
     return tr;
   }
-});
 
-/* ===========================================
-  AUTO-DETECCIÓN VISTAS
-=========================================== */
-document.addEventListener("DOMContentLoaded", function () {
+  /* ===========================================
+    AUTO-DETECCIÓN VISTAS
+  =========================================== */
   // Detectar vista por elemento único
   if (document.getElementById("bodyDashboardTransacciones")) {
-    console.log("Dashboard detectado");
     cargarUltimasTransacciones(5);
   }
 
   if (document.getElementById("bodyTransacciones")) {
-    console.log("Transacciones detectado");
     actualizarTabla();
   }
 
