@@ -21,4 +21,10 @@ public interface TransactionRepository extends JpaRepository<TransactionModel, L
     // Transacciones por páginas
     Page<TransactionModel> findByUsuarioId(UserModel usuarioId, Pageable pageable);
 
+    // Transacciones Top 5 Dashboard
+    List<TransactionModel> findTop5ByUsuarioIdOrderByFechaDesc(UserModel usuarioId);
+    
+    // Con filtro tipo (String o enum según TransactionModel)
+    List<TransactionModel> findTop5ByUsuarioIdAndTipoNameOrderByFechaDesc(UserModel usuarioId, String tipo);
+
 }

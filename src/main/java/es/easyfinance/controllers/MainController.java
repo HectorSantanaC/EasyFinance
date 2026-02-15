@@ -1,5 +1,7 @@
 package es.easyfinance.controllers;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -49,21 +51,30 @@ public class MainController {
 	}
 	
 	@GetMapping(value = "/dashboard")
-	public String dashboard(Model model) {
-		
-		UserModel usuario = usuarioActual();
+	public String dashboard(Model model, @RequestParam(required = false) String tipo) {
+	    
+	    UserModel usuario = usuarioActual();
 	    if (usuario == null) {
 	        return "redirect:/login";
 	    }
 	    
-	    Pageable pageable = PageRequest.of(0, 5, Sort.by("fecha").descending());
-	    Page<TransactionModel> ultimas = transactionService.findAllByUsuario(usuario, pageable);
+	    // ✅ SIMPLE: Solo 5 últimas del usuario
+	    List<TransactionModel> ultimasTransacciones;
 	    
-	    model.addAttribute("ultimasTransacciones", ultimas.getContent());
-	    model.addAttribute("totalTransacciones", ultimas.getTotalElements());
+	    if (tipo != null && !tipo.isEmpty() && !"Todas".equalsIgnoreCase(tipo)) {
+	        // 5 últimas por tipo específico
+	        ultimasTransacciones = transactionService.findTop5ByUsuarioAndTipo(usuario, tipo);
+	    } else {
+	        // 5 últimas totales
+	        ultimasTransacciones = transactionService.findTop5ByUsuario(usuario);
+	    }
 	    
-		return "dashboard";
+	    model.addAttribute("ultimasTransacciones", ultimasTransacciones);
+	    model.addAttribute("totalTransacciones", ultimasTransacciones.size());
+	    
+	    return "dashboard";
 	}
+
 	
 	@GetMapping(value = "/transactions")
 	public String transactions(@RequestParam(defaultValue = "0") int page,

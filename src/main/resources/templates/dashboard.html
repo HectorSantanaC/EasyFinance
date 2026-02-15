@@ -224,40 +224,53 @@
               </div>
             </section>
 
-            <!-- Tabla transacciones -->
             <section id="transactions-section" class="card mb-5" aria-label="Transacciones recientes">
               <div class="card-header d-flex justify-content-between align-items-center">
                 <h5 class="mb-0">Transacciones recientes</h5>
-                <label for="transactionFilter" class="visually-hidden">Filtrar transacciones</label>
-                <select id="transactionFilter" class="form-select form-select-sm w-auto"
-                  aria-label="Filtrar por tipo de transacción">
-                  <option>Todas</option>
-                  <option>Ingresos</option>
-                  <option>Gastos</option>
+                <label for="transactionFilter" class="visually-hidden">Filtrar</label>
+                <select id="transactionFilter" class="form-select form-select-sm w-auto" aria-label="Filtrar tipo">
+                  <option value="">Todas</option>
+                  <option value="INGRESO">Ingresos</option>
+                  <option value="GASTO">Gastos</option>
                 </select>
               </div>
               <div class="table-responsive">
-                <table class="table table-hover mb-0" id="tablaDashboard">
+                <table class="table table-hover mb-0">
                   <thead>
                     <tr>
-                      <th scope="col">Fecha</th>
-                      <th scope="col">Descripción</th>
-                      <th scope="col">Categoría</th>
-                      <th scope="col">Tipo</th>
-                      <th scope="col">Importe</th>
+                      <th>Fecha</th>
+                      <th>Descripción</th>
+                      <th>Categoría</th>
+                      <th>Tipo</th>
+                      <th>Importe</th>
                     </tr>
                   </thead>
                   <tbody id="bodyDashboardTransacciones">
-                    <tr>
-                      <td colspan="4" class="text-center text-muted py-4">
-                        <div class="spinner-border spinner-border-sm me-2" role="status"></div>
-                        Cargando transacciones recientes...
+                    <tr th:each="transaccion, stat : ${ultimasTransacciones}"
+                      th:class="${stat.index % 2 == 0} ? 'table-light'">
+                      <td th:text="${#temporals.format(transaccion.fecha, 'dd/MM/yyyy')}"></td>
+                      <td th:text="${transaccion.descripcion}"></td>
+                      <td th:text="${transaccion.categoriaId?.nombre ?: 'Sin categoría'}"></td>
+                      <td>
+                        <span th:text="${transaccion.tipo?.name() ?: ''}"
+                          th:class="${transaccion.tipo?.name() == 'INGRESO'} ? 'badge bg-success' : 'badge bg-danger'">
+                        </span>
+                      </td>
+                      <td class="text-end fw-bold"
+                        th:text="${#numbers.formatDecimal(transaccion.cantidad, 1, 2)} + ' €'"></td>
+                    </tr>
+                    <tr th:if="${ultimasTransacciones == null or #lists.isEmpty(ultimasTransacciones)}"
+                      class="text-center">
+                      <td colspan="5" class="py-5 text-muted">
+                        <i class="bi bi-inbox fs-1 d-block mb-2"></i>
+                        No hay transacciones recientes
                       </td>
                     </tr>
                   </tbody>
                 </table>
               </div>
             </section>
+
           </div>
         </main>
 

@@ -261,7 +261,7 @@ document.addEventListener("DOMContentLoaded", function () {
   }
 
   /* ===========================================
-    DASHBOARD - ÚLTIMAS TRANSACCIONES
+    DASHBOARD - ÚLTIMAS 5 TRANSACCIONES
   =========================================== */
   window.cargarUltimasTransacciones = async function (limit = 5) {
     try {
@@ -273,18 +273,18 @@ document.addEventListener("DOMContentLoaded", function () {
       const tbody = document.getElementById("bodyDashboardTransacciones");
       if (!tbody) return;
 
-      tbody.innerHTML = ""; // Limpiar loader
+      tbody.innerHTML = ""; // Limpia loader
 
       if (!data.content?.length) {
         tbody.innerHTML = `
-                <tr><td colspan="4" class="text-center text-muted py-3">Sin transacciones</td></tr>
-            `;
+        <tr><td colspan="5" class="text-center text-muted py-3">Sin transacciones</td></tr>
+      `;
         return;
       }
 
-      // Reutilizar función crearFilaTransaccion
+      // REUTILIZA función existente
       data.content.forEach((transaccion) => {
-        const fila = crearFilaDashboard(transaccion);
+        const fila = crearFilaDashboard(transaccion); // Sin botones
         tbody.appendChild(fila);
       });
     } catch (error) {
@@ -292,30 +292,36 @@ document.addEventListener("DOMContentLoaded", function () {
     }
   };
 
-  // Helper DASHBOARD
+  // Helper DASHBOARD (igual que transacciones PERO SIN BOTONES)
   function crearFilaDashboard(transaccion) {
     const esIngreso = transaccion.tipo === "INGRESO";
     const tr = document.createElement("tr");
+    tr.className = Math.random() > 0.5 ? "table-light" : "";
 
     tr.innerHTML = `
-        <td>${new Date(transaccion.fecha).toLocaleDateString("es-ES")}</td>
-        <td>${transaccion.descripcion || "-"}</td>
-        <td>${transaccion.categoriaId?.nombre || "Sin categoría"}</td>
-        <td>
-            <span class="badge ${esIngreso ? "bg-success" : "bg-danger"}">
-                ${transaccion.tipo}
-            </span>
-        </td>
-        <td class="fw-bold ${esIngreso ? "text-success" : "text-danger"}">
-            ${esIngreso ? "+ " : "- "}${parseFloat(
-              transaccion.cantidad,
-            ).toLocaleString("es-ES", {
-              minimumFractionDigits: 0,
-              maximumFractionDigits: 2,
-            })}€
-        </td>
-    `;
+    <td>${new Date(transaccion.fecha).toLocaleDateString("es-ES")}</td>
+    <td>${transaccion.descripcion || "Sin descripción"}</td>
+    <td>${transaccion.categoriaId?.nombre || "Sin categoría"}</td>
+    <td>
+      <span class="badge ${esIngreso ? "bg-success" : "bg-danger"}">
+        ${transaccion.tipo}
+      </span>
+    </td>
+    <td class="text-end fw-bold ${esIngreso ? "text-success" : "text-danger"}">
+      ${parseFloat(transaccion.cantidad).toLocaleString("es-ES", {
+        minimumFractionDigits: 2,
+        maximumFractionDigits: 2,
+      })} €
+    </td>
+  `;
     return tr;
+  }
+
+  /* ===========================================
+   AUTO-CARGA DASHBOARD
+=========================================== */
+  if (document.getElementById("bodyDashboardTransacciones")) {
+    cargarUltimasTransacciones(5);
   }
 
   /* ===========================================
