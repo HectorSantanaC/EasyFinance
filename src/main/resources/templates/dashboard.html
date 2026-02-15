@@ -229,7 +229,7 @@
               <div class="card-header d-flex justify-content-between align-items-center">
                 <h5 class="mb-0">Transacciones recientes</h5>
                 <label for="transactionFilter" class="visually-hidden">Filtrar transacciones</label>
-                <select id="transactionFilter" class="form-select form-select-sm"
+                <select id="transactionFilter" class="form-select form-select-sm w-auto"
                   aria-label="Filtrar por tipo de transacción">
                   <option>Todas</option>
                   <option>Ingresos</option>
@@ -237,33 +237,22 @@
                 </select>
               </div>
               <div class="table-responsive">
-                <table class="table table-hover mb-0">
+                <table class="table table-hover mb-0" id="tablaDashboard">
                   <thead>
                     <tr>
-                      <th>Fecha</th>
-                      <th>Descripción</th>
-                      <th>Categoría</th>
-                      <th>Importe</th>
+                      <th scope="col">Fecha</th>
+                      <th scope="col">Descripción</th>
+                      <th scope="col">Categoría</th>
+                      <th scope="col">Tipo</th>
+                      <th scope="col">Importe</th>
                     </tr>
                   </thead>
-                  <tbody>
+                  <tbody id="bodyDashboardTransacciones">
                     <tr>
-                      <td>25 Ene</td>
-                      <td>Transferencia ahorro</td>
-                      <td><span class="badge bg-success">Ahorro</span></td>
-                      <td class="text-success fw-bold">+200€</td>
-                    </tr>
-                    <tr>
-                      <td>20 Ene</td>
-                      <td>Cine</td>
-                      <td><span class="badge bg-danger">Ocio</span></td>
-                      <td class="text-danger fw-bold">-45€</td>
-                    </tr>
-                    <tr>
-                      <td>15 Ene</td>
-                      <td>Supermercado</td>
-                      <td><span class="badge bg-warning">Comida</span></td>
-                      <td class="text-danger fw-bold">-250€</td>
+                      <td colspan="4" class="text-center text-muted py-4">
+                        <div class="spinner-border spinner-border-sm me-2" role="status"></div>
+                        Cargando transacciones recientes...
+                      </td>
                     </tr>
                   </tbody>
                 </table>

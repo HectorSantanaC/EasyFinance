@@ -49,7 +49,19 @@ public class MainController {
 	}
 	
 	@GetMapping(value = "/dashboard")
-	public String dashboard() {
+	public String dashboard(Model model) {
+		
+		UserModel usuario = usuarioActual();
+	    if (usuario == null) {
+	        return "redirect:/login";
+	    }
+	    
+	    Pageable pageable = PageRequest.of(0, 5, Sort.by("fecha").descending());
+	    Page<TransactionModel> ultimas = transactionService.findAllByUsuario(usuario, pageable);
+	    
+	    model.addAttribute("ultimasTransacciones", ultimas.getContent());
+	    model.addAttribute("totalTransacciones", ultimas.getTotalElements());
+	    
 		return "dashboard";
 	}
 	
