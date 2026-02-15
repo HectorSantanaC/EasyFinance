@@ -1,7 +1,9 @@
 document.addEventListener("DOMContentLoaded", function () {
   window.editarTransaccion = editarTransaccion;
 
-  // INSERTAR TRANSACCIONES
+  /* ===========================================
+    INSERTAR TRANSACCIONES
+   =========================================== */
   const form = document.getElementById("formNewTransaction");
   const modal = document.getElementById("modalNewTransaction");
 
@@ -22,18 +24,20 @@ document.addEventListener("DOMContentLoaded", function () {
         modalInstance.hide();
         mostrarAlerta("¡Transacción guardada!", "success");
 
-        // Recargar página
-        location.reload();
+        // ACTUALIZAR SOLO LA TABLA
+        await actualizarTabla();
       } else {
-        alert("Error al guardar");
+        mostrarAlerta("Error al guardar", "danger");
       }
     } catch (error) {
       console.error("Error:", error);
-      mostrarAlerta("Error actualizando", "danger");
+      mostrarAlerta("Error de conexión", "danger");
     }
   });
 
-  // EDITAR TRANSACCIONES
+  /* ===========================================
+    EDITAR TRANSACCIONES
+   =========================================== */
   let transaccionEditando = null;
 
   function editarTransaccion(id) {
@@ -75,7 +79,9 @@ document.addEventListener("DOMContentLoaded", function () {
   // GUARDAR EDITAR
   const btnGuardarEdit = document.getElementById("btnGuardarEdit");
   if (btnGuardarEdit) {
-    btnGuardarEdit.addEventListener("click", function () {
+    btnGuardarEdit.addEventListener("click", async function (e) {
+      e.preventDefault();
+
       if (!transaccionEditando) return;
 
       const spinner = document.getElementById("spinnerEdit");
@@ -95,31 +101,39 @@ document.addEventListener("DOMContentLoaded", function () {
         },
       };
 
-      fetch(`/api/transacciones/${data.id}`, {
-        method: "PUT",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(data),
-      })
-        .then((response) => response.json())
-        .then((result) => {
-          bootstrap.Modal.getInstance(
-            document.getElementById("modalEditar"),
-          ).hide();
-          mostrarAlerta("¡Transacción actualizada!", "success");
-          setTimeout(() => location.reload(), 500);
-        })
-        .catch((error) => {
-          mostrarAlerta("Error actualizando", "danger");
-          console.error(error);
-        })
-        .finally(() => {
-          spinner.classList.add("d-none");
-          btn.disabled = false;
+      try {
+        const response = await fetch(`/api/transacciones/${data.id}`, {
+          method: "PUT",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(data),
         });
+
+        if (response.ok) {
+          // ✅ EXACTAMENTE IGUAL QUE INSERT:
+          const modalInstance = bootstrap.Modal.getInstance(
+            document.getElementById("modalEditar"),
+          );
+          modalInstance.hide();
+          mostrarAlerta("¡Transacción actualizada!", "success");
+
+          // ✅ ACTUALIZAR SOLO LA TABLA (¡sin reload!)
+          await actualizarTabla();
+        } else {
+          mostrarAlerta("Error al guardar", "danger");
+        }
+      } catch (error) {
+        console.error("Error:", error);
+        mostrarAlerta("Error de conexión", "danger");
+      } finally {
+        spinner.classList.add("d-none");
+        btn.disabled = false;
+      }
     });
   }
 
-  // BORRAR TRANSACCIONES
+  /* ===========================================
+    BORRAR TRANSACCIONES
+   =========================================== */
   window.borrarTransaccion = async function (id) {
     if (!confirm(`¿Eliminar transacción?\nEsta acción no se puede deshacer.`)) {
       return;
@@ -171,7 +185,9 @@ document.addEventListener("DOMContentLoaded", function () {
     setTimeout(() => toast.remove(), 4500);
   }
 
-  // CARGAR CATEGORÍAS
+  /* ===========================================
+    CARGAR CATEGORÍAS
+   =========================================== */
   function cargarCategorias() {
     fetch("/api/categorias")
       .then((res) => res.json())
@@ -192,7 +208,9 @@ document.addEventListener("DOMContentLoaded", function () {
 
   cargarCategorias();
 
-  // ACTUALIZAR TABLA SIN RECARGA
+  /* ===========================================
+    ACTUALIZAR TABLA SIN RECARGAR
+   =========================================== */
   async function actualizarTabla() {
     const urlParams = new URLSearchParams(window.location.search);
     const page = urlParams.get("page") || 0;
@@ -208,7 +226,9 @@ document.addEventListener("DOMContentLoaded", function () {
     });
   }
 
-  // CREA FILA HTML
+  /* ===========================================
+    CREAR FILA TABLA HTML
+   =========================================== */
   function crearFilaTransaccion(transaccion) {
     const tr = document.createElement("tr");
     tr.className = Math.random() > 0.5 ? "table-light" : "";
