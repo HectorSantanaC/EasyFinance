@@ -19,13 +19,22 @@ document.addEventListener("DOMContentLoaded", function () {
       });
 
       if (response.ok) {
-        // Cerrar modal Bootstrap 5
+        // Cerrar modal
         const modalInstance = bootstrap.Modal.getInstance(modal);
         modalInstance.hide();
         mostrarAlerta("¡Transacción guardada!", "success");
 
-        // Actualizar solo la tabla
-        await actualizarTabla();
+        // Refrescar tabla TRANSACCIONES
+        if (document.getElementById("bodyTransacciones")) {
+          await actualizarTabla();
+        }
+
+        // Refrescar tabla DASHBOARD
+        if (document.getElementById("bodyDashboardTransacciones")) {
+          if (window.cargarUltimasTransacciones) {
+            await window.cargarUltimasTransacciones(5);
+          }
+        }
       } else {
         mostrarAlerta("Error al guardar", "danger");
       }
@@ -277,14 +286,14 @@ document.addEventListener("DOMContentLoaded", function () {
 
       if (!data.content?.length) {
         tbody.innerHTML = `
-        <tr><td colspan="5" class="text-center text-muted py-3">Sin transacciones</td></tr>
-      `;
+          <tr><td colspan="5" class="text-center text-muted py-3">Sin transacciones</td></tr>
+        `;
         return;
       }
 
-      // REUTILIZA función existente
+      // Reutilizar función existente
       data.content.forEach((transaccion) => {
-        const fila = crearFilaDashboard(transaccion); // Sin botones
+        const fila = crearFilaDashboard(transaccion);
         tbody.appendChild(fila);
       });
     } catch (error) {
@@ -292,7 +301,7 @@ document.addEventListener("DOMContentLoaded", function () {
     }
   };
 
-  // Helper DASHBOARD (igual que transacciones PERO SIN BOTONES)
+  // Crear filas DASHBOARD
   function crearFilaDashboard(transaccion) {
     const esIngreso = transaccion.tipo === "INGRESO";
     const tr = document.createElement("tr");
@@ -318,26 +327,9 @@ document.addEventListener("DOMContentLoaded", function () {
   }
 
   /* ===========================================
-   AUTO-CARGA DASHBOARD
-=========================================== */
-  if (document.getElementById("bodyDashboardTransacciones")) {
-    cargarUltimasTransacciones(5);
-  }
-
-  /* ===========================================
-    AUTO-DETECCIÓN VISTAS
+    AUTO-CARGA DASHBOARD
   =========================================== */
-  // Detectar vista por elemento único
   if (document.getElementById("bodyDashboardTransacciones")) {
     cargarUltimasTransacciones(5);
-  }
-
-  if (document.getElementById("bodyTransacciones")) {
-    actualizarTabla();
-  }
-
-  // Cargar categorías
-  if (document.getElementById("transactionCategory")) {
-    cargarCategorias("transactionCategory");
   }
 });
