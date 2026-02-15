@@ -24,7 +24,7 @@ document.addEventListener("DOMContentLoaded", function () {
         modalInstance.hide();
         mostrarAlerta("¡Transacción guardada!", "success");
 
-        // ACTUALIZAR SOLO LA TABLA
+        // Actualizar solo la tabla
         await actualizarTabla();
       } else {
         mostrarAlerta("Error al guardar", "danger");
@@ -53,7 +53,7 @@ document.addEventListener("DOMContentLoaded", function () {
           ? data.fecha.split("T")[0]
           : "";
 
-        // CARGAR CATEGORÍAS
+        // Cargar categorías
         fetch("/api/categorias")
           .then((res) => res.json())
           .then((categorias) => {
@@ -76,7 +76,7 @@ document.addEventListener("DOMContentLoaded", function () {
       });
   }
 
-  // GUARDAR EDITAR
+  // Guardar transacción editada
   const btnGuardarEdit = document.getElementById("btnGuardarEdit");
   if (btnGuardarEdit) {
     btnGuardarEdit.addEventListener("click", async function (e) {
@@ -109,14 +109,12 @@ document.addEventListener("DOMContentLoaded", function () {
         });
 
         if (response.ok) {
-          // ✅ EXACTAMENTE IGUAL QUE INSERT:
           const modalInstance = bootstrap.Modal.getInstance(
             document.getElementById("modalEditar"),
           );
           modalInstance.hide();
           mostrarAlerta("¡Transacción actualizada!", "success");
 
-          // ✅ ACTUALIZAR SOLO LA TABLA (¡sin reload!)
           await actualizarTabla();
         } else {
           mostrarAlerta("Error al guardar", "danger");
@@ -140,7 +138,6 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
     try {
-      // DELETE API
       const response = await fetch(`/api/transacciones/${id}`, {
         method: "DELETE",
       });
@@ -148,7 +145,7 @@ document.addEventListener("DOMContentLoaded", function () {
       if (response.ok) {
         mostrarAlerta(`¡Transacción eliminada!`, "warning");
 
-        // Actualiza tabla sin reload
+        // Actualiza solo la tabla
         await actualizarTabla();
       } else {
         mostrarAlerta("Error al eliminar", "danger");
@@ -179,14 +176,13 @@ document.addEventListener("DOMContentLoaded", function () {
 
     document.body.appendChild(toast);
 
-    // Bootstrap dismiss
     new bootstrap.Alert(toast);
 
     setTimeout(() => toast.remove(), 4500);
   }
 
   /* ===========================================
-    CARGAR CATEGORÍAS
+    CARGAR CATEGORÍAS - NUEVA TRANSACCIÓN
    =========================================== */
   function cargarCategorias() {
     fetch("/api/categorias")
