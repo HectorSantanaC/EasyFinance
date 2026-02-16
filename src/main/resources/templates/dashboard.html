@@ -151,7 +151,10 @@
             <section id="dashboard-header" class="row align-items-center mb-5" aria-label="Encabezado del dashboard">
               <div class="col mt-3">
                 <h1 class="mb-1">Dashboard</h1>
-                <p class="text-muted mb-0">Enero 2026</p>
+                <p class="text-muted mb-0" 
+                  th:text="${mesActual}">
+                  Enero 2026
+                </p>
               </div>
               <div class="col-auto">
                 <button class="btn-primary-custom" type="button" id="addBtn" data-bs-toggle="modal"
@@ -249,7 +252,7 @@
                   <tbody id="bodyDashboardTransacciones">
                     <tr th:each="transaccion, stat : ${ultimasTransacciones}"
                       th:class="${stat.index % 2 == 0} ? 'table-light'">
-                      <td th:text="${#temporals.format(transaccion.fecha, 'dd/MM/yyyy')}"></td>
+                      <td th:text="${transaccion.fechaFormateada}"></td>
                       <td th:text="${transaccion.descripcion}"></td>
                       <td th:text="${transaccion.categoriaId?.nombre ?: 'Sin categoría'}"></td>
                       <td>

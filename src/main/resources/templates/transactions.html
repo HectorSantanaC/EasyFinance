@@ -264,7 +264,7 @@
                   <tbody id="bodyTransacciones">
                     <tr th:each="transaccion, transaccionStat : ${transacciones}"
                       th:class="${transaccionStat.index % 2 == 0} ? 'table-light'">
-                      <td th:text="${#temporals.format(transaccion.fecha, 'dd/MM/yyyy')}"></td>
+                      <td th:text="${transaccion.fechaFormateada}"></td>
                       <td th:text="${transaccion.descripcion}"></td>
                       <td th:text="${transaccion.categoriaId?.nombre ?: 'Sin categoría'}"></td>
                       <td>

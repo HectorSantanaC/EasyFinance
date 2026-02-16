@@ -3,6 +3,7 @@ package es.easyfinance.models;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -148,6 +149,11 @@ public class TransactionModel {
 
 	public void setFechaModificacion(LocalDateTime fechaModificacion) {
 		this.fechaModificacion = fechaModificacion;
+	}
+	
+	// Fecha formateada
+	public String getFechaFormateada() {
+		return fecha.format(DateTimeFormatter.ofPattern("dd/MM/yyyy"));
 	}
 	
 }

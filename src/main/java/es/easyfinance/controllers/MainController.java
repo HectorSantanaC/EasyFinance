@@ -1,5 +1,9 @@
 package es.easyfinance.controllers;
 
+import java.time.LocalDate;
+import java.time.format.TextStyle;
+import java.util.Locale;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -53,10 +57,20 @@ public class MainController {
 	    
 		UserModel usuario = usuarioActual();
 	    
+		// Transacciones
 	    Pageable pageable = PageRequest.of(0, 5, Sort.by("fecha").descending());
 	    Page<TransactionModel> ultimas = transactionService.findAllByUsuario(usuario, pageable);
 	    
 	    model.addAttribute("ultimasTransacciones", ultimas.getContent());
+	    
+	    // Fecha
+	    LocalDate ahora = LocalDate.now();
+	    String mesActual = ahora.getMonth().getDisplayName(TextStyle.FULL_STANDALONE, Locale.forLanguageTag("es"))
+                .toUpperCase().substring(0, 1) + 
+                ahora.getMonth().getDisplayName(TextStyle.FULL_STANDALONE, Locale.forLanguageTag("es")).substring(1)
+                + " " + ahora.getYear();
+
+		model.addAttribute("mesActual", mesActual);
 	    
 	    return "dashboard";
 	}
