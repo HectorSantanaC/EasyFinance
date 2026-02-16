@@ -51,10 +51,7 @@ public class TransactionController {
 	    @RequestParam(defaultValue = "10") int size) {
 	    
 	    UserModel usuario = usuarioActual();
-	    if (usuario == null) {
-	        return ResponseEntity.status(401).build();
-	    }
-	    
+
 	    Pageable pageable = PageRequest.of(page, size, Sort.by("fecha").descending());
 	    Page<TransactionModel> pageTrans = transactionService.findAllByUsuario(usuario, pageable);
 	    

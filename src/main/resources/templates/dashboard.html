@@ -224,6 +224,7 @@
               </div>
             </section>
 
+            <!-- Tabla transacciones -->
             <section id="transactions-section" class="card mb-5" aria-label="Transacciones recientes">
               <div class="card-header d-flex justify-content-between align-items-center">
                 <h5 class="mb-0">Transacciones recientes</h5>
@@ -252,12 +253,11 @@
                       <td th:text="${transaccion.descripcion}"></td>
                       <td th:text="${transaccion.categoriaId?.nombre ?: 'Sin categoría'}"></td>
                       <td>
-                        <span th:text="${transaccion.tipo?.name() ?: ''}"
+                        <span th:text="${transaccion.tipo}"
                           th:class="${transaccion.tipo?.name() == 'INGRESO'} ? 'badge bg-success' : 'badge bg-danger'">
                         </span>
                       </td>
-                      <td class="text-end fw-bold"
-                        th:text="${#numbers.formatDecimal(transaccion.cantidad, 1, 2)} + ' €'"></td>
+                      <td class="fw-bold" th:text="${#numbers.formatDecimal(transaccion.cantidad, 1, 2)} + ' €'"></td>
                     </tr>
                     <tr th:if="${ultimasTransacciones == null or #lists.isEmpty(ultimasTransacciones)}"
                       class="text-center">
@@ -316,7 +316,6 @@
   <script th:src="@{/libs/chart.js/chart.umd.min.js}"></script>
   <script th:src="@{/js/dashboard.js}"></script>
   <script th:src="@{/js/common.js}"></script>
-  <script th:src="@{/js/transactions.js}"></script>
 
   <!-- Modal Nueva Transacción -->
   <div class="modal fade" id="modalNewTransaction" tabindex="-1" aria-labelledby="modalNewTransactionLabel"

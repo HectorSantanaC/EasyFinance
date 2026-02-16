@@ -19,22 +19,13 @@ document.addEventListener("DOMContentLoaded", function () {
       });
 
       if (response.ok) {
-        // Cerrar modal
+        // Cerrar modal Bootstrap 5
         const modalInstance = bootstrap.Modal.getInstance(modal);
         modalInstance.hide();
         mostrarAlerta("¡Transacción guardada!", "success");
 
-        // Refrescar tabla TRANSACCIONES
-        if (document.getElementById("bodyTransacciones")) {
-          await actualizarTabla();
-        }
-
-        // Refrescar tabla DASHBOARD
-        if (document.getElementById("bodyDashboardTransacciones")) {
-          if (window.cargarUltimasTransacciones) {
-            await window.cargarUltimasTransacciones(5);
-          }
-        }
+        // Actualizar solo la tabla
+        await actualizarTabla();
       } else {
         mostrarAlerta("Error al guardar", "danger");
       }
@@ -165,6 +156,9 @@ document.addEventListener("DOMContentLoaded", function () {
     }
   };
 
+  /* ===========================================
+    MOSTRAR ALERTA
+  =========================================== */
   function mostrarAlerta(mensaje, tipo = "success") {
     const icons = {
       success: "bi-check-circle-fill",
@@ -239,12 +233,17 @@ document.addEventListener("DOMContentLoaded", function () {
     tr.className = Math.random() > 0.5 ? "table-light" : "";
 
     tr.innerHTML = `
-    <td>${new Date(transaccion.fecha).toLocaleDateString("es-ES")}</td>
+    <td>
+      ${new Date(transaccion.fecha).toLocaleDateString('es-ES', {
+        day:'2-digit',
+        month:'2-digit',
+        year:'numeric'
+      })}
+    </td>
     <td>${transaccion.descripcion || "Sin descripción"}</td>
     <td>${transaccion.categoriaId?.nombre || "Sin categoría"}</td>
     <td>
-      <span class="badge ${
-        transaccion.tipo === "INGRESO" ? "bg-success" : "bg-danger"
+      <span class="badge ${transaccion.tipo === "INGRESO" ? "bg-success" : "bg-danger"
       }">
         ${transaccion.tipo}
       </span>
@@ -267,69 +266,5 @@ document.addEventListener("DOMContentLoaded", function () {
     </td>
   `;
     return tr;
-  }
-
-  /* ===========================================
-    DASHBOARD - ÚLTIMAS 5 TRANSACCIONES
-  =========================================== */
-  window.cargarUltimasTransacciones = async function (limit = 5) {
-    try {
-      const response = await fetch(`/api/transacciones?page=0&size=${limit}`, {
-        credentials: "same-origin",
-      });
-      const data = await response.json();
-
-      const tbody = document.getElementById("bodyDashboardTransacciones");
-      if (!tbody) return;
-
-      tbody.innerHTML = ""; // Limpia loader
-
-      if (!data.content?.length) {
-        tbody.innerHTML = `
-          <tr><td colspan="5" class="text-center text-muted py-3">Sin transacciones</td></tr>
-        `;
-        return;
-      }
-
-      // Reutilizar función existente
-      data.content.forEach((transaccion) => {
-        const fila = crearFilaDashboard(transaccion);
-        tbody.appendChild(fila);
-      });
-    } catch (error) {
-      console.error("Dashboard error:", error);
-    }
-  };
-
-  // Crear filas DASHBOARD
-  function crearFilaDashboard(transaccion) {
-    const esIngreso = transaccion.tipo === "INGRESO";
-    const tr = document.createElement("tr");
-    tr.className = Math.random() > 0.5 ? "table-light" : "";
-
-    tr.innerHTML = `
-    <td>${new Date(transaccion.fecha).toLocaleDateString("es-ES")}</td>
-    <td>${transaccion.descripcion || "Sin descripción"}</td>
-    <td>${transaccion.categoriaId?.nombre || "Sin categoría"}</td>
-    <td>
-      <span class="badge ${esIngreso ? "bg-success" : "bg-danger"}">
-        ${transaccion.tipo}
-      </span>
-    </td>
-    <td class="text-end fw-bold ${esIngreso ? "text-success" : "text-danger"}">
-      ${parseFloat(transaccion.cantidad).toLocaleString("es-ES", {
-        minimumFractionDigits: 2,
-        maximumFractionDigits: 2,
-      })} €
-    </td>
-  `;
-    return tr;
-  }
-
-  /* ===========================================
-    AUTO-CARGA DASHBOARD
-  =========================================== */
-  if (document.getElementById("bodyDashboardTransacciones")) {
-    cargarUltimasTransacciones(5);
   }
 });

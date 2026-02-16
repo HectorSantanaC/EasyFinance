@@ -1,7 +1,5 @@
 package es.easyfinance.controllers;
 
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -51,43 +49,23 @@ public class MainController {
 	}
 	
 	@GetMapping(value = "/dashboard")
-	public String dashboard(Model model, @RequestParam(required = false) String tipo) {
+	public String dashboard(Model model) {
 	    
-	    UserModel usuario = usuarioActual();
-	    if (usuario == null) {
-	        return "redirect:/login";
-	    }
+		UserModel usuario = usuarioActual();
 	    
-	    // ✅ SIMPLE: Solo 5 últimas del usuario
-	    List<TransactionModel> ultimasTransacciones;
+	    Pageable pageable = PageRequest.of(0, 5, Sort.by("fecha").descending());
+	    Page<TransactionModel> ultimas = transactionService.findAllByUsuario(usuario, pageable);
 	    
-	    if (tipo != null && !tipo.isEmpty() && !"Todas".equalsIgnoreCase(tipo)) {
-	        // 5 últimas por tipo específico
-	        ultimasTransacciones = transactionService.findTop5ByUsuarioAndTipo(usuario, tipo);
-	    } else {
-	        // 5 últimas totales
-	        ultimasTransacciones = transactionService.findTop5ByUsuario(usuario);
-	    }
-	    
-	    model.addAttribute("ultimasTransacciones", ultimasTransacciones);
-	    model.addAttribute("totalTransacciones", ultimasTransacciones.size());
+	    model.addAttribute("ultimasTransacciones", ultimas.getContent());
 	    
 	    return "dashboard";
 	}
 
-	
 	@GetMapping(value = "/transactions")
 	public String transactions(@RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int size, Model model) {
 		
 		UserModel usuario = usuarioActual();
-        if (usuario == null) {
-            model.addAttribute("transacciones", java.util.Collections.emptyList());
-            model.addAttribute("currentPage", 0);
-            model.addAttribute("totalPages", 0);
-            model.addAttribute("totalItems", 0L);
-            return "transactions";
-        }
         
         Pageable pageable = PageRequest.of(page, size, Sort.by("fecha").descending());
         Page<TransactionModel> transaccionesPage = transactionService.findAllByUsuario(usuario, pageable);

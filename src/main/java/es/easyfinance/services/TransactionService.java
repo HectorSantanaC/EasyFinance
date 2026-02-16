@@ -36,12 +36,5 @@ public class TransactionService {
     public void borrar(Long id) {
     	transactionRepository.deleteById(id);
     }
-    
-    public List<TransactionModel> findTop5ByUsuario(UserModel usuario) {
-        return transactionRepository.findTop5ByUsuarioIdOrderByFechaDesc(usuario);
-    }
-    
-    public List<TransactionModel> findTop5ByUsuarioAndTipo(UserModel usuario, String tipo) {
-        return transactionRepository.findTop5ByUsuarioIdAndTipoNameOrderByFechaDesc(usuario, tipo);
-    }
+
 }
