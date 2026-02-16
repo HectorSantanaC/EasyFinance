@@ -1,5 +1,6 @@
 package es.easyfinance.repositories;
 
+import java.time.LocalDate;
 import java.util.List;
 
 import org.springframework.data.domain.Page;
@@ -20,5 +21,12 @@ public interface TransactionRepository extends JpaRepository<TransactionModel, L
     
     // Transacciones por páginas
     Page<TransactionModel> findByUsuarioId(UserModel usuarioId, Pageable pageable);
+
+    // Ingresos y gastos mes actual
+    List<TransactionModel> findByUsuarioIdEmailAndTipoAndFechaGreaterThanEqual(
+	   String email, 
+	   TransactionTypeModel tipo, 
+	   LocalDate inicioMes
+	 );
 
 }

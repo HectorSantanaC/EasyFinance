@@ -1,6 +1,9 @@
 package es.easyfinance.services;
 
+import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.util.List;
+import java.util.Objects;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -8,6 +11,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import es.easyfinance.models.TransactionModel;
+import es.easyfinance.models.TransactionTypeModel;
 import es.easyfinance.models.UserModel;
 import es.easyfinance.repositories.TransactionRepository;
 
@@ -36,5 +40,24 @@ public class TransactionService {
     public void borrar(Long id) {
     	transactionRepository.deleteById(id);
     }
-
+    
+    public BigDecimal calcularIngresosMesActual(String email) {
+        LocalDate inicioMes = LocalDate.now().withDayOfMonth(1);
+        return transactionRepository.findByUsuarioIdEmailAndTipoAndFechaGreaterThanEqual(
+          email, TransactionTypeModel.INGRESO, inicioMes
+        ).stream()
+          .map(TransactionModel::getCantidad)
+          .filter(Objects::nonNull)
+          .reduce(BigDecimal.ZERO, BigDecimal::add);
+      }
+      
+    public BigDecimal calcularGastosMesActual(String email) {
+        LocalDate inicioMes = LocalDate.now().withDayOfMonth(1);
+        return transactionRepository.findByUsuarioIdEmailAndTipoAndFechaGreaterThanEqual(
+          email, TransactionTypeModel.GASTO, inicioMes
+        ).stream()
+          .map(TransactionModel::getCantidad)
+          .filter(Objects::nonNull)
+          .reduce(BigDecimal.ZERO, BigDecimal::add);
+      }
 }

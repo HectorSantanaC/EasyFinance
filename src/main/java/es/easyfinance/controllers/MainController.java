@@ -56,7 +56,13 @@ public class MainController {
 	public String dashboard(Model model) {
 	    
 		UserModel usuario = usuarioActual();
-	    
+		
+		// Ingresos y gastos
+		String email = usuario.getEmail();
+		
+		model.addAttribute("ingresosMes", transactionService.calcularIngresosMesActual(email));
+		model.addAttribute("gastosMes", transactionService.calcularGastosMesActual(email));
+		
 		// Transacciones
 	    Pageable pageable = PageRequest.of(0, 5, Sort.by("fecha").descending());
 	    Page<TransactionModel> ultimas = transactionService.findAllByUsuario(usuario, pageable);
@@ -80,7 +86,14 @@ public class MainController {
             @RequestParam(defaultValue = "10") int size, Model model) {
 		
 		UserModel usuario = usuarioActual();
+		
+		// Ingresos y gastos
+		String email = usuario.getEmail();
+		
+		model.addAttribute("ingresosMes", transactionService.calcularIngresosMesActual(email));
+		model.addAttribute("gastosMes", transactionService.calcularGastosMesActual(email));
         
+		// Transacciones
         Pageable pageable = PageRequest.of(page, size, Sort.by("fecha").descending());
         Page<TransactionModel> transaccionesPage = transactionService.findAllByUsuario(usuario, pageable);
 		
