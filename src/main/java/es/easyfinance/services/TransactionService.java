@@ -65,8 +65,6 @@ public class TransactionService {
     
     // Balance = ingresos - gastos
     public BigDecimal calcularBalanceMesActual(String email) {
-        return calcularIngresosMesActual(email)
-          .subtract(calcularGastosMesActual(email));
-      }
-    
+    	return calcularIngresosMesActual(email).subtract(calcularGastosMesActual(email));
+    }
 }

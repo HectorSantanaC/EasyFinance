@@ -27,6 +27,6 @@ public interface TransactionRepository extends JpaRepository<TransactionModel, L
 	   String email, 
 	   TransactionTypeModel tipo, 
 	   LocalDate inicioMes
-	 );
-
+	);
+    
 }

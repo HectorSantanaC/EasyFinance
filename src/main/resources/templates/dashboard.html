@@ -171,7 +171,9 @@
                   <div class="principal-balance text-success mb-1"
                     th:classappend="${balanceMes.signum() >= 0 ? 'text-success' : 'text-danger'}"
                     th:text="${#numbers.formatDecimal(balanceMes, 1, 'POINT', 2, 'COMMA')}">1.575€</div>
+                  <div class="text-success fw-bold">+275€ del mes pasado</div>
                   <small class="text-muted">Saldo disponible</small>
+                  
                 </div>
                 <div class="col-md-4 text-end">
                   <div class="btn-group" role="group" aria-label="Filtro de período">
