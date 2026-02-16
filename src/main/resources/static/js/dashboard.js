@@ -1,110 +1,107 @@
 document.addEventListener("DOMContentLoaded", function () {
 
   // ============================================
-  // GRÁFICOS (Chart.js)
+  // VARIABLES GLOBALES GRÁFICOS
+  // ============================================
+  let graficoBarras, graficoCircular;
+
+  // ============================================
+  // CARGAR DATOS GRÁFICOS
+  // ============================================
+  async function cargarDatosGraficos() {
+    try {
+      const response = await fetch('/api/dashboard/graficos');
+      const data = await response.json();
+
+      actualizarGraficoBarras(data);
+      actualizarGraficoDonut(data);
+    } catch (error) {
+      console.error('Error gráficos:', error);
+    }
+  }
+
+  // ============================================
+  // ACTUALIZAR GRÁFICO BARRAS
+  // ============================================
+  function actualizarGraficoBarras(data) {
+    graficoBarras.data.labels = data.meses;
+    graficoBarras.data.datasets[0].data = data.ingresos.map(v => parseFloat(v.replace(/[€,]/g, '')));
+    graficoBarras.data.datasets[1].data = data.gastos.map(v => parseFloat(v.replace(/[€,]/g, '')));
+    graficoBarras.update('active');
+  }
+
+  // ============================================
+  // ACTUALIZAR GRÁFICO DONUT
+  // ============================================
+  function actualizarGraficoDonut(data) {
+    graficoCircular.data.labels = data.categorias;
+    graficoCircular.data.datasets[0].data = data.gastosCategorias.map(v => parseFloat(v.replace(/[€,]/g, '')));
+    graficoCircular.update('active');
+  }
+
+  // ============================================
+  // INICIALIZAR GRÁFICOS
   // ============================================
 
   // Gráfico de barras - Ingresos y gastos
   const ctx1 = document.getElementById("balanceChart").getContext("2d");
-  const graficoBarras = new Chart(ctx1, {
+  graficoBarras = new Chart(ctx1, {
     type: "bar",
     data: {
-      labels: [
-        "Agosto",
-        "Septiembre",
-        "Octubre",
-        "Noviembre",
-        "Diciembre",
-        "Enero",
-      ],
-      datasets: [
-        {
-          label: "Ingresos",
-          data: [2500, 2800, 2600, 3000, 2700, 2900],
-          backgroundColor: "#4BC0C0",
-          borderColor: "#36A2EB",
-          borderWidth: 1,
-        },
-        {
-          label: "Gastos",
-          data: [1800, 2100, 1900, 2200, 2000, 2300],
-          backgroundColor: "#FF6384",
-          borderColor: "#FF4560",
-          borderWidth: 1,
-        },
-      ],
+      labels: [], 
+      datasets: [{
+        label: "Ingresos", 
+        data: [], 
+        backgroundColor: "#4BC0C0",
+        borderColor: "#36A2EB",
+        borderWidth: 1,
+      }, 
+      {
+        label: "Gastos", 
+        data: [], 
+        backgroundColor: "#FF6384",
+        borderColor: "#FF4560",
+        borderWidth: 1,
+      }]
     },
     options: {
       responsive: true,
       maintainAspectRatio: false,
-      scales: {
-        y: {
-          beginAtZero: true,
-          ticks: {
-            callback: function (value) {
-              return value + "€";
-            },
-          },
-        },
-      },
+      scales: { y: { beginAtZero: true, ticks: { callback: value => value + "€" } } },
       plugins: {
-        legend: {
-          position: "top",
-          display: true,
-        },
-        tooltip: {
-          callbacks: {
-            label: function (context) {
-              return (
-                " " + context.dataset.label + ": " + context.parsed.y + "€"
-              );
-            },
-          },
-        },
-      },
-    },
+        legend: { position: "top" },
+        tooltip: { callbacks: { label: ctx => ctx.dataset.label + ": " + ctx.parsed.y + "€" } }
+      }
+    }
   });
 
   // Gráfico donut - gastos por categoría
   const ctx2 = document.getElementById("expenseChart").getContext("2d");
-  const graficoCircular = new Chart(ctx2, {
+  graficoCircular = new Chart(ctx2, {
     type: "doughnut",
-    data: {
-      labels: ["Comida", "Transporte", "Entretenimiento", "Servicios"],
-      datasets: [
-        {
-          data: [300, 150, 200, 100],
-          backgroundColor: ["#FF6384", "#36A2EB", "#FFCE56", "#4BC0C0"],
-          borderWidth: 2,
-          hoverOffset: 15,
-        },
-      ],
-    },
+    data: { 
+      labels: [], 
+      datasets: [{ 
+        data: [], 
+        backgroundColor: ["#FF6384", "#36A2EB", "#FFCE56", "#4BC0C0"],
+        borderWidth: 2,
+        hoverOffset: 15,
+        }] }, 
     options: {
       responsive: true,
       maintainAspectRatio: false,
       plugins: {
-        legend: {
-          position: "bottom",
-        },
-        tooltip: {
-          callbacks: {
-            label: function (context) {
-              let label = "";
-              if (label) {
-                label += ": ";
-              }
-              label += context.parsed + "€";
-              return " " + label;
-            },
-          },
-        },
-      },
-    },
+        legend: { position: "bottom" },
+        tooltip: { callbacks: { label: ctx => ctx.parsed + "€" } }
+      }
+    }
   });
 
+  // Cargar gráficos iniciales
+  cargarDatosGraficos();
+
   // ============================================
-  // INSERTAR TRANSACCIONES
+  // ACTUALIZAR TODO
   // ============================================
   const form = document.getElementById("formNewTransaction");
   const modal = document.getElementById("modalNewTransaction");
@@ -126,8 +123,9 @@ document.addEventListener("DOMContentLoaded", function () {
         modalInstance.hide();
         mostrarAlerta("¡Transacción guardada!", "success");
 
-        // Actualizar solo la tabla
+        // Actualizar
         await actualizarDashboardCompleto();
+        await cargarDatosGraficos();
       } else {
         mostrarAlerta("Error al guardar", "danger");
       }
