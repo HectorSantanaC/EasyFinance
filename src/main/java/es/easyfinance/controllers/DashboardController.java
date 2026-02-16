@@ -6,6 +6,7 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -78,12 +79,12 @@ public class DashboardController {
 	      
 	      Map<String, Object> data = new HashMap<>();
 	      
-	      // ✅ Datos mock REALES (reemplaza cuando tengas service)
+	      // Datos
 	      List<String> meses = Arrays.asList("Ago", "Sep", "Oct", "Nov", "Dic", "Ene");
 	      List<String> ingresosStr = Arrays.asList("2.500€", "2.800€", "2.600€", "3.000€", "2.700€", "2.900€");
 	      List<String> gastosStr = Arrays.asList("1.800€", "2.100€", "1.900€", "2.200€", "2.000€", "2.300€");
 	      
-	      // ✅ Categorías reales del mes
+	      // Categorías
 	      List<String> categorias = Arrays.asList("Comida", "Transporte", "Entretenimiento", "Servicios");
 	      List<String> gastosCatStr = Arrays.asList("300€", "150€", "200€", "100€");
 	      
@@ -92,6 +93,13 @@ public class DashboardController {
 	      data.put("gastos", gastosStr);
 	      data.put("categorias", categorias);
 	      data.put("gastosCategorias", gastosCatStr);
+	      
+	      // Colores aleatorios - gráfico categorías 
+	      List<String> coloresCategorias = categorias.stream()
+	    		  .map(cat -> String.format("#%06X", (int)(Math.random() * 0xFFFFFF)))
+	    		  .collect(Collectors.toList());
+	    	    
+	      data.put("coloresCategorias", coloresCategorias);
 	      
 	      return data;
 	  }

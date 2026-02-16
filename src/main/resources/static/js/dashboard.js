@@ -36,6 +36,9 @@ document.addEventListener("DOMContentLoaded", function () {
   function actualizarGraficoDonut(data) {
     graficoCircular.data.labels = data.categorias;
     graficoCircular.data.datasets[0].data = data.gastosCategorias.map(v => parseFloat(v.replace(/[€,]/g, '')));
+
+    graficoCircular.data.datasets[0].backgroundColor = data.coloresCategorias;
+
     graficoCircular.update('active');
   }
 
@@ -83,7 +86,6 @@ document.addEventListener("DOMContentLoaded", function () {
       labels: [], 
       datasets: [{ 
         data: [], 
-        backgroundColor: ["#FF6384", "#36A2EB", "#FFCE56", "#4BC0C0"],
         borderWidth: 2,
         hoverOffset: 15,
         }] }, 
