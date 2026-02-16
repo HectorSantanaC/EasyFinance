@@ -41,23 +41,32 @@ public class TransactionService {
     	transactionRepository.deleteById(id);
     }
     
+    // Ingreso mensual
     public BigDecimal calcularIngresosMesActual(String email) {
-        LocalDate inicioMes = LocalDate.now().withDayOfMonth(1);
+    	LocalDate inicioMes = LocalDate.now().withDayOfMonth(1);
+    	
         return transactionRepository.findByUsuarioIdEmailAndTipoAndFechaGreaterThanEqual(
-          email, TransactionTypeModel.INGRESO, inicioMes
-        ).stream()
-          .map(TransactionModel::getCantidad)
-          .filter(Objects::nonNull)
-          .reduce(BigDecimal.ZERO, BigDecimal::add);
-      }
+        	email, TransactionTypeModel.INGRESO, inicioMes).stream()
+	        	.map(TransactionModel::getCantidad)
+	        	.filter(Objects::nonNull)
+	        	.reduce(BigDecimal.ZERO, BigDecimal::add);
+        }
       
+    // Gasto mensual
     public BigDecimal calcularGastosMesActual(String email) {
-        LocalDate inicioMes = LocalDate.now().withDayOfMonth(1);
-        return transactionRepository.findByUsuarioIdEmailAndTipoAndFechaGreaterThanEqual(
-          email, TransactionTypeModel.GASTO, inicioMes
-        ).stream()
-          .map(TransactionModel::getCantidad)
-          .filter(Objects::nonNull)
-          .reduce(BigDecimal.ZERO, BigDecimal::add);
+    	LocalDate inicioMes = LocalDate.now().withDayOfMonth(1);
+    	
+    	return transactionRepository.findByUsuarioIdEmailAndTipoAndFechaGreaterThanEqual(
+    		email, TransactionTypeModel.GASTO, inicioMes).stream()
+    			.map(TransactionModel::getCantidad)
+    			.filter(Objects::nonNull)
+    			.reduce(BigDecimal.ZERO, BigDecimal::add);
       }
+    
+    // Balance = ingresos - gastos
+    public BigDecimal calcularBalanceMesActual(String email) {
+        return calcularIngresosMesActual(email)
+          .subtract(calcularGastosMesActual(email));
+      }
+    
 }

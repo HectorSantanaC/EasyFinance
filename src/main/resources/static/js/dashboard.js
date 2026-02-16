@@ -127,7 +127,7 @@ document.addEventListener("DOMContentLoaded", function () {
         mostrarAlerta("¡Transacción guardada!", "success");
 
         // Actualizar solo la tabla
-        await actualizarTablaDashboard();
+        await actualizarDashboardCompleto();
       } else {
         mostrarAlerta("Error al guardar", "danger");
       }
@@ -189,21 +189,43 @@ document.addEventListener("DOMContentLoaded", function () {
   cargarCategorias();
 
   // ============================================
-  // ACTUALIZAR TABLA
+  // ACTUALIZAR DASHBOARD COMPLETO (estilo simple)
   // ============================================
-  async function actualizarTablaDashboard() {
-    const urlParams = new URLSearchParams(window.location.search);
-    const page = urlParams.get("page") || 0;
+  async function actualizarDashboardCompleto() {
+    try {
+      const response = await fetch('/api/dashboard/resumen');
+      const data = await response.json();
 
-    const response = await fetch(`/api/transacciones?page=0&size=5`);
-    const data = await response.json();
+      // Balance principal
+      const balance = document.querySelector('.principal-balance');
+      if (balance) {
+        balance.textContent = data.balanceFormateado;
+        balance.className = `principal-balance mb-1 ${data.balanceMes >= 0 ? 'text-success' : 'text-danger'}`;
+      }
 
-    const tbody = document.getElementById("bodyDashboardTransacciones");
-    tbody.innerHTML = "";
+      // Ingresos
+      const ingresos = document.querySelector('.kpi-card-income .h3');
+      if (ingresos) ingresos.textContent = data.ingresosFormateado;
 
-    data.content.forEach((transaccion) => {
-      tbody.appendChild(crearFilaDashboard(transaccion));
-    });
+      // Gastos
+      const gastos = document.querySelector('.kpi-card-expenses .h3');
+      if (gastos) gastos.textContent = data.gastosFormateado;
+
+      // Ahorros
+      const ahorros = document.querySelector('.kpi-card-savings .h3');
+      if (ahorros) ahorros.textContent = data.ahorrosFormateado;
+
+      // Tabla transacciones
+      const tbody = document.getElementById("bodyDashboardTransacciones");
+      tbody.innerHTML = "";
+      data.ultimasTransacciones.forEach((transaccion) => {
+        tbody.appendChild(crearFilaDashboard(transaccion));
+      });
+
+    } catch (error) {
+      console.error('Error dashboard:', error);
+      mostrarAlerta("Error actualizando", "danger");
+    }
   }
 
   // ============================================
@@ -216,10 +238,10 @@ document.addEventListener("DOMContentLoaded", function () {
     tr.innerHTML = `
       <td>
         ${new Date(transaccion.fecha).toLocaleDateString('es-ES', {
-          day:'2-digit',
-          month:'2-digit',
-          year:'numeric'
-        })}
+      day: '2-digit',
+      month: '2-digit',
+      year: 'numeric'
+    })}
       </td>
       <td>${transaccion.descripcion || "Sin descripción"}</td>
       <td>${transaccion.categoriaId?.nombre || "Sin categoría"}</td>

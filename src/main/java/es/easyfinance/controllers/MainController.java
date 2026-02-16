@@ -63,6 +63,9 @@ public class MainController {
 		model.addAttribute("ingresosMes", transactionService.calcularIngresosMesActual(email));
 		model.addAttribute("gastosMes", transactionService.calcularGastosMesActual(email));
 		
+		//Balance
+		model.addAttribute("balanceMes", transactionService.calcularBalanceMesActual(email));
+		
 		// Transacciones
 	    Pageable pageable = PageRequest.of(0, 5, Sort.by("fecha").descending());
 	    Page<TransactionModel> ultimas = transactionService.findAllByUsuario(usuario, pageable);
@@ -77,7 +80,7 @@ public class MainController {
                 + " " + ahora.getYear();
 
 		model.addAttribute("mesActual", mesActual);
-	    
+		
 	    return "dashboard";
 	}
 
