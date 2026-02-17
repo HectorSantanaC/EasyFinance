@@ -70,12 +70,12 @@ document.addEventListener("DOMContentLoaded", function () {
     options: {
       responsive: true,
       maintainAspectRatio: false,
-      scales: { y: { beginAtZero: true, ticks: { callback: value => value + "€" } } },
+      scales: { y: { beginAtZero: true, ticks: { callback:  value => value + "€" } } },
       plugins: {
         legend: { position: "top" },
-        tooltip: { callbacks: { label: ctx => ctx.dataset.label + ": " + ctx.parsed.y + "€" } }
+        tooltip: { callbacks: { label: ctx => " " + ctx.dataset.label + ": " + ctx.parsed.y + "€" } }
       }
-    }
+    },
   });
 
   // Gráfico donut - gastos por categoría
@@ -94,7 +94,7 @@ document.addEventListener("DOMContentLoaded", function () {
       maintainAspectRatio: false,
       plugins: {
         legend: { position: "bottom" },
-        tooltip: { callbacks: { label: ctx => ctx.parsed + "€" } }
+        tooltip: { callbacks: { label: ctx => " " + ctx.parsed + "€" } }
       }
     }
   });
