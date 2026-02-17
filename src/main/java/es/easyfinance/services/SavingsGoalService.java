@@ -65,7 +65,7 @@ public class SavingsGoalService {
 
         return Map.of(
             "totalMetasActivas", activas,
-            "totalAhorrado", totalAhorrado.doubleValue(),  // Frontend espera double
+            "totalAhorrado", totalAhorrado.doubleValue(),
             "objetivoTotal", objetivoTotal.doubleValue()
         );
     }

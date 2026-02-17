@@ -312,7 +312,7 @@
     <div class="modal-dialog modal-dialog-centered">
       <div class="modal-content">
 
-                <!-- Modal Header -->
+        <!-- Modal Header -->
         <div class="modal-header">
           <h5 class="modal-title" id="modalNewTransactionLabel">Nueva Meta de Ahorro</h5>
           <button type="button" class="btn-close-custom ms-auto" data-bs-dismiss="modal" aria-label="Cerrar">
@@ -368,6 +368,58 @@
           <button type="submit" form="formNewGoal" class="btn btn-secondary-custom">Guardar meta</button>
         </div>
 
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal EDITAR Meta -->
+  <div class="modal fade" id="modalEditGoal" tabindex="-1" aria-labelledby="modalEditGoalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="modalEditGoalLabel">Editar Meta</h5>
+          <button type="button" class="btn-close-custom ms-auto" data-bs-dismiss="modal">
+            <i class="bi bi-x-lg"></i>
+          </button>
+        </div>
+        <div class="modal-body">
+          <form id="formEditGoal">
+            <input type="hidden" id="editGoalId">
+
+            <div class="mb-3">
+              <label for="editGoalName" class="form-label">Nombre <span class="text-danger">*</span></label>
+              <input type="text" class="form-control" id="editGoalName" name="nombre" required>
+            </div>
+
+            <div class="mb-3">
+              <label for="editGoalDescription" class="form-label">Descripción</label>
+              <textarea class="form-control" id="editGoalDescription" name="descripcion" rows="3"></textarea>
+            </div>
+
+            <div class="mb-3">
+              <label for="editGoalAmount" class="form-label">Objetivo (€) <span class="text-danger">*</span></label>
+              <input type="number" class="form-control" id="editGoalAmount" name="cantidadObjetivo" step="0.01"
+                min="0.01" required>
+            </div>
+
+            <div class="mb-3">
+              <label for="editGoalStartDate" class="form-label">Inicio <span class="text-danger">*</span></label>
+              <input type="date" class="form-control" id="editGoalStartDate" name="fechaInicio" required>
+            </div>
+
+            <div class="mb-3">
+              <label for="editGoalEndDate" class="form-label">Límite</label>
+              <input type="date" class="form-control" id="editGoalEndDate" name="fechaObjetivo">
+            </div>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+          <button id="btnGuardarEditGoal" class="btn btn-secondary-custom">
+            <span id="spinnerEditGoal" class="spinner-border spinner-border-sm d-none me-2"></span>
+            Actualizar
+          </button>
+        </div>
       </div>
     </div>
   </div>

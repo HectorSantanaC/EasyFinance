@@ -33,9 +33,9 @@ document.addEventListener("DOMContentLoaded", function () {
   // ============================================
   const formNewGoal = document.getElementById("formNewGoal");
   if (formNewGoal) {
-    formNewGoal.addEventListener("submit", async function(e) {
+    formNewGoal.addEventListener("submit", async function (e) {
       e.preventDefault();
-      
+
       const data = {
         nombre: document.getElementById("goalName").value,
         descripcion: document.getElementById("goalDescription").value || '',
@@ -43,14 +43,14 @@ document.addEventListener("DOMContentLoaded", function () {
         fechaInicio: document.getElementById("goalStartDate").value,
         fechaObjetivo: document.getElementById("goalEndDate").value || null
       };
-      
+
       try {
         const response = await fetch('/api/metas', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify(data)
         });
-        
+
         if (response.ok) {
           bootstrap.Modal.getInstance(document.getElementById("modalNewGoal")).hide();
           mostrarAlerta('¡Meta creada!', 'success');
@@ -75,7 +75,7 @@ document.addEventListener("DOMContentLoaded", function () {
     try {
       const response = await fetch('/api/metas');
       const metas = await response.json();
-      
+
       const tbody = document.getElementById("bodyMetas");
       if (metas.length === 0) {
         tbody.innerHTML = `
@@ -86,7 +86,7 @@ document.addEventListener("DOMContentLoaded", function () {
           </tr>`;
         return;
       }
-      
+
       tbody.innerHTML = metas.map(crearFilaMeta).join('');
       document.getElementById("contadorMetas").textContent = `${metas.length} metas`;
     } catch (error) {
@@ -102,7 +102,7 @@ document.addEventListener("DOMContentLoaded", function () {
     try {
       const response = await fetch('/api/metas/kpis');
       const kpis = await response.json();
-      
+
       document.getElementById("totalMetasActivas").textContent = kpis.totalMetasActivas;
       document.getElementById("totalAhorrado").textContent = formatEuroJS(kpis.totalAhorrado);
       document.getElementById("objetivoTotal").textContent = formatEuroJS(kpis.objetivoTotal);
@@ -136,9 +136,88 @@ document.addEventListener("DOMContentLoaded", function () {
   }
 
   // ============================================
+  // EDITAR META
+  // ============================================
+
+  let metaEditando = null;
+
+  window.editarMeta = async function (id) {
+    try {
+      const response = await fetch(`/api/metas/${id}`);
+      if (!response.ok) throw new Error(`HTTP ${response.status}`);
+
+      const data = await response.json();
+      metaEditando = data;
+
+      // Llenar campos
+      document.getElementById("editGoalId").value = data.id;
+      document.getElementById("editGoalName").value = data.nombre;
+      document.getElementById("editGoalDescription").value = data.descripcion || '';
+      document.getElementById("editGoalAmount").value = data.cantidadObjetivo;
+      document.getElementById("editGoalStartDate").value = data.fechaInicio || '';
+      document.getElementById("editGoalEndDate").value = data.fechaObjetivo || '';
+
+      new bootstrap.Modal(document.getElementById("modalEditGoal")).show();
+    } catch (error) {
+      mostrarAlerta("Error cargando meta", "danger");
+      console.error(error);
+    }
+  };
+
+  // ============================================
+  // GUARDAR META EDITADA
+  // ============================================
+  document.getElementById("btnGuardarEditGoal").addEventListener("click", async function (e) {
+    e.preventDefault();
+
+    if (!metaEditando) return;
+
+    const spinner = document.getElementById("spinnerEditGoal");
+    const btn = this;
+
+    spinner.classList.remove("d-none");
+    btn.disabled = true;
+
+    const data = {
+      id: document.getElementById("editGoalId").value,
+      nombre: document.getElementById("editGoalName").value,
+      descripcion: document.getElementById("editGoalDescription").value,
+      cantidadObjetivo: parseFloat(document.getElementById("editGoalAmount").value),
+      fechaInicio: document.getElementById("editGoalStartDate").value,
+      fechaObjetivo: document.getElementById("editGoalEndDate").value || null
+    };
+
+    try {
+      const response = await fetch(`/api/metas/${data.id}`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data)
+      });
+
+      if (response.ok) {
+        const modalInstance = bootstrap.Modal.getInstance(
+          document.getElementById("modalEditGoal"),
+        );
+        modalInstance.hide();
+        mostrarAlerta("¡Meta actualizada!", "success");
+
+        await cargarMetas();
+        await cargarKPIs();
+      } else {
+        mostrarAlerta("Error actualizando", "danger");
+      }
+    } catch (error) {
+      mostrarAlerta("Error conexión", "danger");
+    } finally {
+      spinner.classList.add("d-none");
+      btn.disabled = false;
+    }
+  });
+
+  // ============================================
   // BORRAR META
   // ============================================
-  window.borrarMeta = async function(id) {
+  window.borrarMeta = async function (id) {
     if (confirm('¿Eliminar esta meta?')) {
       try {
         const response = await fetch(`/api/metas/${id}`, { method: 'DELETE' });

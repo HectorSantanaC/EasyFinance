@@ -60,7 +60,7 @@ public class SavingsGoalController {
     	UserModel usuario = usuarioActual();
         if (usuario == null) return ResponseEntity.badRequest().build();
         
-        savingsGoal.setUsuarioId(usuario);  // ✅ Auto-asignar
+        savingsGoal.setUsuarioId(usuario);
         savingsGoal.setCreadoPor(usuario.getId());
         savingsGoal.setFechaCreacion(LocalDateTime.now());
         
@@ -73,7 +73,7 @@ public class SavingsGoalController {
     	 UserModel usuario = usuarioActual();
          if (usuario == null) return ResponseEntity.badRequest().build();
          
-         savingsGoal.setId(id);
+         savingsGoal.setUsuarioId(usuario);
          savingsGoal.setModificadoPor(usuario.getId());
          savingsGoal.setFechaModificacion(LocalDateTime.now());
          
