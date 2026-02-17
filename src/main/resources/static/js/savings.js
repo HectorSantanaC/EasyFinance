@@ -38,10 +38,10 @@ document.addEventListener("DOMContentLoaded", function () {
 
       const data = {
         nombre: document.getElementById("goalName").value,
-        descripcion: document.getElementById("goalDescription").value || '',
+        descripcion: document.getElementById("goalDescription").value,
         cantidadObjetivo: parseFloat(document.getElementById("goalAmount").value),
         fechaInicio: document.getElementById("goalStartDate").value,
-        fechaObjetivo: document.getElementById("goalEndDate").value || null
+        fechaObjetivo: document.getElementById("goalEndDate").value
       };
 
       try {
