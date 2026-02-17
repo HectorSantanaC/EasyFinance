@@ -16,5 +16,7 @@ public interface SavingsGoalRepository extends JpaRepository<SavingsGoalModel, L
     
     // Completadas
 	List<SavingsGoalModel> findByUsuarioIdIdAndCompletadaTrueOrderByFechaInicioDesc(Long usuarioId);
+	
+	List<SavingsGoalModel> findByUsuarioId(Long usuarioId);
     
 }

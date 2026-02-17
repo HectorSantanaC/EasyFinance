@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import es.easyfinance.models.SavingsGoalModel;
+import es.easyfinance.models.UserModel;
 import es.easyfinance.repositories.SavingsGoalRepository;
 
 @Service
@@ -20,6 +21,10 @@ public class SavingsGoalService {
 		
 	public SavingsGoalModel buscarPorId(Long id) {
 		return savingsGoalRepository.findById(id).orElse(null);
+	}
+	
+	public List<SavingsGoalModel> findByUsuario(UserModel usuario) {
+	    return savingsGoalRepository.findByUsuarioId(usuario.getId());  // Usa ID
 	}
 	
 	public List<SavingsGoalModel> listarTodas(Long usuarioId) {

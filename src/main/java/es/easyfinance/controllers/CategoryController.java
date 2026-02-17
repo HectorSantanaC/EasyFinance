@@ -4,6 +4,8 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -14,8 +16,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import es.easyfinance.models.CategoryModel;
+import es.easyfinance.models.SavingsGoalModel;
 import es.easyfinance.models.TransactionTypeModel;
+import es.easyfinance.models.UserModel;
 import es.easyfinance.services.CategoryService;
+import es.easyfinance.services.SavingsGoalService;
+import es.easyfinance.services.UserDetailsServiceImpl;
 
 @RestController
 @RequestMapping("/api/categorias")
@@ -23,6 +29,12 @@ public class CategoryController {
 	
 	@Autowired
 	private CategoryService categoryService;
+	
+	@Autowired
+	private SavingsGoalService savingsGoalService;
+	
+	@Autowired
+	private UserDetailsServiceImpl userDetailsService;
 
     @GetMapping
     public List<CategoryModel> listarTodas() {
@@ -62,6 +74,16 @@ public class CategoryController {
     public ResponseEntity<List<CategoryModel>> getCategoriasGasto() {
         List<CategoryModel> resultado = categoryService.findByTipo(TransactionTypeModel.GASTO);
         System.out.println("✅ Controller: Encontradas " + resultado.size() + " categorías GASTO");
+        return ResponseEntity.ok(resultado);
+    }
+    
+    @GetMapping("/ahorro")
+    public ResponseEntity<List<SavingsGoalModel>> getMetasUsuario() {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        String email = auth.getName();
+        UserModel usuario = userDetailsService.findByEmail(email);
+        
+        List<SavingsGoalModel> resultado = savingsGoalService.findByUsuario(usuario);
         return ResponseEntity.ok(resultado);
     }
 
