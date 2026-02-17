@@ -58,11 +58,11 @@ public class TransactionService {
     	// Validación y asignación de categoría por defecto SOLO si no tiene categoría (AHORRO)
         if (transaccion.getCategoriaId() == null) {
             CategoryModel defaultCat = categoriaRepository.findFirstByNombreAndTipoAndEsGlobal(
-                "Sin categoría", transaccion.getTipo(), true);
+                "Ahorro", transaccion.getTipo(), true);
             if (defaultCat != null) {
                 transaccion.setCategoriaId(defaultCat);
             } else {
-                throw new IllegalArgumentException("Categoría por defecto 'Sin categoría' no encontrada para tipo: " + 
+                throw new IllegalArgumentException("Categoría por defecto 'Ahorro' no encontrada para tipo: " + 
                     transaccion.getTipo() + ". Cree la categoría global primero.");
             }
         }
