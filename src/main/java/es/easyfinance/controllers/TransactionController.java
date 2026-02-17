@@ -23,9 +23,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import es.easyfinance.models.CategoryModel;
+import es.easyfinance.models.SavingsGoalModel;
 import es.easyfinance.models.TransactionModel;
 import es.easyfinance.models.TransactionTypeModel;
 import es.easyfinance.models.UserModel;
+import es.easyfinance.services.SavingsGoalService;
 import es.easyfinance.services.TransactionService;
 import es.easyfinance.services.UserDetailsServiceImpl;
 
@@ -38,6 +40,9 @@ public class TransactionController {
 	
 	@Autowired
 	private UserDetailsServiceImpl userDetailsService;
+	
+	@Autowired
+	private SavingsGoalService savingsGoalService;
 	
 	private UserModel usuarioActual() {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
@@ -74,11 +79,32 @@ public class TransactionController {
         transaction.setFecha(LocalDate.parse(data.get("fecha")));
         transaction.setUsuarioId(usuarioActual());
         
-        CategoryModel categoria = new CategoryModel();
-        String idCategory = data.get("idCategoria");
+        // CATEGORÍA (INGRESO/GASTO)
+        if ("INGRESO".equals(data.get("tipo")) || "GASTO".equals(data.get("tipo"))) {
+            CategoryModel categoria = new CategoryModel();
+            categoria.setId(Long.parseLong(data.get("idCategoria")));
+            transaction.setCategoriaId(categoria);
+        } else {
+            // AHORRO: set categoriaId = null explícito
+            transaction.setCategoriaId(null);
+        }
         
-        categoria.setId(Long.parseLong(idCategory));
-        transaction.setCategoriaId(categoria);
+        // AHORRO: META
+        if ("AHORRO".equals(data.get("tipo"))) {
+            SavingsGoalModel meta = new SavingsGoalModel();
+            meta.setId(Long.parseLong(data.get("idMeta")));
+            transaction.setMetaAhorroId(meta);
+            
+            // Actualizar cantidad meta
+            SavingsGoalModel metaDb = savingsGoalService.buscarPorId(meta.getId());
+            if (metaDb != null) {
+                BigDecimal cantidadActual = metaDb.getCantidadActual() != null ? 
+                    metaDb.getCantidadActual() : BigDecimal.ZERO;
+                metaDb.setCantidadActual(cantidadActual.add(transaction.getCantidad()));
+                savingsGoalService.guardar(metaDb);
+                System.out.println("✅ Meta actualizada: " + metaDb.getId() + " +€" + transaction.getCantidad());
+            }
+        }
         
         return ResponseEntity.ok(transactionService.guardar(transaction));
     }

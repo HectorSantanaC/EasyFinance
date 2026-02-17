@@ -66,14 +66,12 @@ public class CategoryController {
     @GetMapping("/ingreso")
     public ResponseEntity<List<CategoryModel>> getCategoriasIngreso() {
         List<CategoryModel> resultado = categoryService.findByTipo(TransactionTypeModel.INGRESO);
-        System.out.println("✅ Controller: Encontradas " + resultado.size() + " categorías INGRESO");
         return ResponseEntity.ok(resultado);
     }
 
     @GetMapping("/gasto")
     public ResponseEntity<List<CategoryModel>> getCategoriasGasto() {
         List<CategoryModel> resultado = categoryService.findByTipo(TransactionTypeModel.GASTO);
-        System.out.println("✅ Controller: Encontradas " + resultado.size() + " categorías GASTO");
         return ResponseEntity.ok(resultado);
     }
     
