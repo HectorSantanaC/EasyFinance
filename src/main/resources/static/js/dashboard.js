@@ -136,12 +136,12 @@ document.addEventListener("DOMContentLoaded", function () {
           const modalInstance = bootstrap.Modal.getInstance(modal);
           modalInstance.hide();
           mostrarAlerta("¡Transacción guardada!", "success");
-          
+
           // Reset formulario + categorías
           form.reset();
           document.getElementById("transactionType").value = '';
           document.getElementById("transactionType").dispatchEvent(new Event('change'));
-          
+
           await actualizarDashboardCompleto();
           await cargarDatosGraficos();
         } else {
@@ -190,14 +190,14 @@ document.addEventListener("DOMContentLoaded", function () {
     if (tipo !== 'INGRESO' && tipo !== 'GASTO') return;
 
     const endpoint = tipo === 'INGRESO' ? '/api/categorias/ingreso' : '/api/categorias/gasto';
-    
+
     try {
       const response = await fetch(endpoint);
       if (!response.ok) throw new Error(`HTTP ${response.status}`);
-      
+
       const categorias = await response.json();
       const select = document.getElementById(selectId);
-      
+
       if (select) {
         select.innerHTML = '<option value="">Selecciona categoría</option>';
         categorias.forEach((cat) => {
@@ -226,6 +226,7 @@ document.addEventListener("DOMContentLoaded", function () {
       if (tipo === 'AHORRO') {
         if (categoriaDiv) categoriaDiv.style.display = 'none';
         if (metaDiv) metaDiv.style.display = 'block';
+        cargarMetasUsuario("transactionGoal");
       } else if (tipo === 'INGRESO' || tipo === 'GASTO') {
         if (categoriaDiv) categoriaDiv.style.display = 'block';
         if (metaDiv) metaDiv.style.display = 'none';
@@ -235,7 +236,7 @@ document.addEventListener("DOMContentLoaded", function () {
         if (metaDiv) metaDiv.style.display = 'none';
       }
     });
-    
+
     // Carga inicial
     transactionTypeSelect.dispatchEvent(new Event('change'));
   }
@@ -322,5 +323,29 @@ document.addEventListener("DOMContentLoaded", function () {
       </td>
     `;
     return tr;
+  }
+
+  // ============================================
+  // CARGAR METAS
+  // ============================================
+  async function cargarMetasUsuario(selectId = "transactionGoal") {
+    try {
+      const response = await fetch('/api/metas');
+      if (!response.ok) throw new Error(`HTTP ${response.status}`);
+
+      const metas = await response.json();
+      const select = document.getElementById(selectId);
+
+      select.innerHTML = '<option value="">Selecciona una meta</option>';
+      metas.forEach((meta) => {
+        const option = document.createElement("option");
+        option.value = meta.id;
+        option.textContent = meta.nombre;
+        select.appendChild(option);
+      });
+      console.log(`✅ ${metas.length} metas cargadas en dashboard`);
+    } catch (error) {
+      console.error('Metas dashboard:', error);
+    }
   }
 });
