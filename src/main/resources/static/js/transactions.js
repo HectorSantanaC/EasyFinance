@@ -26,6 +26,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
         // Actualizar solo la tabla
         await actualizarTabla();
+        await actualizarKPIs();
       } else {
         mostrarAlerta("Error al guardar", "danger");
       }
@@ -235,10 +236,10 @@ document.addEventListener("DOMContentLoaded", function () {
     tr.innerHTML = `
     <td>
       ${new Date(transaccion.fecha).toLocaleDateString('es-ES', {
-        day:'2-digit',
-        month:'2-digit',
-        year:'numeric'
-      })}
+      day: '2-digit',
+      month: '2-digit',
+      year: 'numeric'
+    })}
     </td>
     <td>${transaccion.descripcion || "Sin descripción"}</td>
     <td>${transaccion.categoriaId?.nombre || "Sin categoría"}</td>
@@ -267,4 +268,46 @@ document.addEventListener("DOMContentLoaded", function () {
   `;
     return tr;
   }
+
+  // ============================================
+  // ACTUALIZAR KPIs
+  // ============================================
+  async function actualizarKPIs() {
+    try {
+      const response = await fetch('/api/dashboard/resumen');
+      const data = await response.json();
+
+      // Balance
+      const balanceEl = document.getElementById('balance');
+      if (balanceEl) {
+        balanceEl.textContent = formatEuroJS(data.balanceMes);
+      }
+
+      // Ingresos
+      const ingresosEl = document.getElementById('totalIngresos');
+      if (ingresosEl) ingresosEl.textContent = formatEuroJS(data.ingresosMes);
+
+      // Gastos
+      const gastosEl = document.getElementById('totalGastos');
+      if (gastosEl) gastosEl.textContent = formatEuroJS(data.gastosMes);
+
+    } catch (error) {
+      console.error('KPIs:', error);
+    }
+  };
+
+  actualizarKPIs();
+
+  // Formatear a € con 2 dígitos
+  function formatEuroJS(numero) {
+    return new Intl.NumberFormat('es-ES', {
+      style: 'currency',
+      currency: 'EUR',
+      minimumFractionDigits: 2,
+      maximumFractionDigits: 2,
+      notation: 'standard',
+      useGrouping: true
+    }).format(numero || 0);
+  }
+
 });

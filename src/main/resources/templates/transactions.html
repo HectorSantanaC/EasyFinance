@@ -220,21 +220,21 @@
               <div class="col-lg-4 col-md-6 col-12 mb-4 mb-lg-0">
                 <div class="card p-4 kpi-card-income">
                   <h6 class="card-subtitle mb-2">Total Ingresos</h6>
-                  <div class="h3 text-success mb-0" id="totalIngresos">€0.00</div>
+                  <div class="income kpi-value h3 text-success mb-0" id="totalIngresos" th:text="${#numbers.formatDecimal(ingresosMes, 1, 'POINT', 2, 'COMMA')} + '&nbsp;€'">€0.00</div>
                   <small class="text-success">Mes actual</small>
                 </div>
               </div>
               <div class="col-lg-4 col-md-6 col-12 mb-4 mb-lg-0">
                 <div class="card p-4 kpi-card-expenses">
                   <h6 class="card-subtitle mb-2">Total Gastos</h6>
-                  <div class="h3 text-danger mb-0" id="totalGastos">€0.00</div>
+                  <div class="expenses kpi-value h3 text-danger mb-0" id="totalGastos" th:text="${#numbers.formatDecimal(gastosMes, 1, 'POINT', 2, 'COMMA')} + '&nbsp;€'">€0.00</div>
                   <small class="text-danger">Mes actual</small>
                 </div>
               </div>
               <div class="col-lg-4 col-md-6 col-12 mb-4 mb-lg-0">
                 <div class="card p-4 kpi-card-savings">
                   <h6 class="card-subtitle mb-2">Balance</h6>
-                  <div class="h3 text-primary mb-0" id="balance">€0.00</div>
+                  <div class="h3 text-primary mb-0" id="balance" th:text="${#numbers.formatDecimal(balanceMes, 1, 'POINT', 2, 'COMMA')} + '&nbsp;€'">€0.00</div>
                   <small class="text-muted">Ingresos - Gastos</small>
                 </div>
               </div>

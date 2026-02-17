@@ -91,8 +91,10 @@ public class MainController {
 		// Ingresos y gastos
 		String email = usuario.getEmail();
 		
+		
 		model.addAttribute("ingresosMes", transactionService.calcularIngresosMesActual(email));
 		model.addAttribute("gastosMes", transactionService.calcularGastosMesActual(email));
+		model.addAttribute("balanceMes", transactionService.calcularBalanceMesActual(email));
         
 		// Transacciones
         Pageable pageable = PageRequest.of(page, size, Sort.by("fecha").descending());

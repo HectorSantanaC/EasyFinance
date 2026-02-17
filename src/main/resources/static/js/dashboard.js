@@ -190,7 +190,7 @@ document.addEventListener("DOMContentLoaded", function () {
   cargarCategorias();
 
   // ============================================
-  // ACTUALIZAR DASHBOARD COMPLETO (estilo simple)
+  // ACTUALIZAR DASHBOARD COMPLETO
   // ============================================
   async function actualizarDashboardCompleto() {
     try {
@@ -229,6 +229,18 @@ document.addEventListener("DOMContentLoaded", function () {
     }
   }
 
+  // Formatear a € con 2 dígitos
+  function formatEuroJS(numero) {
+    return new Intl.NumberFormat('es-ES', {
+      style: 'currency',
+      currency: 'EUR',
+      minimumFractionDigits: 2,
+      maximumFractionDigits: 2,
+      notation: 'standard',
+      useGrouping: true
+    }).format(numero || 0);
+  }
+
   // ============================================
   // CREAR FILA
   // ============================================
@@ -260,15 +272,4 @@ document.addEventListener("DOMContentLoaded", function () {
     `;
     return tr;
   }
-
-  // Global helper
-  function formatEuroJS(numero) {
-    return new Intl.NumberFormat('es-ES', {
-      style: 'currency',
-      currency: 'EUR',
-      minimumFractionDigits: 2,
-      maximumFractionDigits: 2
-    }).format(numero || 0);
-  }
-
 });

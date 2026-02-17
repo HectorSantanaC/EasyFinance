@@ -168,9 +168,10 @@
             <section id="principal-balance" class="card mb-5 p-4" aria-label="Saldo disponible">
               <div class="row align-items-center">
                 <div class="col-md-8">
+                  <h6 class="card-subtitle mb-2">Balance</h6>
                   <div class="principal-balance text-success mb-1"
                     th:classappend="${balanceMes.signum() >= 0 ? 'text-success' : 'text-danger'}"
-                    th:text="${#numbers.formatDecimal(balanceMes, 1, 'POINT', 2, 'COMMA')} + '€'">1.575€</div>
+                    th:text="${#numbers.formatDecimal(balanceMes, 1, 'POINT', 2, 'COMMA')} + '&nbsp;€'">1.575€</div>
                   <div class="text-success fw-bold">+275€ del mes pasado</div>
                   <small class="text-muted">Saldo disponible</small>
                   
