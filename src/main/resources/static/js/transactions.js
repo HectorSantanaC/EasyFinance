@@ -202,6 +202,7 @@ document.addEventListener("DOMContentLoaded", function () {
           mostrarAlerta("¡Transacción actualizada!", "success");
 
           await actualizarTabla();
+          await actualizarKPIs();
         } else {
           mostrarAlerta("Error al guardar", "danger");
         }
@@ -233,6 +234,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
         // Actualizar solo la tabla
         await actualizarTabla();
+        await actualizarKPIs();
       } else {
         mostrarAlerta("Error al eliminar", "danger");
       }
