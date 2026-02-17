@@ -242,9 +242,8 @@
                     <tr>
                       <th>Nombre</th>
                       <th>Descripción</th>
-                      <th class="text-end">Objetivo</th>
-                      <th class="text-end">Ahorrado</th>
-                      <th class="text-center">Progreso</th>
+                      <th>Objetivo</th>
+                      <th>Ahorrado</th>
                       <th>Fecha Inicio</th>
                       <th>Fecha Límite</th>
                       <th class="text-center">Acciones</th>
@@ -323,7 +322,7 @@
 
         <!-- Modal Body -->
         <div class="modal-body">
-          <form id="formNewGoal" action="" method="POST">
+          <form id="formNewGoal" th:action="@{/api/metas}" method="POST">
 
             <!-- Nombre de la meta -->
             <div class="mb-3">
