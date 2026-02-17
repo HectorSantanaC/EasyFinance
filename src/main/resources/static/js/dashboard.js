@@ -104,39 +104,56 @@ document.addEventListener("DOMContentLoaded", function () {
   cargarDatosGraficos();
 
   // ============================================
-  // ACTUALIZAR TODO
+  // INSERTAR TRANSACCIONES
   // ============================================
   const form = document.getElementById("formNewTransaction");
   const modal = document.getElementById("modalNewTransaction");
 
-  form.addEventListener("submit", async function (e) {
-    e.preventDefault();
+  if (form) {
+    form.addEventListener("submit", async function (e) {
+      e.preventDefault();
 
-    const formData = new FormData(form);
-
-    try {
-      const response = await fetch("/api/transacciones", {
-        method: "POST",
-        body: formData,
-      });
-
-      if (response.ok) {
-        // Cerrar modal Bootstrap 5
-        const modalInstance = bootstrap.Modal.getInstance(modal);
-        modalInstance.hide();
-        mostrarAlerta("¡Transacción guardada!", "success");
-
-        // Actualizar
-        await actualizarDashboardCompleto();
-        await cargarDatosGraficos();
-      } else {
-        mostrarAlerta("Error al guardar", "danger");
+      // Validación
+      const tipo = document.getElementById("transactionType").value;
+      if (tipo === 'AHORRO' && !document.getElementById("transactionGoal")?.value) {
+        mostrarAlerta("Selecciona una meta de ahorro", "warning");
+        return;
       }
-    } catch (error) {
-      console.error("Error:", error);
-      mostrarAlerta("Error de conexión", "danger");
-    }
-  });
+      if ((tipo === 'INGRESO' || tipo === 'GASTO') && !document.getElementById("transactionCategory")?.value) {
+        mostrarAlerta("Selecciona una categoría", "warning");
+        return;
+      }
+
+      const formData = new FormData(form);
+
+      try {
+        const response = await fetch("/api/transacciones", {
+          method: "POST",
+          body: formData,
+        });
+
+        if (response.ok) {
+          const modalInstance = bootstrap.Modal.getInstance(modal);
+          modalInstance.hide();
+          mostrarAlerta("¡Transacción guardada!", "success");
+          
+          // Reset formulario + categorías
+          form.reset();
+          document.getElementById("transactionType").value = '';
+          document.getElementById("transactionType").dispatchEvent(new Event('change'));
+          
+          await actualizarDashboardCompleto();
+          await cargarDatosGraficos();
+        } else {
+          const errorText = await response.text();
+          mostrarAlerta("Error: " + errorText, "danger");
+        }
+      } catch (error) {
+        console.error("Error:", error);
+        mostrarAlerta("Error de conexión", "danger");
+      }
+    });
+  }
 
   // ============================================
   // MOSTRAR ALERTA
@@ -167,27 +184,61 @@ document.addEventListener("DOMContentLoaded", function () {
   }
 
   // ============================================
-  // CARGAR CATEGORÍAS
+  // CARGAR CATEGORÍAS FILTRADAS POR TIPO (NUEVO)
   // ============================================
-  function cargarCategorias() {
-    fetch("/api/categorias")
-      .then((res) => res.json())
-      .then((categorias) => {
-        const select = document.getElementById("transactionCategory");
-        if (select) {
-          select.innerHTML = '<option value="">Selecciona categoría</option>';
-          categorias.forEach((cat) => {
-            const option = document.createElement("option");
-            option.value = cat.id;
-            option.textContent = cat.nombre;
-            select.appendChild(option);
-          });
-        }
-      })
-      .catch((err) => console.error("Categorías:", err));
+  async function cargarCategoriasPorTipo(tipo, selectId = "transactionCategory") {
+    if (tipo !== 'INGRESO' && tipo !== 'GASTO') return;
+
+    const endpoint = tipo === 'INGRESO' ? '/api/categorias/ingreso' : '/api/categorias/gasto';
+    
+    try {
+      const response = await fetch(endpoint);
+      if (!response.ok) throw new Error(`HTTP ${response.status}`);
+      
+      const categorias = await response.json();
+      const select = document.getElementById(selectId);
+      
+      if (select) {
+        select.innerHTML = '<option value="">Selecciona categoría</option>';
+        categorias.forEach((cat) => {
+          const option = document.createElement("option");
+          option.value = cat.id;
+          option.textContent = cat.nombre;
+          select.appendChild(option);
+        });
+        console.log(`✅ ${categorias.length} categorías ${tipo} en dashboard`);
+      }
+    } catch (error) {
+      console.error('Categorías dashboard:', error);
+    }
   }
 
-  cargarCategorias();
+  // ============================================
+  // MANEJO VISUAL CAMPOS NUEVA TRANSACCIÓN
+  // ============================================
+  const transactionTypeSelect = document.getElementById("transactionType");
+  if (transactionTypeSelect) {
+    transactionTypeSelect.addEventListener("change", function () {
+      const tipo = this.value;
+      const categoriaDiv = document.getElementById("campoCategoria");
+      const metaDiv = document.getElementById("campoMeta");
+
+      if (tipo === 'AHORRO') {
+        if (categoriaDiv) categoriaDiv.style.display = 'none';
+        if (metaDiv) metaDiv.style.display = 'block';
+      } else if (tipo === 'INGRESO' || tipo === 'GASTO') {
+        if (categoriaDiv) categoriaDiv.style.display = 'block';
+        if (metaDiv) metaDiv.style.display = 'none';
+        cargarCategoriasPorTipo(tipo, "transactionCategory");  // ✅ FILTRO
+      } else {
+        if (categoriaDiv) categoriaDiv.style.display = 'none';
+        if (metaDiv) metaDiv.style.display = 'none';
+      }
+    });
+    
+    // Carga inicial
+    transactionTypeSelect.dispatchEvent(new Event('change'));
+  }
 
   // ============================================
   // ACTUALIZAR DASHBOARD COMPLETO
