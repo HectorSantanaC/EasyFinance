@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import es.easyfinance.models.CategoryModel;
+import es.easyfinance.models.TransactionTypeModel;
 import es.easyfinance.repositories.CategoryRepository;
 
 @Service
@@ -28,6 +29,12 @@ public class CategoryService {
 
     public void borrar(Long id) {
     	categoryRepository.deleteById(id);
+    }
+    
+ // ✅ Método con ENUM (type-safe)
+    public List<CategoryModel> findByTipo(TransactionTypeModel tipo) {
+        System.out.println("🔍 Service: Buscando tipo enum: " + tipo);  // Debug
+        return categoryRepository.findByTipo(tipo);
     }
 
 }

@@ -1,81 +1,166 @@
 document.addEventListener("DOMContentLoaded", function () {
-  window.editarTransaccion = editarTransaccion;
+
+  // ===========================================
+  // CARGAR CATEGORÍAS FILTRADAS POR TIPO
+  // ===========================================
+  async function cargarCategoriasPorTipo(tipo, selectId = "transactionCategory") {
+    // Solo para INGRESO/GASTO (AHORRO usa metas)
+    if (tipo !== 'INGRESO' && tipo !== 'GASTO') {
+      return;
+    }
+
+    const endpoint = tipo === 'INGRESO' ? '/api/categorias/ingreso' : '/api/categorias/gasto';
+
+    try {
+      const response = await fetch(endpoint);
+
+      if (!response.ok) {
+        throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+      }
+
+      const categorias = await response.json();
+      const select = document.getElementById(selectId);
+
+      if (select) {
+        select.innerHTML = '<option value="">Selecciona categoría</option>';
+        categorias.forEach((cat) => {
+          const option = document.createElement("option");
+          option.value = cat.id;
+          option.textContent = cat.nombre;
+          select.appendChild(option);
+        });
+      }
+    } catch (error) {
+      console.error('Error categorías:', error);
+      mostrarAlerta(`Error cargando categorías ${tipo.toLowerCase()}`, "danger");
+    }
+  }
+
+  // ===========================================
+  // MANEJO VISUAL DE CAMPOS (NUEVA TRANSACCIÓN)
+  // ===========================================
+  const transactionTypeSelect = document.getElementById("transactionType");
+  if (transactionTypeSelect) {
+    transactionTypeSelect.addEventListener("change", function () {
+      const tipo = this.value;
+      const categoriaDiv = document.getElementById("campoCategoria");
+      const metaDiv = document.getElementById("campoMeta");
+
+      if (tipo === 'AHORRO') {
+        categoriaDiv.style.display = 'none';
+        metaDiv.style.display = 'block';
+
+      } else if (tipo === 'INGRESO' || tipo === 'GASTO') {
+        categoriaDiv.style.display = 'block';
+        metaDiv.style.display = 'none';
+        cargarCategoriasPorTipo(tipo, "transactionCategory");
+
+      } else {
+        categoriaDiv.style.display = 'none';
+        metaDiv.style.display = 'none';
+      }
+    });
+
+    // Carga inicial
+    transactionTypeSelect.dispatchEvent(new Event('change'));
+  }
+
+  // Detectar cambio TIPO → recargar categorías EDICIÓN
+  const editTipoSelect = document.getElementById("editTipo");
+  if (editTipoSelect) {
+    editTipoSelect.addEventListener("change", function () {
+      cargarCategoriasPorTipo(this.value, "editCategoria");
+    });
+  }
+
 
   /* ===========================================
     INSERTAR TRANSACCIONES
-   =========================================== */
+  =========================================== */
   const form = document.getElementById("formNewTransaction");
-  const modal = document.getElementById("modalNewTransaction");
+  if (form) {
+    form.addEventListener("submit", async function (e) {
+      e.preventDefault();
 
-  form.addEventListener("submit", async function (e) {
-    e.preventDefault();
-
-    const formData = new FormData(form);
-
-    try {
-      const response = await fetch("/api/transacciones", {
-        method: "POST",
-        body: formData,
-      });
-
-      if (response.ok) {
-        // Cerrar modal Bootstrap 5
-        const modalInstance = bootstrap.Modal.getInstance(modal);
-        modalInstance.hide();
-        mostrarAlerta("¡Transacción guardada!", "success");
-
-        // Actualizar solo la tabla
-        await actualizarTabla();
-        await actualizarKPIs();
-      } else {
-        mostrarAlerta("Error al guardar", "danger");
+      // Validación extra
+      const tipo = document.getElementById("transactionType").value;
+      if (tipo === 'AHORRO' && !document.getElementById("transactionGoal").value) {
+        mostrarAlerta("Selecciona una meta de ahorro", "warning");
+        return;
       }
-    } catch (error) {
-      console.error("Error:", error);
-      mostrarAlerta("Error de conexión", "danger");
-    }
-  });
+      
+      if ((tipo === 'INGRESO' || tipo === 'GASTO') && !document.getElementById("transactionCategory").value) {
+        mostrarAlerta("Selecciona una categoría", "warning");
+        return;
+      }
+
+      const formData = new FormData(form);
+
+      try {
+        const response = await fetch("/api/transacciones", {
+          method: "POST",
+          body: formData,
+        });
+
+        if (response.ok) {
+          const modalInstance = bootstrap.Modal.getInstance(document.getElementById("modalNewTransaction"));
+          modalInstance.hide();
+          mostrarAlerta("¡Transacción guardada!", "success");
+          form.reset();
+          await actualizarTabla();
+          await actualizarKPIs();
+        } else {
+          const errorText = await response.text();
+          console.error('Error servidor:', errorText);
+          mostrarAlerta("Error al guardar: " + errorText, "danger");
+        }
+      } catch (error) {
+        console.error("Error:", error);
+        mostrarAlerta("Error de conexión", "danger");
+      }
+    });
+  }
 
   /* ===========================================
     EDITAR TRANSACCIONES
-   =========================================== */
+  =========================================== */
+
   let transaccionEditando = null;
 
-  function editarTransaccion(id) {
-    fetch(`/api/transacciones/${id}`)
-      .then((response) => response.json())
-      .then((data) => {
-        transaccionEditando = data;
-        document.getElementById("editId").value = data.id;
-        document.getElementById("editDescripcion").value = data.descripcion;
-        document.getElementById("editImporte").value = data.cantidad;
-        document.getElementById("editTipo").value = data.tipo;
-        document.getElementById("editFecha").value = data.fecha
-          ? data.fecha.split("T")[0]
-          : "";
+  window.editarTransaccion = async function (id) {
+    try {
+      const response = await fetch(`/api/transacciones/${id}`);
+      if (!response.ok) throw new Error(`HTTP ${response.status}`);
 
-        // Cargar categorías
-        fetch("/api/categorias")
-          .then((res) => res.json())
-          .then((categorias) => {
+      const data = await response.json();
+
+      transaccionEditando = data;
+
+      // Llenar campos
+      document.getElementById("editId").value = data.id;
+      document.getElementById("editDescripcion").value = data.descripcion;
+      document.getElementById("editImporte").value = data.cantidad;
+      document.getElementById("editTipo").value = data.tipo;
+      document.getElementById("editFecha").value = data.fecha?.split("T")[0] || "";
+
+      // Cargar categorías
+      if (data.tipo === 'INGRESO' || data.tipo === 'GASTO') {
+        await cargarCategoriasPorTipo(data.tipo, "editCategoria");
+
+        setTimeout(() => {
+          if (data.categoriaId?.id) {
             const select = document.getElementById("editCategoria");
-            select.innerHTML = '<option value="">Sin categoría</option>';
-            categorias.forEach((cat) => {
-              const option = document.createElement("option");
-              option.value = cat.id;
-              option.textContent = cat.nombre;
-              select.appendChild(option);
-            });
-            if (data.categoriaId?.id) select.value = data.categoriaId.id;
-          });
+            if (select) select.value = data.categoriaId.id;
+          }
+        }, 200);
+      }
 
-        new bootstrap.Modal(document.getElementById("modalEditar")).show();
-      })
-      .catch((error) => {
-        mostrarAlerta("Error cargando transacción", "danger");
-        console.error(error);
-      });
-  }
+      new bootstrap.Modal(document.getElementById("modalEditar")).show();
+    } catch (error) {
+      console.error('Error editar:', error);
+      mostrarAlerta("Error cargando transacción", "danger");
+    }
+  };
 
   // Guardar transacción editada
   const btnGuardarEdit = document.getElementById("btnGuardarEdit");
@@ -184,29 +269,6 @@ document.addEventListener("DOMContentLoaded", function () {
 
     setTimeout(() => toast.remove(), 4500);
   }
-
-  /* ===========================================
-    CARGAR CATEGORÍAS - NUEVA TRANSACCIÓN
-   =========================================== */
-  function cargarCategorias() {
-    fetch("/api/categorias")
-      .then((res) => res.json())
-      .then((categorias) => {
-        const select = document.getElementById("transactionCategory");
-        if (select) {
-          select.innerHTML = '<option value="">Selecciona categoría</option>';
-          categorias.forEach((cat) => {
-            const option = document.createElement("option");
-            option.value = cat.id;
-            option.textContent = cat.nombre;
-            select.appendChild(option);
-          });
-        }
-      })
-      .catch((err) => console.error("Categorías:", err));
-  }
-
-  cargarCategorias();
 
   /* ===========================================
     ACTUALIZAR TABLA SIN RECARGAR
