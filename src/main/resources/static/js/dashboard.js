@@ -51,17 +51,17 @@ document.addEventListener("DOMContentLoaded", function () {
   graficoBarras = new Chart(ctx1, {
     type: "bar",
     data: {
-      labels: [], 
+      labels: [],
       datasets: [{
-        label: "Ingresos", 
-        data: [], 
+        label: "Ingresos",
+        data: [],
         backgroundColor: "#4BC0C0",
         borderColor: "#36A2EB",
         borderWidth: 1,
-      }, 
+      },
       {
-        label: "Gastos", 
-        data: [], 
+        label: "Gastos",
+        data: [],
         backgroundColor: "#FF6384",
         borderColor: "#FF4560",
         borderWidth: 1,
@@ -70,7 +70,7 @@ document.addEventListener("DOMContentLoaded", function () {
     options: {
       responsive: true,
       maintainAspectRatio: false,
-      scales: { y: { beginAtZero: true, ticks: { callback:  value => value + "€" } } },
+      scales: { y: { beginAtZero: true, ticks: { callback: value => value + "€" } } },
       plugins: {
         legend: { position: "top" },
         tooltip: { callbacks: { label: ctx => " " + ctx.dataset.label + ": " + ctx.parsed.y + "€" } }
@@ -82,13 +82,14 @@ document.addEventListener("DOMContentLoaded", function () {
   const ctx2 = document.getElementById("expenseChart").getContext("2d");
   graficoCircular = new Chart(ctx2, {
     type: "doughnut",
-    data: { 
-      labels: [], 
-      datasets: [{ 
-        data: [], 
+    data: {
+      labels: [],
+      datasets: [{
+        data: [],
         borderWidth: 2,
         hoverOffset: 15,
-        }] }, 
+      }]
+    },
     options: {
       responsive: true,
       maintainAspectRatio: false,
@@ -199,17 +200,17 @@ document.addEventListener("DOMContentLoaded", function () {
       // Balance principal
       const balance = document.querySelector('.principal-balance');
       if (balance) {
-        balance.textContent = data.balanceFormateado;
+        balance.textContent = formatEuroJS(data.balanceMes);
         balance.className = `principal-balance mb-1 ${data.balanceMes >= 0 ? 'text-success' : 'text-danger'}`;
       }
 
       // Ingresos
       const ingresos = document.querySelector('.kpi-card-income .h3');
-      if (ingresos) ingresos.textContent = data.ingresosFormateado;
+      if (ingresos) ingresos.textContent = formatEuroJS(data.ingresosMes);
 
       // Gastos
       const gastos = document.querySelector('.kpi-card-expenses .h3');
-      if (gastos) gastos.textContent = data.gastosFormateado;
+      if (gastos) gastos.textContent = formatEuroJS(data.gastosMes);
 
       // Ahorros
       const ahorros = document.querySelector('.kpi-card-savings .h3');
@@ -259,4 +260,15 @@ document.addEventListener("DOMContentLoaded", function () {
     `;
     return tr;
   }
+
+  // Global helper
+  function formatEuroJS(numero) {
+    return new Intl.NumberFormat('es-ES', {
+      style: 'currency',
+      currency: 'EUR',
+      minimumFractionDigits: 2,
+      maximumFractionDigits: 2
+    }).format(numero || 0);
+  }
+
 });

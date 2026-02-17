@@ -57,13 +57,11 @@ public class MainController {
 	    
 		UserModel usuario = usuarioActual();
 		
-		// Ingresos y gastos
+		// Balance, ingresos y gastos
 		String email = usuario.getEmail();
 		
 		model.addAttribute("ingresosMes", transactionService.calcularIngresosMesActual(email));
 		model.addAttribute("gastosMes", transactionService.calcularGastosMesActual(email));
-		
-		//Balance
 		model.addAttribute("balanceMes", transactionService.calcularBalanceMesActual(email));
 		
 		// Transacciones
