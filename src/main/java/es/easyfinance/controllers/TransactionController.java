@@ -102,7 +102,6 @@ public class TransactionController {
                     metaDb.getCantidadActual() : BigDecimal.ZERO;
                 metaDb.setCantidadActual(cantidadActual.add(transaction.getCantidad()));
                 savingsGoalService.guardar(metaDb);
-                System.out.println("✅ Meta actualizada: " + metaDb.getId() + " +€" + transaction.getCantidad());
             }
         }
         

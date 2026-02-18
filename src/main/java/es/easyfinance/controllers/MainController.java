@@ -57,12 +57,13 @@ public class MainController {
 	    
 		UserModel usuario = usuarioActual();
 		
-		// Balance, ingresos y gastos
+		// Balance, ingresos, gastos y ahorros
 		String email = usuario.getEmail();
 		
+		model.addAttribute("balanceMes", transactionService.calcularBalanceMesActual(email));
 		model.addAttribute("ingresosMes", transactionService.calcularIngresosMesActual(email));
 		model.addAttribute("gastosMes", transactionService.calcularGastosMesActual(email));
-		model.addAttribute("balanceMes", transactionService.calcularBalanceMesActual(email));
+		model.addAttribute("ahorrosMes", transactionService.calcularAhorrosMesActual(email));
 		
 		// Transacciones
 	    Pageable pageable = PageRequest.of(0, 5, Sort.by("fecha").descending());

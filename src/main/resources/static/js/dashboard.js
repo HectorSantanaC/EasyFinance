@@ -206,7 +206,6 @@ document.addEventListener("DOMContentLoaded", function () {
           option.textContent = cat.nombre;
           select.appendChild(option);
         });
-        console.log(`✅ ${categorias.length} categorías ${tipo} en dashboard`);
       }
     } catch (error) {
       console.error('Categorías dashboard:', error);
@@ -230,7 +229,7 @@ document.addEventListener("DOMContentLoaded", function () {
       } else if (tipo === 'INGRESO' || tipo === 'GASTO') {
         if (categoriaDiv) categoriaDiv.style.display = 'block';
         if (metaDiv) metaDiv.style.display = 'none';
-        cargarCategoriasPorTipo(tipo, "transactionCategory");  // ✅ FILTRO
+        cargarCategoriasPorTipo(tipo, "transactionCategory");
       } else {
         if (categoriaDiv) categoriaDiv.style.display = 'none';
         if (metaDiv) metaDiv.style.display = 'none';
@@ -311,9 +310,12 @@ document.addEventListener("DOMContentLoaded", function () {
       <td>${transaccion.descripcion || "Sin descripción"}</td>
       <td>${transaccion.categoriaId?.nombre || "Sin categoría"}</td>
       <td>
-        <span class="badge ${transaccion.tipo === "INGRESO" ? "bg-success" : "bg-danger"}">
-          ${transaccion.tipo}
-        </span>
+        <span class="badge 
+    ${transaccion.tipo == 'INGRESO' ? 'bg-success' : 
+      transaccion.tipo == 'AHORRO' ? 'bg-primary' : 
+      'bg-danger'}">
+    ${transaccion.tipo}
+</span>
       </td>
       <td class="text-end fw-bold">
         ${parseFloat(transaccion.cantidad).toLocaleString("es-ES", {
@@ -343,7 +345,6 @@ document.addEventListener("DOMContentLoaded", function () {
         option.textContent = meta.nombre;
         select.appendChild(option);
       });
-      console.log(`✅ ${metas.length} metas cargadas en dashboard`);
     } catch (error) {
       console.error('Metas dashboard:', error);
     }

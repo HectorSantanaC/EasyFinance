@@ -51,26 +51,26 @@ public class DashboardService {
         TransactionTypeModel GASTO = TransactionTypeModel.GASTO;
 
         List<TransactionModel> transaccionesIngresos = dashboardRepository
-            .findByUsuarioIdAndTipoOrderByFechaDesc(usuario, INGRESO);
+        		.findByUsuarioIdAndTipoOrderByFechaDesc(usuario, INGRESO);
         List<TransactionModel> transaccionesGastos = dashboardRepository  
-            .findByUsuarioIdAndTipoOrderByFechaDesc(usuario, GASTO);
+        		.findByUsuarioIdAndTipoOrderByFechaDesc(usuario, GASTO);
 
         // Mapa con STREAM
         Map<String, BigDecimal> ingresosMap = transaccionesIngresos.stream()
-            .collect(Collectors.groupingBy(
-                t -> t.getFecha().getYear() + "-" + String.format("%02d", t.getFecha().getMonthValue()),
-                Collectors.reducing(BigDecimal.ZERO, TransactionModel::getCantidad, BigDecimal::add)
-            ));
+        		.collect(Collectors.groupingBy(
+        				t -> t.getFecha().getYear() + "-" + String.format("%02d", t.getFecha().getMonthValue()),
+        				Collectors.reducing(BigDecimal.ZERO, TransactionModel::getCantidad, BigDecimal::add)
+        ));
 
         Map<String, BigDecimal> gastosMap = transaccionesGastos.stream()
-            .collect(Collectors.groupingBy(
-                t -> t.getFecha().getYear() + "-" + String.format("%02d", t.getFecha().getMonthValue()),
-                Collectors.reducing(BigDecimal.ZERO, TransactionModel::getCantidad, BigDecimal::add)
-            ));
+        		.collect(Collectors.groupingBy(
+        				t -> t.getFecha().getYear() + "-" + String.format("%02d", t.getFecha().getMonthValue()),
+        				Collectors.reducing(BigDecimal.ZERO, TransactionModel::getCantidad, BigDecimal::add)
+        ));
 
         // Rellenar los 6 últimos meses
         List<String> ingresos = new ArrayList<>();
-        List<String> gastosLista = new ArrayList<>();
+        List<String> gastos = new ArrayList<>();
         YearMonth mesActual = YearMonth.now();
 
         for (int i = 6; i >= 1; i--) {
@@ -78,11 +78,11 @@ public class DashboardService {
             String clave = ym.getYear() + "-" + String.format("%02d", ym.getMonthValue());
             
             ingresos.add(formatEuro(ingresosMap.getOrDefault(clave, BigDecimal.ZERO)));
-            gastosLista.add(formatEuro(gastosMap.getOrDefault(clave, BigDecimal.ZERO)));
+            gastos.add(formatEuro(gastosMap.getOrDefault(clave, BigDecimal.ZERO)));
         }
 
         data.put("ingresos", ingresos);
-        data.put("gastos", gastosLista);
+        data.put("gastos", gastos);
         
         // GRÁFICO DONUT - GASTOS POR CATEGORÍA
         LocalDate fechaCat = YearMonth.now().atDay(1);

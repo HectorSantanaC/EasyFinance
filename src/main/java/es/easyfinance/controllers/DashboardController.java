@@ -59,6 +59,7 @@ public class DashboardController {
 	    data.put("ingresosMes", transactionService.calcularIngresosMesActual(email));
 	    data.put("gastosMes", transactionService.calcularGastosMesActual(email));
 	    data.put("balanceMes", transactionService.calcularBalanceMesActual(email));
+	    data.put("ahorrosMes", transactionService.calcularAhorrosMesActual(email));
 
 	    Pageable pageable = PageRequest.of(0, 5, Sort.by("fecha").descending());
 	    Page<TransactionModel> ultimas = transactionService.findAllByUsuario(usuario, pageable);
@@ -67,7 +68,7 @@ public class DashboardController {
 	    data.put("ingresosFormateado", formatDecimal((BigDecimal) data.get("ingresosMes")));
 	    data.put("gastosFormateado", formatDecimal((BigDecimal) data.get("gastosMes")));
 	    data.put("balanceFormateado", formatDecimal((BigDecimal) data.get("balanceMes")));
-	    data.put("ahorrosFormateado", "6.854€");
+	    data.put("ahorrosFormateado", formatDecimal((BigDecimal) data.get("ahorrosMes")));
 
 	    return data;
 	  }

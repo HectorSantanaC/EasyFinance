@@ -151,8 +151,7 @@
             <section id="dashboard-header" class="row align-items-center mb-5" aria-label="Encabezado del dashboard">
               <div class="col mt-3">
                 <h1 class="mb-1">Dashboard</h1>
-                <p class="text-muted mb-0" 
-                  th:text="${mesActual}">
+                <p class="text-muted mb-0" th:text="${mesActual}">
                   Enero 2026
                 </p>
               </div>
@@ -174,7 +173,7 @@
                     th:text="${#numbers.formatDecimal(balanceMes, 1, 'POINT', 2, 'COMMA')} + '&nbsp;€'">1.575€</div>
                   <div class="text-success fw-bold">+275€ del mes pasado</div>
                   <small class="text-muted">Saldo disponible</small>
-                  
+
                 </div>
                 <div class="col-md-4 text-end">
                   <div class="btn-group" role="group" aria-label="Filtro de período">
@@ -190,21 +189,24 @@
               <div class="col-lg-4 col-md-6 col-12 mb-4 mb-lg-0">
                 <div class="card p-4 kpi-card-income">
                   <h6 class="card-subtitle mb-2">Ingresos</h6>
-                  <div class="h3 text-success mb-0" th:text="${#numbers.formatDecimal(ingresosMes, 1, 'POINT', 2, 'COMMA')} + '&nbsp;€'">2.800€</div>
+                  <div class="h3 text-success mb-0"
+                    th:text="${#numbers.formatDecimal(ingresosMes, 1, 'POINT', 2, 'COMMA')} + '&nbsp;€'">2.800€</div>
                   <small class="text-success">+12% vs mes pasado</small>
                 </div>
               </div>
               <div class="col-lg-4 col-md-6 col-12 mb-4 mb-lg-0">
                 <div class="card p-4 kpi-card-expenses">
                   <h6 class="card-subtitle mb-2">Gastos</h6>
-                  <div class="h3 text-danger mb-0" th:text="${#numbers.formatDecimal(gastosMes, 1, 'POINT', 2, 'COMMA')} + '&nbsp;€'">1.225€</div>
+                  <div class="h3 text-danger mb-0"
+                    th:text="${#numbers.formatDecimal(gastosMes, 1, 'POINT', 2, 'COMMA')} + '&nbsp;€'">1.225€</div>
                   <small class="text-muted">-8% vs mes pasado</small>
                 </div>
               </div>
               <div class="col-lg-4 col-md-6 col-12 mb-4 mb-lg-0">
                 <div class="card p-4 kpi-card-savings">
                   <h6 class="card-subtitle mb-2">Ahorros</h6>
-                  <div class="h3 text-primary mb-0">6.854€</div>
+                  <div class="h3 text-primary mb-0"
+                  th:text="${#numbers.formatDecimal(ahorrosMes, 1, 'POINT', 2, 'COMMA')} + '&nbsp;€'">6.854€</div>
                   <small class="text-muted">-8% vs mes pasado</small>
                 </div>
               </div>
@@ -260,8 +262,9 @@
                       <td th:text="${transaccion.descripcion}"></td>
                       <td th:text="${transaccion.categoriaId?.nombre ?: 'Sin categoría'}"></td>
                       <td>
-                        <span th:text="${transaccion.tipo}"
-                          th:class="${transaccion.tipo?.name() == 'INGRESO'} ? 'badge bg-success' : 'badge bg-danger'">
+                        <span th:text="${transaccion.tipo}" th:class="${#strings.toUpperCase(transaccion.tipo?.name() ?: transaccion.tipo) == 'INGRESO' ? 'badge bg-success' :
+                                                                        #strings.toUpperCase(transaccion.tipo?.name() ?: transaccion.tipo) == 'AHORRO' ? 'badge bg-primary' :
+                                                                        'badge bg-danger'}">
                         </span>
                       </td>
                       <td class="fw-bold" th:text="${#numbers.formatDecimal(transaccion.cantidad, 1, 2)} + ' €'"></td>
