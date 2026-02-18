@@ -31,9 +31,8 @@ public class CategoryService {
     	categoryRepository.deleteById(id);
     }
     
- // ✅ Método con ENUM (type-safe)
+ // Método con ENUM
     public List<CategoryModel> findByTipo(TransactionTypeModel tipo) {
-        System.out.println("🔍 Service: Buscando tipo enum: " + tipo);  // Debug
         return categoryRepository.findByTipo(tipo);
     }
 

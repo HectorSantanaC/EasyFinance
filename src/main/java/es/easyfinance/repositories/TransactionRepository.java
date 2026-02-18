@@ -7,6 +7,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 
+import es.easyfinance.models.CategoryModel;
 import es.easyfinance.models.TransactionModel;
 import es.easyfinance.models.TransactionTypeModel;
 import es.easyfinance.models.UserModel;
@@ -29,4 +30,25 @@ public interface TransactionRepository extends JpaRepository<TransactionModel, L
 	   LocalDate inicioMes
 	);
     
+    // Filtros
+    Page<TransactionModel> findByUsuarioIdAndTipo(UserModel usuarioId, TransactionTypeModel tipo, Pageable pageable);
+    
+    Page<TransactionModel> findByUsuarioIdAndCategoriaIdAndFechaBetween(UserModel usuarioId, CategoryModel categoriaId, 
+    		LocalDate fechaDesde, LocalDate fechaHasta, Pageable pageable);
+    
+    Page<TransactionModel> findByUsuarioIdAndFechaBetween(UserModel usuarioId, LocalDate fechaDesde, 
+    		LocalDate fechaHasta, Pageable pageable);
+    
+    Page<TransactionModel> findByUsuarioIdAndTipoAndFechaBetween(UserModel usuarioId, TransactionTypeModel tipo, 
+    		LocalDate fechaDesde, LocalDate fechaHasta, Pageable pageable);
+    
+    Page<TransactionModel> findByUsuarioIdAndCategoriaId(UserModel usuarioId, CategoryModel categoriaId, Pageable pageable);
+    
+    Page<TransactionModel> findByUsuarioIdAndTipoAndCategoriaId(UserModel usuarioId, TransactionTypeModel tipo, 
+    		CategoryModel categoriaId, Pageable pageable);
+    
+    Page<TransactionModel> findByUsuarioIdAndTipoAndCategoriaIdAndFechaBetween(UserModel usuarioId, 
+    		TransactionTypeModel tipo, CategoryModel categoriaId, LocalDate fechaDesde, LocalDate fechaHasta, 
+    		Pageable pageable);
+
 }

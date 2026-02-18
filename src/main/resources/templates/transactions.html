@@ -169,15 +169,15 @@
               <h5 class="mb-3">
                 <i class="bi bi-funnel me-2"></i>Filtros
               </h5>
-              <form class="row g-3" id="formFiltros">
+              <form th:action="@{/transactions}" method="GET" class="row g-3" id="formFiltros">
 
                 <div class="col-md-3">
                   <label for="filtroTipo" class="form-label">Tipo</label>
-                  <select class="form-select" id="filtroTipo">
+                  <select name="tipo" class="form-select" id="filtroTipo">
                     <option value="">Todos</option>
-                    <option value="INGRESO">Ingresos</option>
-                    <option value="GASTO">Gastos</option>
-                    <option value="AHORRO">Ahorro</option>
+                    <option value="INGRESO" th:selected="${filtro.tipo == 'INGRESO'}">Ingresos</option>
+                    <option value="GASTO" th:selected="${filtro.tipo == 'GASTO'}">Gastos</option>
+                    <option value="AHORRO" th:selected="${filtro.tipo == 'AHORRO'}">Ahorro</option>
                   </select>
                 </div>
 
@@ -185,29 +185,26 @@
                   <label for="filtroCategoria" class="form-label">Categoría</label>
                   <select class="form-select" id="filtroCategoria">
                     <option value="">Todas</option>
-                    <option value="COMIDA">Comida</option>
-                    <option value="OCIO">Ocio</option>
-                    <option value="TRANSPORTE">Transporte</option>
-                    <option value="SALUD">Salud</option>
-                    <option value="OTROS">Otros</option>
                   </select>
                 </div>
 
                 <div class="col-md-3">
                   <label for="filtroFechaDesde" class="form-label">Desde</label>
-                  <input type="date" class="form-control" id="filtroFechaDesde">
+                  <input type="date" name="fechaDesde" class="form-control" id="filtroFechaDesde"
+                    th:value="${filtro.fechaDesde}">
                 </div>
 
                 <div class="col-md-3">
                   <label for="filtroFechaHasta" class="form-label">Hasta</label>
-                  <input type="date" class="form-control" id="filtroFechaHasta">
+                  <input type="date" name="fechaHasta" class="form-control" id="filtroFechaHasta"
+                    th:value="${filtro.fechaHasta}">
                 </div>
 
                 <div class="col-12">
                   <button type="submit" class="btn-primary-custom">
                     <i class="bi bi-search me-2"></i>Filtrar
                   </button>
-                  <button type="button" class="btn-secondary-custom ms-2" id="btnLimpiarFiltros">
+                  <button type="button" class="btn btn-secondary-custom ms-2" id="btnLimpiarFiltros">
                     <i class="bi bi-x-circle me-2"></i>Limpiar
                   </button>
                 </div>
@@ -220,21 +217,24 @@
               <div class="col-lg-4 col-md-6 col-12 mb-4 mb-lg-0">
                 <div class="card p-4 kpi-card-income">
                   <h6 class="card-subtitle mb-2">Total Ingresos</h6>
-                  <div class="income kpi-value h3 text-success mb-0" id="totalIngresos" th:text="${#numbers.formatDecimal(ingresosMes, 1, 'POINT', 2, 'COMMA')} + '&nbsp;€'">€0.00</div>
+                  <div class="income kpi-value h3 text-success mb-0" id="totalIngresos"
+                    th:text="${#numbers.formatDecimal(ingresosMes, 1, 'POINT', 2, 'COMMA')} + '&nbsp;€'">€0.00</div>
                   <small class="text-success">Mes actual</small>
                 </div>
               </div>
               <div class="col-lg-4 col-md-6 col-12 mb-4 mb-lg-0">
                 <div class="card p-4 kpi-card-expenses">
                   <h6 class="card-subtitle mb-2">Total Gastos</h6>
-                  <div class="expenses kpi-value h3 text-danger mb-0" id="totalGastos" th:text="${#numbers.formatDecimal(gastosMes, 1, 'POINT', 2, 'COMMA')} + '&nbsp;€'">€0.00</div>
+                  <div class="expenses kpi-value h3 text-danger mb-0" id="totalGastos"
+                    th:text="${#numbers.formatDecimal(gastosMes, 1, 'POINT', 2, 'COMMA')} + '&nbsp;€'">€0.00</div>
                   <small class="text-danger">Mes actual</small>
                 </div>
               </div>
               <div class="col-lg-4 col-md-6 col-12 mb-4 mb-lg-0">
                 <div class="card p-4 kpi-card-savings">
                   <h6 class="card-subtitle mb-2">Balance</h6>
-                  <div class="h3 text-primary mb-0" id="balance" th:text="${#numbers.formatDecimal(balanceMes, 1, 'POINT', 2, 'COMMA')} + '&nbsp;€'">€0.00</div>
+                  <div class="h3 text-primary mb-0" id="balance"
+                    th:text="${#numbers.formatDecimal(balanceMes, 1, 'POINT', 2, 'COMMA')} + '&nbsp;€'">€0.00</div>
                   <small class="text-muted">Ingresos - Gastos</small>
                 </div>
               </div>
@@ -268,8 +268,7 @@
                       <td th:text="${transaccion.descripcion}"></td>
                       <td th:text="${transaccion.categoriaId?.nombre ?: 'Sin categoría'}"></td>
                       <td>
-                        <span th:text="${transaccion.tipo?.name() ?: 'NULL'}"
-                          th:class="${#strings.toUpperCase(transaccion.tipo?.name() ?: transaccion.tipo) == 'INGRESO' ? 'badge bg-success' :
+                        <span th:text="${transaccion.tipo?.name() ?: 'NULL'}" th:class="${#strings.toUpperCase(transaccion.tipo?.name() ?: transaccion.tipo) == 'INGRESO' ? 'badge bg-success' :
                                                                         #strings.toUpperCase(transaccion.tipo?.name() ?: transaccion.tipo) == 'AHORRO' ? 'badge bg-primary' :
                                                                         'badge bg-danger'}">
                         </span>

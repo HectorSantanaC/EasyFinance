@@ -10,7 +10,7 @@ import es.easyfinance.models.TransactionTypeModel;
 
 public interface CategoryRepository extends JpaRepository<CategoryModel, Long> {
 
-	// Opción 1: Si tipo es ENUM → usa enum
+	// Si tipo es ENUM → usa enum
     List<CategoryModel> findByTipo(TransactionTypeModel tipo);
     
     @Query("SELECT c FROM CategoryModel c WHERE c.nombre = :nombre AND c.tipo = :tipo AND c.esGlobal = :esGlobal")

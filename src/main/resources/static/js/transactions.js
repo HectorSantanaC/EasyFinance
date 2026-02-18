@@ -37,6 +37,48 @@ document.addEventListener("DOMContentLoaded", function () {
   }
 
   // ===========================================
+  // FILTRO DINÁMICO: CARGAR CATEGORÍAS SEGÚN TIPO
+  // ===========================================
+  async function cargarCategoriasFiltroPorTipo() {
+    const tipo = document.getElementById('filtroTipo')?.value;
+    const selectFiltro = document.getElementById('filtroCategoria');
+
+    if (!selectFiltro || !tipo) {
+      selectFiltro.innerHTML = '<option value="">Todas las categorías</option>';
+      return;
+    }
+
+    if (tipo !== 'INGRESO' && tipo !== 'GASTO') {
+      selectFiltro.innerHTML = '<option value="">Sin categorías</option>';
+      return;
+    }
+
+    const endpoint = tipo === 'INGRESO' ? '/api/categorias/ingreso' : '/api/categorias/gasto';
+
+    try {
+      const response = await fetch(endpoint);
+      if (!response.ok) throw new Error(`HTTP ${response.status}`);
+
+      const categorias = await response.json();
+      selectFiltro.innerHTML = '<option value="">Todas las categorías</option>';
+
+      categorias.forEach((cat) => {
+        const option = document.createElement("option");
+        option.value = cat.nombre.toUpperCase(); // ← Value = nombre para filtrado
+        option.textContent = cat.nombre;
+        option.dataset.id = cat.id;
+        selectFiltro.appendChild(option);
+      });
+
+      console.log(`✅ ${categorias.length} categorías cargadas para filtro ${tipo}`);
+    } catch (error) {
+      console.error('Error categorías filtro:', error);
+      selectFiltro.innerHTML = '<option value="">Error cargando</option>';
+    }
+  }
+
+
+  // ===========================================
   // MANEJO VISUAL DE CAMPOS (NUEVA TRANSACCIÓN)
   // ===========================================
   const transactionTypeSelect = document.getElementById("transactionType");
@@ -71,7 +113,6 @@ document.addEventListener("DOMContentLoaded", function () {
       cargarCategoriasPorTipo(this.value, "editCategoria");
     });
   }
-
 
   /* ===========================================
     INSERTAR TRANSACCIONES
@@ -200,8 +241,8 @@ document.addEventListener("DOMContentLoaded", function () {
           modalInstance.hide();
           mostrarAlerta("¡Transacción actualizada!", "success");
 
-          await actualizarTabla();
-          await actualizarKPIs();
+          // ✅ RECARGAR CON FILTROS ACTIVOS
+          await actualizarTablaConFiltros();
         } else {
           mostrarAlerta("Error al guardar", "danger");
         }
@@ -217,7 +258,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
   /* ===========================================
     BORRAR TRANSACCIONES
-   =========================================== */
+    ============================================ */
   window.borrarTransaccion = async function (id) {
     if (!confirm(`¿Eliminar transacción?\nEsta acción no se puede deshacer.`)) {
       return;
@@ -231,9 +272,8 @@ document.addEventListener("DOMContentLoaded", function () {
       if (response.ok) {
         mostrarAlerta(`¡Transacción eliminada!`, "warning");
 
-        // Actualizar solo la tabla
-        await actualizarTabla();
-        await actualizarKPIs();
+        // ✅ RECARGAR CON FILTROS ACTIVOS
+        await actualizarTablaConFiltros();
       } else {
         mostrarAlerta("Error al eliminar", "danger");
       }
@@ -259,10 +299,10 @@ document.addEventListener("DOMContentLoaded", function () {
       "top: 20px; right: 20px; z-index: 9999; min-width: 320px; max-width: 400px;";
 
     toast.innerHTML = `
-    <i class="${icons[tipo] || "bi-info-circle-fill"} me-2 fs-5"></i>
-    <strong>${mensaje}</strong>
-    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-  `;
+      <i class="${icons[tipo] || "bi-info-circle-fill"} me-2 fs-5"></i>
+      <strong>${mensaje}</strong>
+      <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+    `;
 
     document.body.appendChild(toast);
 
@@ -271,66 +311,83 @@ document.addEventListener("DOMContentLoaded", function () {
     setTimeout(() => toast.remove(), 4500);
   }
 
-  /* ===========================================
-    ACTUALIZAR TABLA SIN RECARGAR
-   =========================================== */
-  async function actualizarTabla() {
+  // ================================================
+  // ACTUALIZAR TABLA CON FILTROS
+  // ================================================
+  async function actualizarTablaConFiltros(aplicarFiltros = true) {
+    // Obtener parámetros de paginación (si aplica)
     const urlParams = new URLSearchParams(window.location.search);
     const page = urlParams.get("page") || 0;
 
-    const response = await fetch(`/api/transacciones?page=${page}&size=10`);
+    // Recargar datos
+    const response = await fetch(`/api/transacciones?page=${page}&size=50`); // size mayor para filtros
     const data = await response.json();
 
+    // Recrear tabla completa con TODOS los datos
     const tbody = document.getElementById("bodyTransacciones");
     tbody.innerHTML = "";
-
     data.content.forEach((transaccion) => {
       tbody.appendChild(crearFilaTransaccion(transaccion));
     });
+
+    // Guardar filas ORIGINALES actualizadas para futuros filtros
+    window.transaccionesOriginales = Array.from(tbody.querySelectorAll('tr')).map(row => row.cloneNode(true));
+
+    // Aplicar filtros SI se solicitan
+    if (aplicarFiltros) {
+      filtrarTransacciones();
+    }
   }
+
+  // ============================================
+  // ACTUALIZAR TABLA SIN FILTROS
+  // ============================================
+  window.actualizarTabla = async function () {
+    await actualizarTablaConFiltros(false); // No aplicar filtros
+  };
 
   /* ===========================================
     CREAR FILA TABLA HTML
-   =========================================== */
+  ============================================ */
   function crearFilaTransaccion(transaccion) {
     const tr = document.createElement("tr");
     tr.className = Math.random() > 0.5 ? "table-light" : "";
 
     tr.innerHTML = `
-    <td>
-      ${new Date(transaccion.fecha).toLocaleDateString('es-ES', {
+      <td>
+        ${new Date(transaccion.fecha).toLocaleDateString('es-ES', {
       day: '2-digit',
       month: '2-digit',
       year: 'numeric'
     })}
-    </td>
-    <td>${transaccion.descripcion || "Sin descripción"}</td>
-    <td>${transaccion.categoriaId?.nombre || "Sin categoría"}</td>
-    <td>
-      <span class="badge 
-        ${transaccion.tipo == 'INGRESO' ? 'bg-success' :
-          transaccion.tipo == 'AHORRO' ? 'bg-primary' :
+      </td>
+      <td>${transaccion.descripcion || "Sin descripción"}</td>
+      <td>${transaccion.categoriaId?.nombre || "Sin categoría"}</td>
+      <td>
+        <span class="badge 
+          ${transaccion.tipo == 'INGRESO' ? 'bg-success' :
+        transaccion.tipo == 'AHORRO' ? 'bg-primary' :
           'bg-danger'}">
-        ${transaccion.tipo}
-</span>
-    </td>
-    <td class="text-end fw-bold">
-      ${parseFloat(transaccion.cantidad).toLocaleString("es-ES", {
+          ${transaccion.tipo}
+        </span>
+      </td>
+      <td class="text-end fw-bold">
+        ${parseFloat(transaccion.cantidad).toLocaleString("es-ES", {
             minimumFractionDigits: 2,
             maximumFractionDigits: 2,
           })} €
-    </td>
-    <td class="text-center">
-      <button class="btn btn-sm btn-secondary-custom me-1" 
-              onclick="editarTransaccion(${transaccion.id})">
-        <i class="bi bi-pencil"></i>
-      </button>
-      <button class="btn btn-sm btn-danger-custom" 
-              onclick="borrarTransaccion(${transaccion.id})">
-        <i class="bi bi-trash"></i>
-      </button>
-    </td>
-  `;
+      </td>
+      <td class="text-center">
+        <button class="btn btn-sm btn-secondary-custom me-1" 
+                onclick="editarTransaccion(${transaccion.id})">
+          <i class="bi bi-pencil"></i>
+        </button>
+        <button class="btn btn-sm btn-danger-custom" 
+                onclick="borrarTransaccion(${transaccion.id})">
+          <i class="bi bi-trash"></i>
+        </button>
+      </td>
+    `;
     return tr;
   }
 
@@ -394,8 +451,190 @@ document.addEventListener("DOMContentLoaded", function () {
         select.appendChild(option);
       });
     } catch (error) {
-      console.error('Metas dashboard:', error);
+      console.error('Error metas:', error);
+      mostrarAlerta("Error cargando metas", "danger");
     }
   }
+
+  // ============================================
+  // FILTROS TRANSACCIONES
+  // ============================================
+
+  // FUNCIONES DE APOYO
+  window.cargarCategoriasFiltroPorTipo = async function () {
+    const tipo = document.getElementById('filtroTipo')?.value;
+    const selectFiltro = document.getElementById('filtroCategoria');
+
+    if (!selectFiltro || !tipo) {
+      selectFiltro.innerHTML = '<option value="">Todas las categorías</option>';
+      return;
+    }
+
+    if (tipo !== 'INGRESO' && tipo !== 'GASTO') {
+      selectFiltro.innerHTML = '<option value="">Sin categorías</option>';
+      return;
+    }
+
+    const endpoint = tipo === 'INGRESO' ? '/api/categorias/ingreso' : '/api/categorias/gasto';
+
+    try {
+      const response = await fetch(endpoint);
+      if (!response.ok) throw new Error(`HTTP ${response.status}`);
+
+      const categorias = await response.json();
+      selectFiltro.innerHTML = '<option value="">Todas las categorías</option>';
+
+      categorias.forEach((cat) => {
+        const option = document.createElement("option");
+        option.value = cat.nombre.toUpperCase();
+        option.textContent = cat.nombre;
+        option.dataset.id = cat.id;
+        selectFiltro.appendChild(option);
+      });
+
+    } catch (error) {
+      console.error('Error categorías filtro:', error);
+      selectFiltro.innerHTML = '<option value="">Error cargando</option>';
+    }
+  };
+
+  // FUNCIONES PRINCIPALES
+  window.filtrarTransacciones = function () {
+    const tipo = document.getElementById('filtroTipo')?.value?.toUpperCase()?.trim();
+    const categoriaSelect = document.getElementById('filtroCategoria')?.value?.trim();
+    const fechaDesde = document.getElementById('filtroFechaDesde')?.value;
+    const fechaHasta = document.getElementById('filtroFechaHasta')?.value;
+
+    const tbody = document.getElementById('bodyTransacciones');
+    if (!tbody || !window.transaccionesOriginales) {
+      console.warn('No hay datos para filtrar');
+      return;
+    }
+
+    tbody.innerHTML = '';
+    let resultados = 0;
+
+    window.transaccionesOriginales.forEach(row => {
+      const clon = row.cloneNode(true);
+      const fechaCell = clon.cells[0]?.textContent.trim();
+      const categoriaCell = clon.cells[2]?.textContent.trim().toUpperCase();
+      const tipoBadge = clon.cells[3]?.querySelector('.badge');
+      const tipoCell = tipoBadge ? tipoBadge.textContent.trim().toUpperCase() : '';
+
+      let pasaFiltro = true;
+
+      // Filtro TIPO
+      if (tipo && tipoCell !== tipo) pasaFiltro = false;
+
+      // Filtro CATEGORÍA
+      if (categoriaSelect && categoriaSelect !== "" && !categoriaCell?.includes(categoriaSelect.toUpperCase())) {
+        pasaFiltro = false;
+      }
+
+      // Filtro FECHAS
+      if (fechaDesde) {
+        try {
+          const [dia, mes, año] = fechaCell.split('/');
+          const fechaRow = new Date(`${año}-${mes}-${dia}`);
+          const fechaDesdeObj = new Date(fechaDesde);
+          if (fechaRow < fechaDesdeObj) pasaFiltro = false;
+        } catch (e) {
+          console.warn('Error parse fecha desde:', fechaCell);
+        }
+      }
+
+      if (fechaHasta) {
+        try {
+          const [dia, mes, año] = fechaCell.split('/');
+          const fechaRow = new Date(`${año}-${mes}-${dia}`);
+          const fechaHastaObj = new Date(fechaHasta);
+          if (fechaRow > fechaHastaObj) pasaFiltro = false;
+        } catch (e) {
+          console.warn('Error parse fecha hasta:', fechaCell);
+        }
+      }
+
+      if (pasaFiltro) {
+        tbody.appendChild(clon);
+        resultados++;
+      }
+    });
+
+    window.mostrarMensajeResultados(resultados);
+  };
+
+  window.limpiarFiltros = function () {
+    // Reset formulario
+    const formFiltros = document.getElementById('formFiltros');
+    if (formFiltros) formFiltros.reset();
+
+    // Limpiar categorías
+    const filtroCategoria = document.getElementById('filtroCategoria');
+    if (filtroCategoria) {
+      filtroCategoria.innerHTML = '<option value="">Todas las categorías</option>';
+    }
+
+    // Mostrar todas
+    window.mostrarTodasTransacciones();
+
+    // Ocultar mensaje
+    const mensaje = document.getElementById('mensajeResultados');
+    if (mensaje) mensaje.remove();
+  };
+
+  window.mostrarTodasTransacciones = function () {
+    const tbody = document.getElementById('bodyTransacciones');
+    if (!tbody || !window.transaccionesOriginales) return;
+
+    tbody.innerHTML = '';
+    window.transaccionesOriginales.forEach(row => {
+      tbody.appendChild(row.cloneNode(true));
+    });
+  };
+
+  window.mostrarMensajeResultados = function (count) {
+    let mensaje = document.getElementById('mensajeResultados');
+    if (mensaje) mensaje.remove();
+
+    mensaje = document.createElement('div');
+    mensaje.id = 'mensajeResultados';
+    mensaje.className = 'alert alert-info mt-3 mb-0';
+    mensaje.innerHTML = `
+      <i class="bi bi-funnel-fill me-2"></i>
+      Mostrando <strong>${count}</strong> transacción${count !== 1 ? 'es' : ''} 
+      ${count === window.transaccionesOriginales?.length ? '(sin filtros)' : '(filtradas)'}
+  `;
+
+    const tbody = document.getElementById('bodyTransacciones');
+    if (tbody?.parentNode) {
+      tbody.parentNode.insertBefore(mensaje, tbody.nextSibling);
+    }
+  };
+
+  // EVENT LISTENERS
+  const formFiltros = document.getElementById('formFiltros');
+  if (formFiltros) {
+    formFiltros.addEventListener('submit', function (e) {
+      e.preventDefault();
+      window.filtrarTransacciones();
+    });
+  }
+
+  const btnLimpiarFiltros = document.getElementById('btnLimpiarFiltros');
+  if (btnLimpiarFiltros) {
+    btnLimpiarFiltros.addEventListener('click', window.limpiarFiltros);
+  }
+
+  const filtroTipoSelect = document.getElementById('filtroTipo');
+  if (filtroTipoSelect) {
+    filtroTipoSelect.addEventListener('change', async function () {
+      await window.cargarCategoriasFiltroPorTipo();
+    });
+  }
+
+  setTimeout(async () => {
+    await window.cargarCategoriasFiltroPorTipo();
+    await actualizarTablaConFiltros(false);
+  }, 500);
 
 });

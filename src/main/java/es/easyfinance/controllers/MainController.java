@@ -14,10 +14,13 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import es.easyfinance.dto.TransactionFilterDTO;
 import es.easyfinance.models.TransactionModel;
 import es.easyfinance.models.UserModel;
+import es.easyfinance.services.CategoryService;
 import es.easyfinance.services.TransactionService;
 import es.easyfinance.services.UserDetailsServiceImpl;
 
@@ -29,6 +32,9 @@ public class MainController {
 	
 	@Autowired
     private UserDetailsServiceImpl userDetailsService;
+	
+	@Autowired
+    private CategoryService categoryService;
 
     private UserModel usuarioActual() {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
@@ -85,7 +91,9 @@ public class MainController {
 
 	@GetMapping(value = "/transactions")
 	public String transactions(@RequestParam(defaultValue = "0") int page,
-            @RequestParam(defaultValue = "10") int size, Model model) {
+            @RequestParam(defaultValue = "10") int size,
+            @ModelAttribute TransactionFilterDTO filtro,
+            Model model) {
 		
 		UserModel usuario = usuarioActual();
 		
@@ -99,13 +107,15 @@ public class MainController {
         
 		// Transacciones
         Pageable pageable = PageRequest.of(page, size, Sort.by("fecha").descending());
-        Page<TransactionModel> transaccionesPage = transactionService.findAllByUsuario(usuario, pageable);
+        Page<TransactionModel> transaccionesPage = transactionService.findByFilters(usuario,filtro, pageable);
 		
         model.addAttribute("transacciones", transaccionesPage.getContent());
         model.addAttribute("currentPage", transaccionesPage.getNumber());
         model.addAttribute("totalPages", transaccionesPage.getTotalPages());
         model.addAttribute("totalItems", transaccionesPage.getTotalElements());
-		
+        model.addAttribute("filtro", filtro);
+        model.addAttribute("categorias", categoryService.listarTodas());
+        
 		return "transactions";
 	}
 	

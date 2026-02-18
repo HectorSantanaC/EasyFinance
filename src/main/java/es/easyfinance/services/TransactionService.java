@@ -12,6 +12,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
+import es.easyfinance.dto.TransactionFilterDTO;
 import es.easyfinance.models.CategoryModel;
 import es.easyfinance.models.TransactionModel;
 import es.easyfinance.models.TransactionTypeModel;
@@ -27,7 +28,7 @@ public class TransactionService {
     private TransactionRepository transactionRepository;
 	
 	@Autowired
-    private CategoryRepository categoriaRepository;
+    private CategoryRepository categoryRepository;
 	
 	@Autowired
 	private UserRepository userRepository;
@@ -57,12 +58,12 @@ public class TransactionService {
     	
     	// Validación y asignación de categoría por defecto SOLO si no tiene categoría (AHORRO)
         if (transaccion.getCategoriaId() == null) {
-            CategoryModel defaultCat = categoriaRepository.findFirstByNombreAndTipoAndEsGlobal(
-                "Ahorro", transaccion.getTipo(), true);
+        	CategoryModel defaultCat = categoryRepository.findFirstByNombreAndTipoAndEsGlobal(
+                    "Sin categoria", transaccion.getTipo(), true);
             if (defaultCat != null) {
                 transaccion.setCategoriaId(defaultCat);
             } else {
-                throw new IllegalArgumentException("Categoría por defecto 'Ahorro' no encontrada para tipo: " + 
+                throw new IllegalArgumentException("Categoría por defecto 'Sin categoria' no encontrada para tipo: " + 
                     transaccion.getTipo() + ". Cree la categoría global primero.");
             }
         }
@@ -87,7 +88,6 @@ public class TransactionService {
         }
 
         return transactionRepository.save(transaccion);
-
     }
 
     public void borrar(Long id) {
@@ -131,5 +131,54 @@ public class TransactionService {
     			.filter(Objects::nonNull)
     			.reduce(BigDecimal.ZERO, BigDecimal::add);
       }
+    
+    // Filtros
+    public Page<TransactionModel> findByFilters(UserModel usuario, TransactionFilterDTO filtro, Pageable pageable) {
+    	
+        TransactionTypeModel tipoEnum = null;
+        
+        if (filtro.getTipo() != null && !filtro.getTipo().isEmpty()) {
+            tipoEnum = TransactionTypeModel.valueOf(filtro.getTipo());
+        }
+        
+        CategoryModel categoriaModel = null;
+        if (filtro.getCategoria() != null && !filtro.getCategoria().isEmpty()) {
+            Long catId = Long.parseLong(filtro.getCategoria());
+            categoriaModel = categoryRepository.findById(catId).orElse(null);
+        }
+        
+        LocalDate fechaDesde = filtro.getFechaDesde();
+        LocalDate fechaHasta = filtro.getFechaHasta();
+        
+        if (fechaDesde == null) fechaDesde = LocalDate.now().withDayOfMonth(1);
+        if (fechaHasta == null) fechaHasta = LocalDate.now().plusMonths(1).withDayOfMonth(1).minusDays(1);
+        
+        if (tipoEnum != null && categoriaModel != null && fechaDesde != null && fechaHasta != null) {
+            return transactionRepository.findByUsuarioIdAndTipoAndCategoriaIdAndFechaBetween(usuario, 
+            		tipoEnum, categoriaModel, fechaDesde, fechaHasta, pageable);
+            
+        } else if (tipoEnum != null && categoriaModel != null) {
+            return transactionRepository.findByUsuarioIdAndTipoAndCategoriaId(usuario, tipoEnum, categoriaModel, pageable);
+            
+        } else if (tipoEnum != null && fechaDesde != null && fechaHasta != null) {
+            return transactionRepository.findByUsuarioIdAndTipoAndFechaBetween(usuario, tipoEnum, fechaDesde, fechaHasta, 
+            		pageable);
+            
+        } else if (categoriaModel != null && fechaDesde != null && fechaHasta != null) {
+            return transactionRepository.findByUsuarioIdAndCategoriaIdAndFechaBetween(usuario, categoriaModel, 
+            		fechaDesde, fechaHasta, pageable);
+            
+        } else if (tipoEnum != null) {
+            return transactionRepository.findByUsuarioIdAndTipo(usuario, tipoEnum, pageable);
+            
+        } else if (categoriaModel != null) {
+            return transactionRepository.findByUsuarioIdAndCategoriaId(usuario, categoriaModel, pageable);
+            
+        } else if (fechaDesde != null && fechaHasta != null) {
+            return transactionRepository.findByUsuarioIdAndFechaBetween(usuario, fechaDesde, fechaHasta, pageable);
+            
+        }
+        return transactionRepository.findByUsuarioId(usuario, pageable);
+    }
     
 }
