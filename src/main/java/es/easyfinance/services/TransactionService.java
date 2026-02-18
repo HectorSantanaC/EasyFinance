@@ -132,6 +132,4 @@ public class TransactionService {
     			.reduce(BigDecimal.ZERO, BigDecimal::add);
       }
     
-    
-    
 }

@@ -47,17 +47,16 @@ document.addEventListener("DOMContentLoaded", function () {
       const metaDiv = document.getElementById("campoMeta");
 
       if (tipo === 'AHORRO') {
-        categoriaDiv.style.display = 'none';
-        metaDiv.style.display = 'block';
-
+        if (categoriaDiv) categoriaDiv.style.display = 'none';
+        if (metaDiv) metaDiv.style.display = 'block';
+        cargarMetasUsuario("transactionGoal");
       } else if (tipo === 'INGRESO' || tipo === 'GASTO') {
-        categoriaDiv.style.display = 'block';
-        metaDiv.style.display = 'none';
+        if (categoriaDiv) categoriaDiv.style.display = 'block';
+        if (metaDiv) metaDiv.style.display = 'none';
         cargarCategoriasPorTipo(tipo, "transactionCategory");
-
       } else {
-        categoriaDiv.style.display = 'none';
-        metaDiv.style.display = 'none';
+        if (categoriaDiv) categoriaDiv.style.display = 'none';
+        if (metaDiv) metaDiv.style.display = 'none';
       }
     });
 
@@ -88,7 +87,7 @@ document.addEventListener("DOMContentLoaded", function () {
         mostrarAlerta("Selecciona una meta de ahorro", "warning");
         return;
       }
-      
+
       if ((tipo === 'INGRESO' || tipo === 'GASTO') && !document.getElementById("transactionCategory").value) {
         mostrarAlerta("Selecciona una categoría", "warning");
         return;
@@ -308,16 +307,18 @@ document.addEventListener("DOMContentLoaded", function () {
     <td>${transaccion.descripcion || "Sin descripción"}</td>
     <td>${transaccion.categoriaId?.nombre || "Sin categoría"}</td>
     <td>
-      <span class="badge ${transaccion.tipo === "INGRESO" ? "bg-success" : "bg-danger"
-      }">
+      <span class="badge 
+        ${transaccion.tipo == 'INGRESO' ? 'bg-success' :
+          transaccion.tipo == 'AHORRO' ? 'bg-primary' :
+          'bg-danger'}">
         ${transaccion.tipo}
-      </span>
+</span>
     </td>
     <td class="text-end fw-bold">
       ${parseFloat(transaccion.cantidad).toLocaleString("es-ES", {
-        minimumFractionDigits: 2,
-        maximumFractionDigits: 2,
-      })} €
+            minimumFractionDigits: 2,
+            maximumFractionDigits: 2,
+          })} €
     </td>
     <td class="text-center">
       <button class="btn btn-sm btn-secondary-custom me-1" 
@@ -372,6 +373,29 @@ document.addEventListener("DOMContentLoaded", function () {
       notation: 'standard',
       useGrouping: true
     }).format(numero || 0);
+  }
+
+  // ============================================
+  // CARGAR METAS
+  // ============================================
+  async function cargarMetasUsuario(selectId = "transactionGoal") {
+    try {
+      const response = await fetch('/api/metas');
+      if (!response.ok) throw new Error(`HTTP ${response.status}`);
+
+      const metas = await response.json();
+      const select = document.getElementById(selectId);
+
+      select.innerHTML = '<option value="">Selecciona una meta</option>';
+      metas.forEach((meta) => {
+        const option = document.createElement("option");
+        option.value = meta.id;
+        option.textContent = meta.nombre;
+        select.appendChild(option);
+      });
+    } catch (error) {
+      console.error('Metas dashboard:', error);
+    }
   }
 
 });

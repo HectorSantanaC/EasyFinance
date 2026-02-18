@@ -311,11 +311,11 @@ document.addEventListener("DOMContentLoaded", function () {
       <td>${transaccion.categoriaId?.nombre || "Sin categoría"}</td>
       <td>
         <span class="badge 
-    ${transaccion.tipo == 'INGRESO' ? 'bg-success' : 
-      transaccion.tipo == 'AHORRO' ? 'bg-primary' : 
-      'bg-danger'}">
-    ${transaccion.tipo}
-</span>
+          ${transaccion.tipo == 'INGRESO' ? 'bg-success' : 
+            transaccion.tipo == 'AHORRO' ? 'bg-primary' : 
+            'bg-danger'}">
+          ${transaccion.tipo}
+        </span>
       </td>
       <td class="text-end fw-bold">
         ${parseFloat(transaccion.cantidad).toLocaleString("es-ES", {

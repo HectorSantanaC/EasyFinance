@@ -269,7 +269,9 @@
                       <td th:text="${transaccion.categoriaId?.nombre ?: 'Sin categoría'}"></td>
                       <td>
                         <span th:text="${transaccion.tipo?.name() ?: 'NULL'}"
-                          th:class="${transaccion.tipo?.name() == 'INGRESO'} ? 'badge bg-success' : 'badge bg-danger'">
+                          th:class="${#strings.toUpperCase(transaccion.tipo?.name() ?: transaccion.tipo) == 'INGRESO' ? 'badge bg-success' :
+                                                                        #strings.toUpperCase(transaccion.tipo?.name() ?: transaccion.tipo) == 'AHORRO' ? 'badge bg-primary' :
+                                                                        'badge bg-danger'}">
                         </span>
                       </td>
                       <td class="text-end fw-bold"

@@ -19,7 +19,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import es.easyfinance.models.SavingsGoalModel;
 import es.easyfinance.models.UserModel;
-import es.easyfinance.repositories.SavingsGoalRepository;
 import es.easyfinance.services.SavingsGoalService;
 import es.easyfinance.services.UserDetailsServiceImpl;
 
@@ -32,9 +31,6 @@ public class SavingsGoalController {
 	
 	@Autowired
     private UserDetailsServiceImpl userDetailsService;
-	
-	@Autowired
-	private SavingsGoalRepository savingsGoalRepository;
 	
 	private UserModel usuarioActual() {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
@@ -96,15 +92,4 @@ public class SavingsGoalController {
         return ResponseEntity.ok(savingsGoalService.calcularKPIs(usuario.getId()));
     }
     
-    @GetMapping("/test-repo")
-    public ResponseEntity<String> testRepo() {
-        try {
-            Long usuarioId = 1L;  // Tu usuario ID
-            List<SavingsGoalModel> metas = savingsGoalRepository.findByUsuarioIdIdOrderByFechaInicioDesc(usuarioId);
-            return ResponseEntity.ok("OK: " + metas.size() + " metas");
-        } catch (Exception e) {
-            return ResponseEntity.internalServerError().body("ERROR: " + e.getMessage());
-        }
-    }
-
 }
