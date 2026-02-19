@@ -33,6 +33,9 @@
             <!-- Formulario de login -->
             <form th:action="@{/loginprocess}" method="POST" class="needs-validation" novalidate>
 
+              <!-- CSRF Token -->
+              <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+
               <!-- Email -->
               <div class="mb-3">
                 <label for="email" class="form-label fw-semibold">

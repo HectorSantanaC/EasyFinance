@@ -40,7 +40,7 @@
 
           <!-- Navegación principal -->
           <div sec:authorize="hasRole('USER')">
-            <ul  class="nav flex-column" role="menubar">
+            <ul class="nav flex-column" role="menubar">
               <li class="nav-item">
                 <a class="nav-link" aria-current="page" th:href="@{dashboard}">
                   <i class="bi bi-speedometer2 me-2"></i>
@@ -410,6 +410,9 @@
         <div class="modal-body">
           <form id="formNewTransaction" th:action="@{/api/transacciones}" method="POST">
 
+            <!-- CSRF Token -->
+            <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+
             <!-- Tipo de transacción -->
             <div class="mb-3">
               <label for="transactionType" class="form-label">Tipo de transacción</label>
@@ -488,6 +491,10 @@
         </div>
         <div class="modal-body">
           <form id="formEditar">
+            
+            <!-- CSRF Token -->
+            <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+
             <input type="hidden" id="editId" name="id">
 
             <div class="row mb-3">

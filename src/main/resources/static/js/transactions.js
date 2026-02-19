@@ -257,7 +257,10 @@ document.addEventListener("DOMContentLoaded", function () {
       try {
         const response = await fetch(`/api/transacciones/${data.id}`, {
           method: "PUT",
-          headers: { "Content-Type": "application/json" },
+          headers: { 
+            "Content-Type": "application/json",
+            "X-CSRF-TOKEN": document.querySelector('input[name="_csrf"]').value 
+          },
           body: JSON.stringify(data),
         });
 
@@ -295,6 +298,7 @@ document.addEventListener("DOMContentLoaded", function () {
     try {
       const response = await fetch(`/api/transacciones/${id}`, {
         method: "DELETE",
+        headers: {'X-CSRF-TOKEN': document.querySelector('input[name="_csrf"]').value}
       });
 
       if (response.ok) {

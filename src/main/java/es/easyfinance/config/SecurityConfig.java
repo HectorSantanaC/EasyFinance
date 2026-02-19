@@ -34,8 +34,7 @@ public class SecurityConfig {
                 .successHandler(roleBasedAuthenticationSuccessHandler())
                 .permitAll()
             )
-            .logout(logout -> logout.logoutSuccessUrl("/login?logout").permitAll())
-            .csrf(csrf -> csrf.disable());
+            .logout(logout -> logout.logoutSuccessUrl("/login?logout").permitAll());
         
         return http.build();
     }
