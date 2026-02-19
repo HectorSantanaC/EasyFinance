@@ -96,12 +96,23 @@
               aria-label="Buscar transacciones" />
           </form>
 
-          <!-- Avatar en sidebar (solo mobile) -->
-          <div class="d-md-none mb-3 px-3">
-            <a href="#" class="d-flex align-items-center text-decoration-none bx-3">
-              <img th:src="@{/assets/images/user.png}" alt="Usuario" class="rounded-circle me-2" width="40" height="40">
-              <span class="text-secondary fw-500">Mi Perfil</span>
-            </a>
+          <!-- Perfil + Logout MOBILE -->
+          <div class="d-md-none px-3 mt-4">
+            <!-- Avatar/Perfil -->
+            <div class="d-flex align-items-center mb-3 p-2 rounded-3 hover-bg">
+              <img th:src="@{/assets/images/user.png}" alt="Usuario" class="rounded-circle me-3" width="40" height="40">
+              <div>
+                <div class="fw-600 small mb-0">Mi Perfil</div>
+              </div>
+            </div>
+
+            <!-- Botón Logout -->
+            <form th:action="@{/logout}" method="post" class="mb-3">
+              <button class="btn btn-secondary-custom w-100 py-2" type="submit" aria-label="Cerrar sesión">
+                <i class="bi bi-box-arrow-right me-2"></i>
+                Cerrar Sesión
+              </button>
+            </form>
           </div>
         </nav>
       </aside>
@@ -136,11 +147,20 @@
                 <button class="btn-secondary-custom" type="submit">Buscar</button>
               </form>
 
-              <!-- Avatar desktop -->
-              <a href="#" class="navbar-brand navbar-avatar d-none d-md-flex mb-0">
-                <img th:src="@{/assets/images/user.png}" alt="Usuario"
-                  class="rounded-circle border border-1 border-light-subtle">
-              </a>
+              <div class="navbar-brand navbar-avatar-section d-none d-md-flex mb-0">
+                <!-- Botón Logout -->
+                <form th:action="@{/logout}" method="post" class="d-inline">
+                  <button class="btn btn-secondary-custom mt-2 me-2" type="submit">
+                    <i class="bi bi-box-arrow-right me-1"></i> Cerrar Sesión
+                  </button>
+                </form>
+
+                <!-- Avatar desktop -->
+                <a href="#" class="navbar-brand navbar-avatar  d-none d-md-flex mb-0">
+                  <img th:src="@{/assets/images/user.png}" alt="Usuario"
+                    class="rounded-circle border border-1 border-light-subtle">
+                </a>
+              </div>
             </div>
           </nav>
         </header>
