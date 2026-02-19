@@ -397,6 +397,7 @@ small,
   border-right: 1px solid var(--border-color);
   box-shadow: var(--shadow-md);
   transition: all 0.3s ease;
+  overflow-y: auto;        /* 🔴 SCROLL INTERNO */
 
   /* Logo */
   .logo {
