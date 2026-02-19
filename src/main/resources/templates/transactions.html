@@ -482,6 +482,7 @@
                 <select id="editTipo" class="form-select">
                   <option value="INGRESO">Ingreso</option>
                   <option value="GASTO">Gasto</option>
+                  <option value="AHORRO">Ahorro</option>
                 </select>
               </div>
               <div class="col-md-6">
@@ -490,9 +491,16 @@
               </div>
             </div>
 
-            <div class="mb-3">
+            <div class="mb-3" id="editCategoriaDiv" style="display: none;">
               <label class="form-label fw-bold">Categoría</label>
               <select id="editCategoria" class="form-select">
+                <option value="">Sin categoría</option>
+              </select>
+            </div>
+
+            <div class="mb-3" id="editMetaDiv" style="display: none;">
+              <label class="form-label fw-bold">Categoría</label>
+              <select id="editMeta" class="form-select">
                 <option value="">Sin categoría</option>
               </select>
             </div>

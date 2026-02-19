@@ -183,16 +183,34 @@ document.addEventListener("DOMContentLoaded", function () {
       document.getElementById("editTipo").value = data.tipo;
       document.getElementById("editFecha").value = data.fecha?.split("T")[0] || "";
 
-      // Cargar categorías
-      if (data.tipo === 'INGRESO' || data.tipo === 'GASTO') {
-        await cargarCategoriasPorTipo(data.tipo, "editCategoria");
+      // Manejo por TIPO
+      const categoriaDiv = document.getElementById("editCategoriaDiv") || document.querySelector('[for="editCategoria"]')?.parentElement;
+      const metaDiv = document.getElementById("editMetaDiv") || document.querySelector('[for="editMeta"]')?.parentElement;
 
+      if (data.tipo === 'AHORRO') {
+        // AHORRO: mostrar metas, ocultar categorías
+        if (categoriaDiv) categoriaDiv.style.display = 'none';
+        if (metaDiv) metaDiv.style.display = 'block';
+
+        await cargarMetasUsuario("editMeta");
+        setTimeout(() => {
+          if (data.metaId?.id) {
+            document.getElementById("editMeta").value = data.metaId.id;
+          }
+        }, 300);
+
+      } else if (data.tipo === 'INGRESO' || data.tipo === 'GASTO') {
+        // INGRESO/GASTO: mostrar categorías, ocultar metas
+        if (categoriaDiv) categoriaDiv.style.display = 'block';
+        if (metaDiv) metaDiv.style.display = 'none';
+
+        await cargarCategoriasPorTipo(data.tipo, "editCategoria");
         setTimeout(() => {
           if (data.categoriaId?.id) {
             const select = document.getElementById("editCategoria");
             if (select) select.value = data.categoriaId.id;
           }
-        }, 200);
+        }, 300);
       }
 
       new bootstrap.Modal(document.getElementById("modalEditar")).show();
@@ -216,16 +234,25 @@ document.addEventListener("DOMContentLoaded", function () {
       spinner.classList.remove("d-none");
       btn.disabled = true;
 
+      const tipoEdit = document.getElementById("editTipo").value;
+      const categoriaEdit = document.getElementById("editCategoria").value;
+      const metaEdit = document.getElementById("editMeta")?.value;
+
       const data = {
         id: document.getElementById("editId").value,
         descripcion: document.getElementById("editDescripcion").value,
         cantidad: parseFloat(document.getElementById("editImporte").value),
-        tipo: document.getElementById("editTipo").value,
+        tipo: tipoEdit,
         fecha: document.getElementById("editFecha").value,
-        categoriaId: {
-          id: parseInt(document.getElementById("editCategoria").value) || null,
-        },
       };
+
+      if (tipoEdit === 'AHORRO') {
+        data.metaId = metaEdit ? { id: parseInt(metaEdit) } : null;
+        data.categoriaId = null;
+      } else {
+        data.categoriaId = categoriaEdit ? { id: parseInt(categoriaEdit) } : null;
+        data.metaId = null;
+      }
 
       try {
         const response = await fetch(`/api/transacciones/${data.id}`, {
