@@ -38,52 +38,58 @@
           <hr class="sidebar-divider">
 
           <!-- Navegación principal -->
-          <ul class="nav flex-column" role="menubar">
-            <li class="nav-item">
-              <a class="nav-link" aria-current="page" th:href="@{dashboard}">
-                <i class="bi bi-speedometer2 me-2"></i>
-                Dashboard
-              </a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" th:href="@{transactions}">
-                <i class="bi bi-receipt me-2"></i>
-                Transacciones
-              </a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" th:href="@{savings}">
-                <i class="bi bi-piggy-bank-fill me-2"></i>
-                Metas de Ahorro
-              </a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" th:href="@{categories}">
-                <i class="bi bi-tags me-2"></i>
-                Categorías
-              </a>
-            </li>
-          </ul>
+          <div sec:authorize="hasRole('USER')">
+            <ul  class="nav flex-column" role="menubar">
+              <li class="nav-item">
+                <a class="nav-link" aria-current="page" th:href="@{dashboard}">
+                  <i class="bi bi-speedometer2 me-2"></i>
+                  Dashboard
+                </a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" th:href="@{transactions}">
+                  <i class="bi bi-receipt me-2"></i>
+                  Transacciones
+                </a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" th:href="@{savings}">
+                  <i class="bi bi-piggy-bank-fill me-2"></i>
+                  Metas de Ahorro
+                </a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" th:href="@{categories}">
+                  <i class="bi bi-tags me-2"></i>
+                  Categorías
+                </a>
+              </li>
+            </ul>
 
-          <!-- Divider Admin -->
-          <hr class="sidebar-divider">
-          <h6 id="admin-heading" class="admin-title text-uppercase small text-muted mb-2">ADMINISTRACIÓN</h6>
+            <!-- Divider Admin -->
+            <hr class="sidebar-divider">
+          </div>
 
-          <!-- Navegación de administración -->
-          <ul class="nav flex-column" role="menubar">
-            <li class="nav-item">
-              <a class="nav-link" th:href="@{admin-users}">
-                <i class="bi bi-people me-2"></i>
-                Gestionar Usuarios
-              </a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" th:href="@{admin-categories}">
-                <i class="bi bi-gear me-2"></i>
-                Categorías Globales
-              </a>
-            </li>
-          </ul>
+          <div sec:authorize="hasRole('ADMIN')">
+            <h6 id="admin-heading" class="admin-title text-uppercase small text-muted mb-2">ADMINISTRACIÓN</h6>
+
+            <!-- Navegación de administración -->
+            <ul class="nav flex-column" role="menubar">
+              <li class="nav-item">
+                <a class="nav-link" th:href="@{admin-users}">
+                  <i class="bi bi-people me-2"></i>
+                  Gestionar Usuarios
+                </a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" th:href="@{admin-categories}">
+                  <i class="bi bi-gear me-2"></i>
+                  Categorías Globales
+                </a>
+              </li>
+            </ul>
+          </div>
+
 
           <!-- Divider Mobile Actions -->
           <hr class="sidebar-divider d-md-none">
