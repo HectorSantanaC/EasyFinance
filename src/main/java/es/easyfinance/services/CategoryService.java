@@ -35,5 +35,9 @@ public class CategoryService {
     public List<CategoryModel> findByTipo(TransactionTypeModel tipo) {
         return categoryRepository.findByTipo(tipo);
     }
+    
+    public List<CategoryModel> listarGlobalesActivas() {
+        return categoryRepository.findByEsGlobalTrueAndActivaTrueOrderByNombreAsc();
+    }
 
 }

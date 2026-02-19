@@ -84,5 +84,10 @@ public class CategoryController {
         List<SavingsGoalModel> resultado = savingsGoalService.findByUsuario(usuario);
         return ResponseEntity.ok(resultado);
     }
-
+    
+    @GetMapping("/globales")
+    public ResponseEntity<List<CategoryModel>> listarGlobales() {
+        return ResponseEntity.ok(categoryService.listarGlobalesActivas());
+    }
+    
 }

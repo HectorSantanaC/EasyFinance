@@ -15,5 +15,7 @@ public interface CategoryRepository extends JpaRepository<CategoryModel, Long> {
     
     @Query("SELECT c FROM CategoryModel c WHERE c.nombre = :nombre AND c.tipo = :tipo AND c.esGlobal = :esGlobal")
     CategoryModel findFirstByNombreAndTipoAndEsGlobal(String nombre, TransactionTypeModel tipo, boolean esGlobal);
+    
+    List<CategoryModel> findByEsGlobalTrueAndActivaTrueOrderByNombreAsc();
 
 }
