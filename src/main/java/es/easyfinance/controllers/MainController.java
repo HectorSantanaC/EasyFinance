@@ -59,7 +59,7 @@ public class MainController {
 	}
 	
 	@GetMapping(value = "/dashboard")
-	public String dashboard(Model model) {
+	public String dashboard(Model model, Authentication auth) {
 	    
 		UserModel usuario = usuarioActual();
 		
@@ -93,7 +93,7 @@ public class MainController {
 	public String transactions(@RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int size,
             @ModelAttribute TransactionFilterDTO filtro,
-            Model model) {
+            Model model, Authentication auth) {
 		
 		UserModel usuario = usuarioActual();
 		
@@ -120,22 +120,22 @@ public class MainController {
 	}
 	
 	@GetMapping(value = "/savings")
-	public String savings() {
+	public String savings(Authentication auth) {
 		return "savings";
 	}
 	
 	@GetMapping(value = "/categories")
-	public String categories() {
+	public String categories(Authentication auth) {
 		return "categories";
 	}
 	
 	@GetMapping(value = "/admin-users")
-	public String adminUsers() {
+	public String adminUsers(Authentication auth) {
 		return "admin-users";
 	}
 	
 	@GetMapping(value = "/admin-categories")
-	public String adminCategories() {
+	public String adminCategories(Authentication auth) {
 		return "admin-categories";
 	}
 

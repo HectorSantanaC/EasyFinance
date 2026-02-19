@@ -25,11 +25,13 @@ public class UserDetailsServiceImpl implements UserDetailsService {
         	throw new UsernameNotFoundException("Usuario no encontrado: " + email);
         }
         
+        String role = "ROLE_" + userModel.getRolId().getNombre().toUpperCase();
+        
         return User.withUsername(userModel.getEmail())
-        		.password(userModel.getContrasena())
-        		.authorities(userModel.getRolId().getNombre())
-        		.disabled(!userModel.isActivo())
-        		.build();
+                .password(userModel.getContrasena())
+                .authorities(role)
+                .disabled(!userModel.isActivo())
+                .build();
     }
     
     public UserModel findByEmail(String email) {
