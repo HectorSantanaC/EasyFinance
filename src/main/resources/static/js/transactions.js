@@ -241,8 +241,9 @@ document.addEventListener("DOMContentLoaded", function () {
           modalInstance.hide();
           mostrarAlerta("¡Transacción actualizada!", "success");
 
-          // ✅ RECARGAR CON FILTROS ACTIVOS
+          // RECARGAR CON FILTROS ACTIVOS
           await actualizarTablaConFiltros();
+          await actualizarKPIs();
         } else {
           mostrarAlerta("Error al guardar", "danger");
         }
@@ -272,8 +273,9 @@ document.addEventListener("DOMContentLoaded", function () {
       if (response.ok) {
         mostrarAlerta(`¡Transacción eliminada!`, "warning");
 
-        // ✅ RECARGAR CON FILTROS ACTIVOS
+        // RECARGAR CON FILTROS ACTIVOS
         await actualizarTablaConFiltros();
+        await actualizarKPIs();
       } else {
         mostrarAlerta("Error al eliminar", "danger");
       }
