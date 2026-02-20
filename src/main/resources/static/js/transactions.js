@@ -73,24 +73,12 @@ document.addEventListener("DOMContentLoaded", function () {
   }
 
   /* ===========================================
-    INSERTAR TRANSACCIONES
+    INSERTAR NUEVA TRANSACCIÓN
   =========================================== */
   const form = document.getElementById("formNewTransaction");
   if (form) {
     form.addEventListener("submit", async function (e) {
       e.preventDefault();
-
-      // Validación extra
-      const tipo = document.getElementById("transactionType").value;
-      if (tipo === 'AHORRO' && !document.getElementById("transactionGoal").value) {
-        mostrarAlerta("Selecciona una meta de ahorro", "warning");
-        return;
-      }
-
-      if ((tipo === 'INGRESO' || tipo === 'GASTO') && !document.getElementById("transactionCategory").value) {
-        mostrarAlerta("Selecciona una categoría", "warning");
-        return;
-      }
 
       const formData = new FormData(form);
 
@@ -120,9 +108,8 @@ document.addEventListener("DOMContentLoaded", function () {
   }
 
   /* ===========================================
-    EDITAR TRANSACCIONES
+    EDITAR TRANSACCIÓN
   =========================================== */
-
   let transaccionEditando = null;
 
   window.editarTransaccion = async function (id) {
@@ -352,7 +339,7 @@ document.addEventListener("DOMContentLoaded", function () {
       year: 'numeric'
     })}
       </td>
-      <td>${transaccion.descripcion || "Sin descripción"}</td>
+      <td>${transaccion.descripcion || "-"}</td>
       <td>${transaccion.categoriaId?.nombre || "Sin categoría"}</td>
       <td>
         <span class="badge 

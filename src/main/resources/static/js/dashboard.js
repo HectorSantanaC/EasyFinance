@@ -113,17 +113,6 @@ document.addEventListener("DOMContentLoaded", function () {
     form.addEventListener("submit", async function (e) {
       e.preventDefault();
 
-      // Validación
-      const tipo = document.getElementById("transactionType").value;
-      if (tipo === 'AHORRO' && !document.getElementById("transactionGoal")?.value) {
-        mostrarAlerta("Selecciona una meta de ahorro", "warning");
-        return;
-      }
-      if ((tipo === 'INGRESO' || tipo === 'GASTO') && !document.getElementById("transactionCategory")?.value) {
-        mostrarAlerta("Selecciona una categoría", "warning");
-        return;
-      }
-
       const formData = new FormData(form);
 
       try {
@@ -307,7 +296,7 @@ document.addEventListener("DOMContentLoaded", function () {
       year: 'numeric'
     })}
       </td>
-      <td>${transaccion.descripcion || "Sin descripción"}</td>
+      <td>${transaccion.descripcion || "-"}</td>
       <td>${transaccion.categoriaId?.nombre || "Sin categoría"}</td>
       <td>
         <span class="badge 
