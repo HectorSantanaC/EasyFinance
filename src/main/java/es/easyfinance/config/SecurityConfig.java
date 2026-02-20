@@ -4,6 +4,9 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.core.session.SessionRegistry;
+import org.springframework.security.core.session.SessionRegistryImpl;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
@@ -34,6 +37,13 @@ public class SecurityConfig {
                 .successHandler(loginSuccesHandler)
                 .permitAll()
             )
+            .sessionManagement(session -> session
+                    .sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED)
+                    .maximumSessions(1)  // Límite a 1 sesión por usuario
+                    .maxSessionsPreventsLogin(false)  // Permite nuevo login
+                    .expiredUrl("/login?expired")
+                    .sessionRegistry(sessionRegistry())
+                )
             .logout(logout -> logout.logoutSuccessUrl("/login?logout").permitAll());
         
         return http.build();
@@ -65,6 +75,11 @@ public class SecurityConfig {
     @Bean
     BCryptPasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
+    }
+    
+    @Bean
+    SessionRegistry sessionRegistry() {
+        return new SessionRegistryImpl();
     }
 
 }
