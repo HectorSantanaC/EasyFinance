@@ -95,6 +95,7 @@ document.addEventListener("DOMContentLoaded", function () {
           form.reset();
           await actualizarTabla();
           await actualizarKPIs();
+          actualizarContadorTransacciones();
         } else {
           const errorText = await response.text();
           console.error('Error servidor:', errorText);
@@ -219,6 +220,7 @@ document.addEventListener("DOMContentLoaded", function () {
           // RECARGAR CON FILTROS ACTIVOS
           await actualizarTabla();
           await actualizarKPIs();
+          actualizarContadorTransacciones();
         } else {
           mostrarAlerta("Error al guardar", "danger");
         }
@@ -252,6 +254,7 @@ document.addEventListener("DOMContentLoaded", function () {
         // RECARGAR CON FILTROS ACTIVOS
         await actualizarTabla();
         await actualizarKPIs();
+        actualizarContadorTransacciones();
       } else {
         mostrarAlerta("Error al eliminar", "danger");
       }
@@ -668,6 +671,20 @@ document.addEventListener("DOMContentLoaded", function () {
   setTimeout(async () => {
     await window.cargarCategoriasFiltroPorTipo();
     await actualizarTablaConFiltros(false);
+    actualizarContadorTransacciones();
   }, 500);
+
+  // ===========================================
+  // CONTADOR TRANSACCIONES
+  // ===========================================
+  function actualizarContadorTransacciones() {
+    const tbody = document.getElementById('bodyTransacciones');
+    const contador = document.getElementById('contadorTransacciones');
+
+    if (tbody && contador) {
+      const total = tbody.children.length;
+      contador.textContent = `${total} transacciones`;
+    }
+  }
 
 });
