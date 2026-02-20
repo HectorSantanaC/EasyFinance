@@ -21,8 +21,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import es.easyfinance.dto.TransactionFilterDTO;
 import es.easyfinance.models.RolModel;
+import es.easyfinance.models.TransactionFilterModel;
 import es.easyfinance.models.TransactionModel;
 import es.easyfinance.models.UserModel;
 import es.easyfinance.services.CategoryService;
@@ -95,7 +95,7 @@ public class MainController {
 	   
 	 // ASIGNAR ROL USUARIO
 	    RolModel rolUsuario = new RolModel();
-	    rolUsuario.setId(2L);  // ← ID del rol USUARIO
+	    rolUsuario.setId(2L);  // ID del rol USUARIO
 	    usuario.setRolId(rolUsuario);
 	    usuario.setActivo(true);
 	    usuario.setFechaRegistro(LocalDate.now());
@@ -156,7 +156,7 @@ public class MainController {
 	@GetMapping(value = "/transactions")
 	public String transactions(@RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int size,
-            @ModelAttribute TransactionFilterDTO filtro,
+            @ModelAttribute TransactionFilterModel filtro,
             Model model, Authentication auth) {
 		
 		UserModel usuario = usuarioActual();

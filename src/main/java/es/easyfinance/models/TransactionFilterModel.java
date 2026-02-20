@@ -1,15 +1,15 @@
-package es.easyfinance.dto;
+package es.easyfinance.models;
 
 import java.time.LocalDate;
 
-public class TransactionFilterDTO {
+public class TransactionFilterModel {
 	
 	private String tipo;
     private String categoria;
     private LocalDate fechaDesde;
     private LocalDate fechaHasta;
 
-    public TransactionFilterDTO() {}
+    public TransactionFilterModel() {}
 
     public String getTipo() { return tipo; }
     public void setTipo(String tipo) { this.tipo = tipo; }

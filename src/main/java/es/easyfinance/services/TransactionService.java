@@ -12,8 +12,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
-import es.easyfinance.dto.TransactionFilterDTO;
 import es.easyfinance.models.CategoryModel;
+import es.easyfinance.models.TransactionFilterModel;
 import es.easyfinance.models.TransactionModel;
 import es.easyfinance.models.TransactionTypeModel;
 import es.easyfinance.models.UserModel;
@@ -133,7 +133,7 @@ public class TransactionService {
       }
     
     // Filtros
-    public Page<TransactionModel> findByFilters(UserModel usuario, TransactionFilterDTO filtro, Pageable pageable) {
+    public Page<TransactionModel> findByFilters(UserModel usuario, TransactionFilterModel filtro, Pageable pageable) {
     	
         TransactionTypeModel tipoEnum = null;
         

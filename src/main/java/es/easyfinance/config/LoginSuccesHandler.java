@@ -30,10 +30,9 @@ public class LoginSuccesHandler extends SimpleUrlAuthenticationSuccessHandler {
         if (user != null) {
             user.setUltimoAcceso(LocalDateTime.now());
             userRepository.save(user);
-            System.out.println("✅ Ultimo acceso: " + email);
         }
         
-     // Redirección por rol (opcional)
+        // Redirección por rol (opcional)
         if (auth.getAuthorities().stream().anyMatch(a -> a.getAuthority().equals("ROLE_ADMIN"))) {
             getRedirectStrategy().sendRedirect(request, response, "/admin-users");
         } else {
