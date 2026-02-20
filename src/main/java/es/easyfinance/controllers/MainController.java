@@ -202,5 +202,11 @@ public class MainController {
 	public String adminCategories(Authentication auth) {
 		return "admin-categories";
 	}
+	
+	@GetMapping("/contact")
+	public String enviarContacto() {
+	    return "contact";
+	}
+
 
 }

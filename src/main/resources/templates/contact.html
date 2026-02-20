@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Contacto - EasyFinance</title>
+  <link rel="stylesheet" th:href="@{/libs/bootstrap/css/bootstrap.min.css}">
+  <link rel="stylesheet" th:href="@{/libs/bootstrap-icons/bootstrap-icons.min.css}">
+  <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+
+  <!-- Navbar -->
+  <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm">
+    <div class="container">
+      <a class="navbar-brand d-flex align-items-center" href="/">
+        <img th:src="@{/assets/images/logo-easyfinance.png}" alt="EasyFinance" height="70" class="me-2">
+      </a>
+
+      <div class="d-flex gap-2">
+        <a th:href="@{/login}" class="btn btn-secondary-custom">Iniciar sesión</a>
+        <a th:href="@{/register}" class="btn btn-primary-custom">Registrarse</a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Contenido principal -->
+  <main>
+    <!-- Hero Contacto -->
+    <section class="bg-light py-5 mb-5">
+      <div class="container">
+        <div class="row align-items-center">
+          <div class="col-lg-6">
+            <h1 class="display-4 fw-bold mb-4">Contáctanos</h1>
+            <p class="lead text-muted mb-4">
+              ¿Tienes dudas? ¿Problema técnico? ¿Sugerencia? Nuestro equipo está listo para ayudarte.
+            </p>
+            <div class="d-flex gap-3 flex-wrap">
+              <a th:href="@{/register}" class="btn btn-primary-custom btn-lg">
+                <i class="bi bi-person-plus me-2"></i>Registrarse gratis
+              </a>
+            </div>
+          </div>
+          <div class="col-lg-6 text-center">
+            <i class="bi bi-headset display-1 text-primary opacity-75"></i>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Formulario + Info -->
+    <section class="py-5">
+      <div class="container">
+        <div class="row g-5">
+          <!-- Formulario -->
+          <div class="col-lg-7">
+            <div class="card border-0 shadow-lg p-5">
+              <h2 class="h3 fw-bold mb-4">Envía tu mensaje</h2>
+              <form id="contactForm" th:action="@{/contacto/enviar}" method="POST">
+                <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
+                
+                <div class="row">
+                  <div class="col-md-6 mb-4">
+                    <label class="form-label">Nombre <span class="text-danger">*</span></label>
+                    <input type="text" class="form-control" name="nombre" required>
+                  </div>
+                  <div class="col-md-6 mb-4">
+                    <label class="form-label">Email <span class="text-danger">*</span></label>
+                    <input type="email" class="form-control" name="email" required>
+                  </div>
+                </div>
+
+                <div class="mb-4">
+                  <label class="form-label">Asunto <span class="text-danger">*</span></label>
+                  <select class="form-select" name="asunto" required>
+                    <option value="">Selecciona...</option>
+                    <option value="soporte">Soporte técnico</option>
+                    <option value="cuenta">Mi cuenta</option>
+                    <option value="sugerencia">Sugerencia</option>
+                    <option value="factura">Facturación</option>
+                  </select>
+                </div>
+
+                <div class="mb-4">
+                  <label class="form-label">Mensaje <span class="text-danger">*</span></label>
+                  <textarea class="form-control" name="mensaje" rows="5" required></textarea>
+                </div>
+
+                <button type="submit" class="btn btn-primary-custom">
+                  <i class="bi bi-send me-2"></i>Enviar
+                </button>
+              </form>
+            </div>
+          </div>
+
+          <!-- Info contacto -->
+          <div class="col-lg-5">
+            <div class="card border-0 shadow h-100 p-4">
+              <h5 class="fw-bold mb-4"><i class="bi bi-info-circle text-primary me-2"></i>Contacto directo</h5>
+              
+              <div class="contact-item mb-4 p-3 bg-light rounded">
+                <div class="d-flex">
+                  <i class="bi bi-envelope-fill text-success fs-4 me-3"></i>
+                  <div>
+                    <h6>Soporte</h6>
+                    <a href="mailto:soporte@easyfinance.com" class="text-decoration-none">soporte@easyfinance.com</a>
+                  </div>
+                </div>
+              </div>
+
+              <div class="contact-item mb-4 p-3 bg-light rounded">
+                <div class="d-flex">
+                  <i class="bi bi-clock-fill text-info fs-4 me-3"></i>
+                  <div>
+                    <h6>Horario</h6>
+                    <p>L-V 9:00-18:00</p>
+                  </div>
+                </div>
+              </div>
+
+              <div class="contact-item p-3 bg-light rounded">
+                <div class="d-flex">
+                  <i class="bi bi-lightning-charge-fill text-warning fs-4 me-3"></i>
+                  <div>
+                    <h6>Respuesta</h6>
+                    <p class="mb-0">Máx. 48h</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Footer -->
+  <footer class="bg-light mt-5" role="contentinfo">
+          <div class="col-12">
+            <div
+              class="footer-content d-flex flex-column flex-md-row justify-content-between align-items-center pb-5 px-4 ">
+
+              <!-- Copyright -->
+              <div class="footer-copyright mb-4 mb-md-0 text-center text-md-start">
+                <p class="mb-0 text-secondary fw-500">Copyright © EasyFinance 2026</p>
+                <small class="text-muted">Todos los derechos reservados</small>
+              </div>
+
+              <!-- Links -->
+              <nav class="footer-links mb-4 mb-md-0" aria-label="Enlaces del pie de página">
+                <ul class="list-unstyled d-flex gap-4 mb-0">
+                  <li><a href="#" class="text-secondary text-decoration-none fw-500">Privacidad</a></li>
+                  <li><a href="#" class="text-secondary text-decoration-none fw-500">Términos</a></li>
+                  <li><a href="#" class="text-secondary text-decoration-none fw-500">Contacto</a></li>
+                  <li><a href="#" class="text-secondary text-decoration-none fw-500">Ayuda</a></li>
+                </ul>
+              </nav>
+
+              <!-- Social Links -->
+              <div class="footer-social d-flex gap-4 mx-4">
+                <a href="#" class="social-link" aria-label="Síguenos en Instagram">
+                  <i class="bi bi-instagram"></i>
+                </a>
+                <a href="#" class="social-link" aria-label="Síguenos en LinkedIn">
+                  <i class="bi bi-linkedin"></i>
+                </a>
+              </div>
+            </div>
+          </div>
+        </footer>
+
+  <script th:src="@{/libs/bootstrap/js/bootstrap.bundle.min.js}"></script>
+</body>
+</html>
