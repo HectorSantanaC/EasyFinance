@@ -293,9 +293,10 @@
                       <td th:text="${transaccion.descripcion}"></td>
                       <td th:text="${transaccion.categoriaId?.nombre ?: 'Sin categoría'}"></td>
                       <td>
-                        <span th:text="${transaccion.tipo?.name() ?: 'NULL'}" th:class="${#strings.toUpperCase(transaccion.tipo?.name() ?: transaccion.tipo) == 'INGRESO' ? 'badge bg-success' :
-                                                                        #strings.toUpperCase(transaccion.tipo?.name() ?: transaccion.tipo) == 'AHORRO' ? 'badge bg-primary' :
-                                                                        'badge bg-danger'}">
+                        <span th:text="${transaccion.tipo?.name() ?: 'NULL'}" 
+                          th:class="${#strings.toUpperCase(transaccion.tipo?.name() ?: transaccion.tipo) == 'INGRESO' ? 'badge bg-success' :
+                                    #strings.toUpperCase(transaccion.tipo?.name() ?: transaccion.tipo) == 'AHORRO' ? 'badge bg-primary' :
+                                    'badge bg-danger'}">
                         </span>
                       </td>
                       <td class="text-end fw-bold"
@@ -491,7 +492,7 @@
         </div>
         <div class="modal-body">
           <form id="formEditar">
-            
+
             <!-- CSRF Token -->
             <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
 
