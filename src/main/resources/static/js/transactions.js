@@ -217,7 +217,7 @@ document.addEventListener("DOMContentLoaded", function () {
           mostrarAlerta("¡Transacción actualizada!", "success");
 
           // RECARGAR CON FILTROS ACTIVOS
-          await actualizarTablaConFiltros();
+          await actualizarTabla();
           await actualizarKPIs();
         } else {
           mostrarAlerta("Error al guardar", "danger");
@@ -250,7 +250,7 @@ document.addEventListener("DOMContentLoaded", function () {
         mostrarAlerta(`¡Transacción eliminada!`, "warning");
 
         // RECARGAR CON FILTROS ACTIVOS
-        await actualizarTablaConFiltros();
+        await actualizarTabla();
         await actualizarKPIs();
       } else {
         mostrarAlerta("Error al eliminar", "danger");
@@ -339,7 +339,7 @@ document.addEventListener("DOMContentLoaded", function () {
       year: 'numeric'
     })}
       </td>
-      <td>${transaccion.descripcion || "-"}</td>
+      <td>${transaccion.descripcion || ""}</td>
       <td>${transaccion.categoriaId?.nombre || "Sin categoría"}</td>
       <td>
         <span class="badge 
