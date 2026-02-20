@@ -28,9 +28,11 @@ public class SecurityConfig {
             				"/assets/**", 
             				"/css/**", 
             				"/js/**", 
+            				"/",
             				"/index", 
             				"/login", 
-            				"/register").permitAll()
+            				"/register",
+            				"/contact").permitAll()
             		
             		.requestMatchers("/api/categorias/**", 
             				"/api/roles/**", 
