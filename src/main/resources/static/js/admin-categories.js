@@ -77,11 +77,11 @@ document.addEventListener('DOMContentLoaded', function () {
             </td>
             <td class="text-center">${badgeActiva}</td>
             <td class="text-center">
-                <button class="btn btn-sm btn-secondary-custom me-1"
+                <button class="btn btn-sm btn-secondary-custom edit-btn me-1" 
                         data-id="${cat.id}" data-nombre="${cat.nombre || ''}" data-tipo="${cat.tipo || ''}">
                     <i class="bi bi-pencil"></i>
                 </button>
-                <button class="btn btn-sm btn-danger-custom" data-id="${cat.id}">
+                <button class="btn btn-sm btn-danger-custom delete-btn" data-id="${cat.id}">
                     <i class="bi bi-trash"></i>
                 </button>
             </td>
