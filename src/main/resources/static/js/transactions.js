@@ -481,6 +481,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
   // FUNCIONES PRINCIPALES
   window.filtrarTransacciones = function () {
+    togglePaginacion();
     // Validación
     if (!validarRangoFechasFiltro()) {
       console.warn('Filtro cancelado por fechas inválidas');
@@ -518,7 +519,7 @@ document.addEventListener("DOMContentLoaded", function () {
         pasaFiltro = false;
       }
 
-      // Filtro FECHAS - CORREGIDO: parsing robusto DD/MM/YYYY → Date
+      // Filtro FECHAS
       if (pasaFiltro && (fechaDesde || fechaHasta)) {
         try {
           // Parse DD/MM/YYYY → YYYY-MM-DD para Date()
@@ -530,9 +531,6 @@ document.addEventListener("DOMContentLoaded", function () {
           }
           const [, dia, mes, año] = partes;
           const fechaRow = new Date(`${año}-${mes.padStart(2, '0')}-${dia.padStart(2, '0')}`);
-
-          // Solo hora 00:00 para comparación precisa
-          fechaRow.setHours(0, 0, 0, 0);
 
           if (fechaDesde) {
             const fechaDesdeObj = new Date(fechaDesde + 'T00:00:00');
@@ -608,6 +606,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
     // Mostrar todas
     window.mostrarTodasTransacciones();
+    togglePaginacion();
 
     // Ocultar mensaje
     const mensaje = document.getElementById('mensajeResultados');
@@ -665,6 +664,7 @@ document.addEventListener("DOMContentLoaded", function () {
       if (filtroFechaDesde) filtroFechaDesde.addEventListener('change', validarRangoFechasFiltro);
       if (filtroFechaHasta) filtroFechaHasta.addEventListener('change', validarRangoFechasFiltro);
       await window.cargarCategoriasFiltroPorTipo();
+      togglePaginacion();
     });
   }
 
@@ -684,6 +684,39 @@ document.addEventListener("DOMContentLoaded", function () {
     if (tbody && contador) {
       const total = tbody.children.length;
       contador.textContent = `${total} transacciones`;
+    }
+  }
+
+  // AL FINAL del DOMContentLoaded, antes de });
+  document.querySelector('.table-responsive').addEventListener('click', async e => {
+    const link = e.target.closest('a[data-page]');
+    if (!link) return;
+    e.preventDefault();  // ← CLAVE
+
+    const page = link.dataset.page;
+    const params = new URLSearchParams(new FormData(document.getElementById('formFiltros')));
+    params.set('page', page);
+
+    const data = await (await fetch(`/api/transacciones?${params}`)).json();
+    document.getElementById('bodyTransacciones').innerHTML = '';
+    data.content.forEach(t => document.getElementById('bodyTransacciones').appendChild(crearFilaTransaccion(t)));
+  });
+
+  // Detectar si hay filtros activos
+  function hayFiltrosActivos() {
+    const tipo = document.getElementById('filtroTipo')?.value;
+    const categoria = document.getElementById('filtroCategoria')?.value;
+    const fechaDesde = document.getElementById('filtroFechaDesde')?.value;
+    const fechaHasta = document.getElementById('filtroFechaHasta')?.value;
+
+    return tipo !== '' || categoria !== '' || fechaDesde || fechaHasta;
+  }
+
+  // Ocultar/mostrar paginación
+  function togglePaginacion() {
+    const paginacion = document.querySelector('.pagination')?.closest('nav');
+    if (paginacion) {
+      paginacion.style.display = hayFiltrosActivos() ? 'none' : 'block';
     }
   }
 

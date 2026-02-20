@@ -293,8 +293,7 @@
                       <td th:text="${transaccion.descripcion}"></td>
                       <td th:text="${transaccion.categoriaId?.nombre ?: 'Sin categoría'}"></td>
                       <td>
-                        <span th:text="${transaccion.tipo?.name() ?: 'NULL'}" 
-                          th:class="${#strings.toUpperCase(transaccion.tipo?.name() ?: transaccion.tipo) == 'INGRESO' ? 'badge bg-success' :
+                        <span th:text="${transaccion.tipo?.name() ?: 'NULL'}" th:class="${#strings.toUpperCase(transaccion.tipo?.name() ?: transaccion.tipo) == 'INGRESO' ? 'badge bg-success' :
                                     #strings.toUpperCase(transaccion.tipo?.name() ?: transaccion.tipo) == 'AHORRO' ? 'badge bg-primary' :
                                     'badge bg-danger'}">
                         </span>
@@ -327,22 +326,29 @@
                 </table>
                 <nav th:if="${totalPages > 1}">
                   <ul class="pagination justify-content-center">
+                    <!-- Anterior -->
                     <li class="page-item" th:class="${currentPage == 0} ? 'disabled'">
-                      <a class="page-link" th:href="@{/transactions(page=${currentPage - 1})}">Anterior</a>
+                      <a class="page-link" th:href="@{/transactions(page=${currentPage - 1})}"
+                        th:attr="data-page=${currentPage - 1}">
+                        Anterior
+                      </a>
                     </li>
-                    <!-- Números de página -->
+
+                    <!-- Números -->
                     <li th:each="i : ${#numbers.sequence(0, totalPages - 1)}" class="page-item"
                       th:class="${i == currentPage} ? 'active'">
-                      <a class="page-link" th:href="@{/transactions(page=${i})}" th:text="${i + 1}"></a>
+                      <a class="page-link" th:href="@{/transactions(page=${i})}" th:attr="data-page=${i}"
+                        th:text="${i + 1}"></a>
                     </li>
+
+                    <!-- Siguiente -->
                     <li class="page-item" th:class="${currentPage == totalPages - 1} ? 'disabled'">
-                      <a class="page-link" th:href="@{/transactions(page=${currentPage + 1})}">Siguiente</a>
+                      <a class="page-link" th:href="@{/transactions(page=${currentPage + 1})}"
+                        th:attr="data-page=${currentPage + 1}">
+                        Siguiente
+                      </a>
                     </li>
                   </ul>
-                  <div class="text-center mt-2">
-                    Mostrando <span th:text="${transacciones.size()}"></span> de <span th:text="${totalItems}"></span>
-                    transacciones.
-                  </div>
                 </nav>
               </div>
             </section>
