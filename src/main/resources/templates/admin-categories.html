@@ -371,6 +371,69 @@
       </div>
     </div>
   </div>
+
+  <!-- Modal Editar Categoría Global -->
+  <div class="modal fade" id="modalEditGlobalCategory" tabindex="-1" aria-labelledby="modalEditGlobalCategoryLabel"
+    aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <!-- Modal Header -->
+        <div class="modal-header">
+          <h5 class="modal-title" id="modalEditGlobalCategoryLabel">
+            <i class="bi bi-pencil me-2"></i>Editar Categoría Global
+          </h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+        </div>
+
+        <!-- Modal Body -->
+        <div class="modal-body">
+          <form id="formEditGlobalCategory">
+            <!-- CSRF Token -->
+            <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+
+            <!-- ID oculto -->
+            <input type="hidden" id="editGlobalCategoryId" name="id">
+
+            <!-- Nombre de la categoría -->
+            <div class="mb-3">
+              <label for="editGlobalCategoryName" class="form-label">Nombre de la categoría <span
+                  class="text-danger">*</span></label>
+              <input type="text" class="form-control" id="editGlobalCategoryName" name="nombre"
+                placeholder="Ej: Alimentación, Salario, Vivienda..." maxlength="50" required>
+              <div class="form-text">Máximo 50 caracteres. Visible para todos los usuarios.</div>
+            </div>
+
+            <!-- Tipo de categoría -->
+            <div class="mb-3">
+              <label for="editGlobalCategoryType" class="form-label">Tipo <span class="text-danger">*</span></label>
+              <select class="form-select" id="editGlobalCategoryType" name="tipo" required>
+                <option value="">Selecciona un tipo</option>
+                <option value="INGRESO">Ingreso</option>
+                <option value="GASTO">Gasto</option>
+              </select>
+            </div>
+
+            <!-- Alerta advertencia -->
+            <div class="alert alert-warning mb-0">
+              <i class="bi bi-exclamation-triangle me-2"></i>
+              <small><strong>Advertencia:</strong> Los cambios afectan a <strong>todos los usuarios</strong> del
+                sistema.</small>
+            </div>
+          </form>
+        </div>
+
+        <!-- Modal Footer -->
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+          <button type="button" id="btnGuardarEditGlobalCategory" class="btn btn-secondary-custom">
+            <i class="bi bi-save me-2"></i>Actualizar categoría global
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
 </body>
 
 </html>
