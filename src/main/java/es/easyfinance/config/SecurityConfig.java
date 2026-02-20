@@ -12,8 +12,6 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationSuccessHandler;
-import org.springframework.security.web.session.InvalidSessionStrategy;
-import org.springframework.security.web.session.SimpleRedirectInvalidSessionStrategy;
 
 @Configuration
 @EnableWebSecurity
@@ -22,8 +20,6 @@ public class SecurityConfig {
     @Bean
     SecurityFilterChain filterChain(HttpSecurity http, LoginSuccesHandler loginSuccesHandler,
     		UserDetailsService userDetailsService) throws Exception {
-    	
-    	InvalidSessionStrategy invalidSessionStrategy = new SimpleRedirectInvalidSessionStrategy("/login?expired");
         
         http
             .userDetailsService(userDetailsService)
@@ -59,15 +55,12 @@ public class SecurityConfig {
             )
             .sessionManagement(session -> session
             		.sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED)
-            		.invalidSessionStrategy(invalidSessionStrategy)
                     .maximumSessions(1)  // Límite a 1 sesión por usuario
                     .maxSessionsPreventsLogin(false)  // Permite nuevo login
                     .expiredUrl("/login?expired")
                     .sessionRegistry(sessionRegistry())
             )
-            .logout(logout -> logout.logoutSuccessUrl("/login?logout")
-            		.invalidateHttpSession(true)
-            		.permitAll());
+            .logout(logout -> logout.logoutSuccessUrl("/login?logout").permitAll());
         
         return http.build();
     }
