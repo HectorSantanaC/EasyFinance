@@ -13,6 +13,23 @@
 
 <body class="bg-light">
 
+  <!-- Mensajes de error/éxito FLASH -->
+  <div th:if="${error}"
+    class="alert alert-danger alert-dismissible fade show position-fixed top-0 start-50 translate-middle-x mt-3 z-3"
+    role="alert" style="max-width: 500px;">
+    <i class="bi bi-exclamation-triangle-fill me-2"></i>
+    <span th:text="${error}">Error</span>
+    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+  </div>
+
+  <div th:if="${mensajeExito}"
+    class="alert alert-success alert-dismissible fade show position-fixed top-0 start-50 translate-middle-x mt-3 z-3"
+    role="alert" style="max-width: 500px;">
+    <i class="bi bi-check-circle-fill me-2"></i>
+    <span th:text="${mensajeExito}">Éxito</span>
+    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+  </div>
+
   <!-- Contenedor principal -->
   <div class="container">
     <div class="row justify-content-center align-items-center min-vh-100 py-4">
@@ -31,7 +48,7 @@
             </div>
 
             <!-- Formulario de registro -->
-            <form action="" method="POST" class="needs-validation" novalidate>
+            <form th:action="@{/register}" th:object="${usuario}" method="POST" class="needs-validation" novalidate>
 
               <!-- CSRF Token -->
               <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
@@ -47,7 +64,7 @@
                       <i class="bi bi-person me-1 icon-form-label"></i>Nombre
                     </label>
                     <input type="text" class="form-control" id="nombre" name="nombre" placeholder="Tu nombre" required
-                      minlength="2" maxlength="50" autocomplete="given-name">
+                      minlength="2" maxlength="50" autocomplete="given-name" th:field="*{nombre}">
                   </div>
 
                   <!-- Apellidos -->
@@ -56,7 +73,7 @@
                       <i class="bi bi-person-lines-fill me-1 icon-form-label"></i>Apellidos
                     </label>
                     <input type="text" class="form-control" id="apellidos" name="apellidos" placeholder="Tus apellidos"
-                      required minlength="2" maxlength="100" autocomplete="family-name">
+                      required minlength="2" maxlength="100" autocomplete="family-name" th:field="*{apellidos}">
                   </div>
 
                   <!-- Email -->
@@ -65,7 +82,7 @@
                       <i class="bi bi-envelope me-1 icon-form-label"></i>Correo electrónico
                     </label>
                     <input type="email" class="form-control" id="email" name="email" placeholder="correo@ejemplo.com"
-                      required autocomplete="email">
+                      required autocomplete="email" th:field="*{email}">
                   </div>
 
                 </div>
@@ -80,7 +97,7 @@
                     </label>
                     <div class="input-group">
                       <input type="password" class="form-control" id="password" name="password"
-                        placeholder="Mínimo 8 caracteres" required minlength="8" autocomplete="new-password">
+                        placeholder="Mínimo 8 caracteres" required minlength="8" autocomplete="new-password" th:field="*{contrasena}">
                       <button class="btn btn-outline-secondary" type="button" id="togglePassword"
                         aria-label="Mostrar contraseña">
                         <i class="bi bi-eye" id="togglePasswordIcon"></i>
