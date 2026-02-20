@@ -215,11 +215,10 @@ document.addEventListener("DOMContentLoaded", function () {
       try {
         const response = await fetch(`/api/transacciones/${data.id}`, {
           method: "PUT",
-          headers: { 
+          headers: {
             "Content-Type": "application/json",
-            "X-CSRF-TOKEN": document.querySelector('input[name="_csrf"]').value 
+            "X-CSRF-TOKEN": document.querySelector('input[name="_csrf"]').value
           },
-          credentials: 'same-origin',
           body: JSON.stringify(data),
         });
 
@@ -257,7 +256,7 @@ document.addEventListener("DOMContentLoaded", function () {
     try {
       const response = await fetch(`/api/transacciones/${id}`, {
         method: "DELETE",
-        headers: {'X-CSRF-TOKEN': document.querySelector('input[name="_csrf"]').value}
+        headers: { 'X-CSRF-TOKEN': document.querySelector('input[name="_csrf"]').value }
       });
 
       if (response.ok) {
@@ -492,6 +491,12 @@ document.addEventListener("DOMContentLoaded", function () {
 
   // FUNCIONES PRINCIPALES
   window.filtrarTransacciones = function () {
+    // Validación
+    if (!validarRangoFechasFiltro()) {
+      console.warn('Filtro cancelado por fechas inválidas');
+      return;
+    }
+
     const tipo = document.getElementById('filtroTipo')?.value?.toUpperCase()?.trim();
     const categoriaSelect = document.getElementById('filtroCategoria')?.value?.trim();
     const fechaDesde = document.getElementById('filtroFechaDesde')?.value;
@@ -508,7 +513,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
     window.transaccionesOriginales.forEach(row => {
       const clon = row.cloneNode(true);
-      const fechaCell = clon.cells[0]?.textContent.trim();
+      const fechaCell = clon.cells[0]?.textContent.trim(); // "DD/MM/YYYY"
       const categoriaCell = clon.cells[2]?.textContent.trim().toUpperCase();
       const tipoBadge = clon.cells[3]?.querySelector('.badge');
       const tipoCell = tipoBadge ? tipoBadge.textContent.trim().toUpperCase() : '';
@@ -523,26 +528,34 @@ document.addEventListener("DOMContentLoaded", function () {
         pasaFiltro = false;
       }
 
-      // Filtro FECHAS
-      if (fechaDesde) {
+      // Filtro FECHAS - CORREGIDO: parsing robusto DD/MM/YYYY → Date
+      if (pasaFiltro && (fechaDesde || fechaHasta)) {
         try {
-          const [dia, mes, año] = fechaCell.split('/');
-          const fechaRow = new Date(`${año}-${mes}-${dia}`);
-          const fechaDesdeObj = new Date(fechaDesde);
-          if (fechaRow < fechaDesdeObj) pasaFiltro = false;
-        } catch (e) {
-          console.warn('Error parse fecha desde:', fechaCell);
-        }
-      }
+          // Parse DD/MM/YYYY → YYYY-MM-DD para Date()
+          const partes = fechaCell.match(/(\d{1,2})\/(\d{1,2})\/(\d{4})/);
+          if (!partes) {
+            console.warn('Formato fecha inválido:', fechaCell);
+            pasaFiltro = false;
+            return; // Salta esta fila
+          }
+          const [, dia, mes, año] = partes;
+          const fechaRow = new Date(`${año}-${mes.padStart(2, '0')}-${dia.padStart(2, '0')}`);
 
-      if (fechaHasta) {
-        try {
-          const [dia, mes, año] = fechaCell.split('/');
-          const fechaRow = new Date(`${año}-${mes}-${dia}`);
-          const fechaHastaObj = new Date(fechaHasta);
-          if (fechaRow > fechaHastaObj) pasaFiltro = false;
+          // Solo hora 00:00 para comparación precisa
+          fechaRow.setHours(0, 0, 0, 0);
+
+          if (fechaDesde) {
+            const fechaDesdeObj = new Date(fechaDesde + 'T00:00:00');
+            if (fechaRow < fechaDesdeObj) pasaFiltro = false;
+          }
+
+          if (fechaHasta) {
+            const fechaHastaObj = new Date(fechaHasta + 'T23:59:59');
+            if (fechaRow > fechaHastaObj) pasaFiltro = false;
+          }
         } catch (e) {
-          console.warn('Error parse fecha hasta:', fechaCell);
+          console.warn('Error parse fecha:', fechaCell, e);
+          pasaFiltro = false;
         }
       }
 
@@ -554,6 +567,43 @@ document.addEventListener("DOMContentLoaded", function () {
 
     window.mostrarMensajeResultados(resultados);
   };
+
+  // ============================================
+  // VALIDACIÓN RANGO FECHAS
+  // ============================================
+  function validarRangoFechasFiltro() {
+    const fechaDesde = document.getElementById('filtroFechaDesde');
+    const fechaHasta = document.getElementById('filtroFechaHasta');
+
+    if (!fechaDesde || !fechaHasta || (!fechaDesde.value && !fechaHasta.value)) return true;
+
+    fechaDesde.classList.remove('is-invalid');
+    fechaHasta.classList.remove('is-invalid');
+    const errorDiv = document.getElementById('error-fechas-filtro');
+    if (errorDiv) errorDiv.remove();
+
+    if (fechaDesde.value && fechaHasta.value) {
+      const desde = new Date(fechaDesde.value);
+      const hasta = new Date(fechaHasta.value);
+
+      if (desde > hasta) {
+        fechaDesde.classList.add('is-invalid');
+        fechaHasta.classList.add('is-invalid');
+
+        const error = document.createElement('div');
+        error.id = 'error-fechas-filtro';
+        error.className = 'invalid-feedback d-block mt-1';
+        error.textContent = 'La fecha "Desde" debe ser anterior a "Hasta"';
+
+        const formFiltros = document.getElementById('formFiltros');
+        if (formFiltros) formFiltros.insertBefore(error, fechaHasta.nextSibling);
+
+        mostrarAlerta('Error: La fecha "Desde" debe ser anterior a "Hasta"', 'warning');
+        return false;
+      }
+    }
+    return true;
+  }
 
   window.limpiarFiltros = function () {
     // Reset formulario
@@ -620,6 +670,10 @@ document.addEventListener("DOMContentLoaded", function () {
   const filtroTipoSelect = document.getElementById('filtroTipo');
   if (filtroTipoSelect) {
     filtroTipoSelect.addEventListener('change', async function () {
+      const filtroFechaDesde = document.getElementById('filtroFechaDesde');
+      const filtroFechaHasta = document.getElementById('filtroFechaHasta');
+      if (filtroFechaDesde) filtroFechaDesde.addEventListener('change', validarRangoFechasFiltro);
+      if (filtroFechaHasta) filtroFechaHasta.addEventListener('change', validarRangoFechasFiltro);
       await window.cargarCategoriasFiltroPorTipo();
     });
   }
