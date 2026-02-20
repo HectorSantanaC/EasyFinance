@@ -22,7 +22,9 @@ public class SecurityConfig {
             .userDetailsService(userDetailsService)
             .authorizeHttpRequests(auth -> auth
                 .requestMatchers("/libs/**", "/assets/**", "/css/**", "/js/**", "/index", "/login", "/register").permitAll()
-                .requestMatchers("/dashboard", "/transactions", "/savings", "/categories", "/api/**").hasRole("USER")
+                .requestMatchers("/api/categorias/**", "/api/roles/**", "/api/usuarios").hasAnyRole("USER", "ADMIN")
+                .requestMatchers("/dashboard", "/transactions", "/savings", "/categories", "/api/dashboard/**", "/api/metas/**", 
+                		"/api/transacciones/**").hasRole("USER")
                 .requestMatchers("/admin-users", "/admin-categories").hasRole("ADMIN")
                 .anyRequest().authenticated()
             )
