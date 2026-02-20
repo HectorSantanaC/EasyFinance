@@ -37,48 +37,6 @@ document.addEventListener("DOMContentLoaded", function () {
   }
 
   // ===========================================
-  // FILTRO DINÁMICO: CARGAR CATEGORÍAS SEGÚN TIPO
-  // ===========================================
-  async function cargarCategoriasFiltroPorTipo() {
-    const tipo = document.getElementById('filtroTipo')?.value;
-    const selectFiltro = document.getElementById('filtroCategoria');
-
-    if (!selectFiltro || !tipo) {
-      selectFiltro.innerHTML = '<option value="">Todas las categorías</option>';
-      return;
-    }
-
-    if (tipo !== 'INGRESO' && tipo !== 'GASTO') {
-      selectFiltro.innerHTML = '<option value="">Sin categorías</option>';
-      return;
-    }
-
-    const endpoint = tipo === 'INGRESO' ? '/api/categorias/ingreso' : '/api/categorias/gasto';
-
-    try {
-      const response = await fetch(endpoint);
-      if (!response.ok) throw new Error(`HTTP ${response.status}`);
-
-      const categorias = await response.json();
-      selectFiltro.innerHTML = '<option value="">Todas las categorías</option>';
-
-      categorias.forEach((cat) => {
-        const option = document.createElement("option");
-        option.value = cat.nombre.toUpperCase(); // ← Value = nombre para filtrado
-        option.textContent = cat.nombre;
-        option.dataset.id = cat.id;
-        selectFiltro.appendChild(option);
-      });
-
-      console.log(`✅ ${categorias.length} categorías cargadas para filtro ${tipo}`);
-    } catch (error) {
-      console.error('Error categorías filtro:', error);
-      selectFiltro.innerHTML = '<option value="">Error cargando</option>';
-    }
-  }
-
-
-  // ===========================================
   // MANEJO VISUAL DE CAMPOS (NUEVA TRANSACCIÓN)
   // ===========================================
   const transactionTypeSelect = document.getElementById("transactionType");
