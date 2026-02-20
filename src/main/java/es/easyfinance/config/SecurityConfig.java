@@ -1,6 +1,5 @@
 package es.easyfinance.config;
 
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -17,13 +16,13 @@ public class SecurityConfig {
     
     @Bean
     SecurityFilterChain filterChain(HttpSecurity http, LoginSuccesHandler loginSuccesHandler,
-            @Qualifier("userDetailsServiceImpl") UserDetailsService userDetailsService) throws Exception {
+    		UserDetailsService userDetailsService) throws Exception {
         
         http
             .userDetailsService(userDetailsService)
             .authorizeHttpRequests(auth -> auth
                 .requestMatchers("/libs/**", "/assets/**", "/css/**", "/js/**", "/index", "/login", "/register").permitAll()
-                .requestMatchers("/dashboard", "/transactions", "/savings", "/categories").hasRole("USER")
+                .requestMatchers("/dashboard", "/transactions", "/savings", "/categories", "/api/**").hasRole("USER")
                 .requestMatchers("/admin-users", "/admin-categories").hasRole("ADMIN")
                 .anyRequest().authenticated()
             )

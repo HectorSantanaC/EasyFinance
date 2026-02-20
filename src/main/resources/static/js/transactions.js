@@ -261,6 +261,7 @@ document.addEventListener("DOMContentLoaded", function () {
             "Content-Type": "application/json",
             "X-CSRF-TOKEN": document.querySelector('input[name="_csrf"]').value 
           },
+          credentials: 'same-origin',
           body: JSON.stringify(data),
         });
 

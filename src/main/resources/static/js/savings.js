@@ -47,7 +47,11 @@ document.addEventListener("DOMContentLoaded", function () {
       try {
         const response = await fetch('/api/metas', {
           method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
+          headers: {
+            'Content-Type': 'application/json',
+            'X-CSRF-TOKEN': document.querySelector('input[name="_csrf"]').value
+          },
+          credentials: 'same-origin',
           body: JSON.stringify(data)
         });
 
