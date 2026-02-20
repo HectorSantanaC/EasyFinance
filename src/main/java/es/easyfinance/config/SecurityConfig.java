@@ -12,6 +12,8 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationSuccessHandler;
+import org.springframework.security.web.session.InvalidSessionStrategy;
+import org.springframework.security.web.session.SimpleRedirectInvalidSessionStrategy;
 
 @Configuration
 @EnableWebSecurity
@@ -20,31 +22,52 @@ public class SecurityConfig {
     @Bean
     SecurityFilterChain filterChain(HttpSecurity http, LoginSuccesHandler loginSuccesHandler,
     		UserDetailsService userDetailsService) throws Exception {
+    	
+    	InvalidSessionStrategy invalidSessionStrategy = new SimpleRedirectInvalidSessionStrategy("/login?expired");
         
         http
             .userDetailsService(userDetailsService)
             .authorizeHttpRequests(auth -> auth
-                .requestMatchers("/libs/**", "/assets/**", "/css/**", "/js/**", "/index", "/login", "/register").permitAll()
-                .requestMatchers("/api/categorias/**", "/api/roles/**", "/api/usuarios").hasAnyRole("USER", "ADMIN")
-                .requestMatchers("/dashboard", "/transactions", "/savings", "/categories", "/api/dashboard/**", "/api/metas/**", 
-                		"/api/transacciones/**").hasRole("USER")
-                .requestMatchers("/admin-users", "/admin-categories").hasRole("ADMIN")
-                .anyRequest().authenticated()
+            		.requestMatchers("/libs/**", 
+            				"/assets/**", 
+            				"/css/**", 
+            				"/js/**", 
+            				"/index", 
+            				"/login", 
+            				"/register").permitAll()
+            		
+            		.requestMatchers("/api/categorias/**", 
+            				"/api/roles/**", 
+            				"/api/usuarios").hasAnyRole("USER", "ADMIN")
+            		
+            		.requestMatchers("/dashboard", 
+            				"/transactions", 
+            				"/savings", 
+            				"/categories", 
+            				"/api/dashboard/**", 
+            				"/api/metas/**", 
+            				"/api/transacciones/**").hasRole("USER")
+            		
+            		.requestMatchers("/admin-users", "/admin-categories").hasRole("ADMIN")
+            		.anyRequest().authenticated()
             )
             .formLogin(form -> form
-                .loginPage("/login")
-                .loginProcessingUrl("/loginprocess")
-                .successHandler(loginSuccesHandler)
-                .permitAll()
+            		.loginPage("/login")
+            		.loginProcessingUrl("/loginprocess")
+            		.successHandler(loginSuccesHandler)
+            		.permitAll()
             )
             .sessionManagement(session -> session
-                    .sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED)
+            		.sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED)
+            		.invalidSessionStrategy(invalidSessionStrategy)
                     .maximumSessions(1)  // Límite a 1 sesión por usuario
                     .maxSessionsPreventsLogin(false)  // Permite nuevo login
                     .expiredUrl("/login?expired")
                     .sessionRegistry(sessionRegistry())
-                )
-            .logout(logout -> logout.logoutSuccessUrl("/login?logout").permitAll());
+            )
+            .logout(logout -> logout.logoutSuccessUrl("/login?logout")
+            		.invalidateHttpSession(true)
+            		.permitAll());
         
         return http.build();
     }
