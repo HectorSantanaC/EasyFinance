@@ -43,7 +43,7 @@
             </div>
           </div>
           <div class="col-lg-6 text-center">
-            <i class="bi bi-headset display-1 text-primary opacity-75"></i>
+            <i class="bi bi-headset display-1 text-primary-custom opacity-75"></i>
           </div>
         </div>
       </div>
@@ -97,11 +97,13 @@
           <!-- Info contacto -->
           <div class="col-lg-5">
             <div class="card border-0 shadow h-100 p-4">
-              <h5 class="fw-bold mb-4"><i class="bi bi-info-circle text-primary me-2"></i>Contacto directo</h5>
+              <h5 class="fw-bold mb-4">
+                <i class="bi bi-info-circle text-primary-custom me-2"></i>Contacto directo
+              </h5>
 
               <div class="contact-item mb-4 p-3 bg-light rounded">
                 <div class="d-flex">
-                  <i class="bi bi-envelope-fill text-success fs-4 me-3"></i>
+                  <i class="bi bi-envelope-fill text-success-custom fs-4 me-3"></i>
                   <div>
                     <h6>Soporte</h6>
                     <a href="mailto:soporte@easyfinance.com" class="text-decoration-none">soporte@easyfinance.com</a>
@@ -111,7 +113,7 @@
 
               <div class="contact-item mb-4 p-3 bg-light rounded">
                 <div class="d-flex">
-                  <i class="bi bi-clock-fill text-info fs-4 me-3"></i>
+                  <i class="bi bi-clock-fill text-success-custom fs-4 me-3"></i>
                   <div>
                     <h6>Horario</h6>
                     <p>L-V 9:00-18:00</p>
@@ -121,7 +123,7 @@
 
               <div class="contact-item p-3 bg-light rounded">
                 <div class="d-flex">
-                  <i class="bi bi-lightning-charge-fill text-warning fs-4 me-3"></i>
+                  <i class="bi bi-lightning-charge-fill text-success-custom fs-4 me-3"></i>
                   <div>
                     <h6>Respuesta</h6>
                     <p class="mb-0">Máx. 48h</p>
@@ -136,23 +138,22 @@
   </main>
 
   <!-- Footer -->
-  <footer class="bg-light mt-5" role="contentinfo">
+  <footer class="bg-light mt-5">
     <div class="col-12">
-      <div class="footer-content d-flex flex-column flex-md-row justify-content-between align-items-center pb-5 px-4 ">
-
+      <div class="footer-content d-flex flex-column flex-md-row justify-content-between align-items-center pb-5 px-4">
         <!-- Copyright -->
         <div class="footer-copyright mb-4 mb-md-0 text-center text-md-start">
-          <p class="mb-0 text-secondary fw-500">Copyright © EasyFinance 2026</p>
+          <p class="mb-0 text-primary-custom fw-500">Copyright © EasyFinance 2026</p>
           <small class="text-muted">Todos los derechos reservados</small>
         </div>
 
         <!-- Links -->
         <nav class="footer-links mb-4 mb-md-0" aria-label="Enlaces del pie de página">
           <ul class="list-unstyled d-flex gap-4 mb-0">
-            <li><a href="#" class="text-secondary text-decoration-none fw-500">Privacidad</a></li>
-            <li><a href="#" class="text-secondary text-decoration-none fw-500">Términos</a></li>
-            <li><a href="#" class="text-secondary text-decoration-none fw-500">Contacto</a></li>
-            <li><a href="#" class="text-secondary text-decoration-none fw-500">Ayuda</a></li>
+            <li><a th:href="@{/privacy}" class="text-secondary text-decoration-none fw-500">Privacidad</a></li>
+            <li><a th:href="@{/terms}" class="text-secondary text-decoration-none fw-500">Términos</a></li>
+            <li><a th:href="@{/contact}" class="text-secondary text-decoration-none fw-500">Contacto</a></li>
+            <li><a th:href="@{/help}" class="text-secondary text-decoration-none fw-500">Ayuda</a></li>
           </ul>
         </nav>
 

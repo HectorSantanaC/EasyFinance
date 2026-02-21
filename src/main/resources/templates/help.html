@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ayuda - EasyFinance</title>
+  <link rel="stylesheet" th:href="@{/libs/bootstrap/css/bootstrap.min.css}">
+  <link rel="stylesheet" th:href="@{/libs/bootstrap-icons/bootstrap-icons.min.css}">
+  <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+
+<body>
+  <!-- Navbar -->
+  <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm">
+    <div class="container">
+      <a class="navbar-brand d-flex align-items-center" href="/">
+        <img th:src="@{/assets/images/logo-easyfinance.png}" alt="EasyFinance" height="70" class="me-2">
+      </a>
+
+      <div class="d-flex gap-2">
+        <a th:href="@{/login}" class="btn btn-secondary-custom">Iniciar sesión</a>
+        <a th:href="@{/register}" class="btn btn-primary-custom">Registrarse</a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Contenido principal -->
+  <main>
+    <!-- Hero Ayuda -->
+    <section class="bg-light py-5 mb-5">
+      <div class="container">
+        <div class="row align-items-center">
+          <div class="col-lg-6">
+            <h1 class="display-4 fw-bold mb-4">Centro de Ayuda</h1>
+            <p class="lead text-muted mb-4">
+              Encuentra respuestas rápidas a tus dudas. Guías, tutoriales y FAQ para usar EasyFinance.
+            </p>
+            <div class="d-flex gap-3 flex-wrap">
+              <a th:href="@{/register}" class="btn btn-primary-custom btn-lg">
+                <i class="bi bi-person-plus me-2"></i>Registrarse gratis
+              </a>
+            </div>
+          </div>
+          <div class="col-lg-6 text-center">
+            <i class="bi bi-question-circle display-1 text-primary-custom opacity-75"></i>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Secciones de Ayuda + Búsqueda -->
+    <section class="py-5">
+      <div class="container">
+        <div class="row g-5">
+          <!-- Búsqueda + Categorías rápidas -->
+          <div class="col-lg-7">
+            <div class="card border-0 shadow-lg p-5">
+              <h2 class="h3 fw-bold mb-4">¿Cómo podemos ayudarte?</h2>
+
+              <!-- Barra de búsqueda -->
+              <div class="mb-4">
+                <div class="input-group">
+                  <span class="input-group-text">
+                    <i class="bi bi-search"></i>
+                  </span>
+                  <input type="text" class="form-control" placeholder="Buscar en ayuda..." id="searchHelp">
+                </div>
+              </div>
+
+              <!-- Categorías rápidas -->
+              <div class="row g-3 mb-5">
+                <div class="col-6">
+                  <a href="#cuenta" class="btn btn-secondary-custom w-100 text-start">
+                    <i class="bi bi-person-circle me-2"></i>Mi cuenta
+                  </a>
+                </div>
+                <div class="col-6">
+                  <a href="#transacciones" class="btn btn-secondary-custom w-100 text-start">
+                    <i class="bi bi-credit-card me-2"></i>Transacciones
+                  </a>
+                </div>
+                <div class="col-6">
+                  <a href="#graficos" class="btn btn-secondary-custom w-100 text-start">
+                    <i class="bi bi-graph-up me-2"></i>Gráficos
+                  </a>
+                </div>
+                <div class="col-6">
+                  <a href="#metas" class="btn btn-secondary-custom w-100 text-start">
+                    <i class="bi bi-target me-2"></i>Metas ahorro
+                  </a>
+                </div>
+              </div>
+
+              <!-- Formulario contacto rápido -->
+              <div class="card border-0 bg-light p-4 mt-4">
+                <h5 class="fw-bold mb-3">¿No encuentras lo que buscas?</h5>
+                <a th:href="@{/contact}" class="btn btn-primary-custom w-100">
+                  <i class="bi bi-chat-dots me-2"></i>Contactar soporte
+                </a>
+              </div>
+            </div>
+          </div>
+
+          <!-- FAQ Destacadas -->
+          <div class="col-lg-5">
+            <div class="card border-0 shadow h-100 p-4">
+              <h5 class="fw-bold mb-4">
+                <i class="bi bi-lightbulb text-warning-custom me-2"></i>Preguntas frecuentes
+              </h5>
+
+              <div class="accordion" id="faqAccordion">
+                <!-- FAQ 1 -->
+                <div class="accordion-item border-0 shadow-sm mb-2">
+                  <h6 class="accordion-header">
+                    <button class="accordion-button collapsed fw-bold" type="button" data-bs-toggle="collapse"
+                      data-bs-target="#faq1">
+                      ¿Cómo registro una transacción?
+                    </button>
+                  </h6>
+                  <div id="faq1" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                    <div class="accordion-body small">
+                      Ve a "Transacciones" → "Nueva transacción" → Selecciona tipo (ingreso/gasto), importe, categoría
+                      y guarda.
+                    </div>
+                  </div>
+                </div>
+
+                <!-- FAQ 2 -->
+                <div class="accordion-item border-0 shadow-sm mb-2">
+                  <h6 class="accordion-header">
+                    <button class="accordion-button collapsed fw-bold" type="button" data-bs-toggle="collapse"
+                      data-bs-target="#faq2">
+                      ¿Puedo exportar mis datos?
+                    </button>
+                  </h6>
+                  <div id="faq2" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                    <div class="accordion-body small">
+                      Próximamente disponible (será una función Premium).
+                    </div>
+                  </div>
+                </div>
+
+                <!-- FAQ 3 -->
+                <div class="accordion-item border-0 shadow-sm">
+                  <h6 class="accordion-header">
+                    <button class="accordion-button collapsed fw-bold" type="button" data-bs-toggle="collapse"
+                      data-bs-target="#faq3">
+                      ¿Cómo creo una meta de ahorro?
+                    </button>
+                  </h6>
+                  <div id="faq3" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                    <div class="accordion-body small">
+                      Dashboard → "Metas" → "Nueva meta" → Define objetivo y fecha límite.
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Guías rápidas -->
+    <section class="py-5 bg-light">
+      <div class="container">
+        <h2 class="h2 fw-bold text-center mb-5">Guías paso a paso</h2>
+        <div class="row g-4">
+          <div class="col-md-4">
+            <div class="card h-100 border-0 shadow">
+              <div class="card-body text-center p-4">
+                <i class="bi bi-person-plus display-4 icon-feature mb-3"></i>
+                <h5 class="card-title fw-bold">Registro</h5>
+                <p class="card-text text-muted">Cómo crear tu cuenta en 1 minuto.</p>
+                <a href="#" class="btn btn-secondary-custom btn-sm">Ver guía</a>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div class="card h-100 border-0 shadow">
+              <div class="card-body text-center p-4">
+                <i class="bi bi-credit-card display-4 icon-feature mb-3"></i>
+                <h5 class="card-title fw-bold">Transacciones</h5>
+                <p class="card-text text-muted">Añadir ingresos y gastos correctamente.</p>
+                <a href="#" class="btn btn-secondary-custom btn-sm">Ver guía</a>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div class="card h-100 border-0 shadow">
+              <div class="card-body text-center p-4">
+                <i class="bi bi-graph-up display-4 icon-feature mb-3"></i>
+                <h5 class="card-title fw-bold">Dashboard</h5>
+                <p class="card-text text-muted">Entender tus gráficos financieros.</p>
+                <a href="#" class="btn btn-secondary-custom btn-sm">Ver guía</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Footer -->
+  <footer class="bg-light mt-5">
+    <div class="col-12">
+      <div class="footer-content d-flex flex-column flex-md-row justify-content-between align-items-center pb-5 px-4">
+        <!-- Copyright -->
+        <div class="footer-copyright mb-4 mb-md-0 text-center text-md-start">
+          <p class="mb-0 text-primary-custom fw-500">Copyright © EasyFinance 2026</p>
+          <small class="text-muted">Todos los derechos reservados</small>
+        </div>
+
+        <!-- Links -->
+        <nav class="footer-links mb-4 mb-md-0" aria-label="Enlaces del pie de página">
+          <ul class="list-unstyled d-flex gap-4 mb-0">
+            <li><a th:href="@{/privacy}" class="text-secondary text-decoration-none fw-500">Privacidad</a></li>
+            <li><a th:href="@{/terms}" class="text-secondary text-decoration-none fw-500">Términos</a></li>
+            <li><a th:href="@{/contact}" class="text-secondary text-decoration-none fw-500">Contacto</a></li>
+            <li><a th:href="@{/help}" class="text-secondary text-decoration-none fw-500">Ayuda</a></li>
+          </ul>
+        </nav>
+
+        <!-- Social Links -->
+        <div class="footer-social d-flex gap-4 mx-4">
+          <a href="#" class="social-link" aria-label="Síguenos en Instagram">
+            <i class="bi bi-instagram"></i>
+          </a>
+          <a href="#" class="social-link" aria-label="Síguenos en LinkedIn">
+            <i class="bi bi-linkedin"></i>
+          </a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script th:src="@{/libs/bootstrap/js/bootstrap.bundle.min.js}"></script>
+</body>
+
+</html>

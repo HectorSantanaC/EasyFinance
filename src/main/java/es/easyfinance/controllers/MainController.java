@@ -204,9 +204,23 @@ public class MainController {
 	}
 	
 	@GetMapping("/contact")
-	public String enviarContacto() {
+	public String contact() {
 	    return "contact";
 	}
-
+	
+	@GetMapping("/help")
+	public String help() {
+	    return "help";
+	}
+	
+	@GetMapping("/terms")
+	public String terms() {
+	    return "terms";
+	}
+	
+	@GetMapping("/privacy")
+	public String privacy() {
+	    return "privacy";
+	}
 
 }

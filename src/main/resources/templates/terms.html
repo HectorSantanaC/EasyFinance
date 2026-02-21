@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Términos y Condiciones - EasyFinance</title>
+  <link rel="stylesheet" th:href="@{/libs/bootstrap/css/bootstrap.min.css}">
+  <link rel="stylesheet" th:href="@{/libs/bootstrap-icons/bootstrap-icons.min.css}">
+  <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+
+<body>
+  <!-- Navbar -->
+  <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm">
+    <div class="container">
+      <a class="navbar-brand d-flex align-items-center" href="/">
+        <img th:src="@{/assets/images/logo-easyfinance.png}" alt="EasyFinance" height="70" class="me-2">
+      </a>
+
+      <div class="d-flex gap-2">
+        <a th:href="@{/login}" class="btn btn-secondary-custom">Iniciar sesión</a>
+        <a th:href="@{/register}" class="btn btn-primary-custom">Registrarse</a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Contenido principal -->
+  <main>
+    <!-- Hero Términos -->
+    <section class="bg-light py-5 mb-5">
+      <div class="container">
+        <div class="row align-items-center">
+          <div class="col-lg-6">
+            <h1 class="display-4 fw-bold mb-4">Términos y Condiciones</h1>
+            <p class="lead text-muted mb-4">
+              Última actualización: 20 Febrero 2026. 
+              <br>
+              Al usar EasyFinance aceptas estos términos.
+            </p>
+            <div class="d-flex gap-3 flex-wrap">
+              <a th:href="@{/register}" class="btn btn-primary-custom btn-lg">
+                <i class="bi bi-person-plus me-2"></i>Registrarse gratis
+              </a>
+              <a th:href="@{/help}" class="btn btn-secondary-custom btn-lg">
+                <i class="bi bi-question-circle me-2"></i>Centro de ayuda
+              </a>
+            </div>
+          </div>
+          <div class="col-lg-6 text-center">
+            <i class="bi bi-file-earmark-text display-1 text-primary-custom opacity-75"></i>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Contenido Términos -->
+    <section class="py-5">
+      <div class="container">
+        <div class="row justify-content-center">
+          <div class="col-lg-10">
+            <div class="card border-0 shadow-lg">
+              <div class="card-body p-5">
+
+                <!-- Índice -->
+                <div class="mb-5">
+                  <h2 class="h3 fw-bold mb-4">
+                    <i class="bi bi-list-ol text-primary-custom me-2"></i>Índice
+                  </h2>
+                  <ul class="list-unstyled">
+                    <li class="mb-2"><a href="#aceptacion" class="text-primary-custom text-decoration-none fw-500">1.
+                        Aceptación de términos</a></li>
+                    <li class="mb-2"><a href="#cuenta" class="text-primary-custom text-decoration-none fw-500">2. Tu
+                        cuenta</a></li>
+                    <li class="mb-2"><a href="#uso" class="text-primary-custom text-decoration-none fw-500">3. Uso
+                        permitido</a></li>
+                    <li class="mb-2"><a href="#datos" class="text-primary-custom text-decoration-none fw-500">4. Datos y
+                        privacidad</a></li>
+                    <li class="mb-2"><a href="#premium" class="text-primary-custom text-decoration-none fw-500">5.
+                        Cuenta Premium</a></li>
+                    <li class="mb-2"><a href="#responsabilidad"
+                        class="text-primary-custom text-decoration-none fw-500">6. Responsabilidades</a></li>
+                    <li class="mb-2"><a href="#terminacion" class="text-primary-custom text-decoration-none fw-500">7.
+                        Terminación</a></li>
+                    <li class="mb-2"><a href="#modificaciones"
+                        class="text-primary-custom text-decoration-none fw-500">8. Modificaciones</a></li>
+                    <li class="mb-2"><a href="#contacto" class="text-primary-custom text-decoration-none fw-500">9.
+                        Contacto</a></li>
+                  </ul>
+                </div>
+
+                <!-- 1. Aceptación -->
+                <div id="aceptacion" class="mb-5">
+                  <h3 class="h4 fw-bold mb-3">1. Aceptación de términos</h3>
+                  <p class="text-muted">Al registrarte o usar EasyFinance, aceptas estos Términos y nuestra
+                    <a th:href="@{/privacy}" class="fw-500">Política de Privacidad</a>
+                    . Si no estás de acuerdo, no uses el servicio.
+                  </p>
+                </div>
+
+                <!-- 2. Tu cuenta -->
+                <div id="cuenta" class="mb-5">
+                  <h3 class="h4 fw-bold mb-3">2. Tu cuenta</h3>
+                  <ul class="list-disc ps-4 text-muted">
+                    <li>Debes tener 18+ años o consentimiento parental.</li>
+                    <li>Email y contraseña únicos. Eres responsable de tu cuenta.</li>
+                    <li>Notifica cambios de email inmediatamente.</li>
+                  </ul>
+                </div>
+
+                <!-- 3. Uso permitido -->
+                <div id="uso" class="mb-5">
+                  <h3 class="h4 fw-bold mb-3">3. Uso permitido</h3>
+                  <div class="alert alert-warning" role="alert">
+                    <i class="bi bi-exclamation-triangle text-warning-custom me-2"></i>
+                    <strong>Prohibido:</strong> Contenido ilegal, spam, hacking, datos falsos.
+                  </div>
+                  <p class="text-muted">EasyFinance es para gestión financiera personal. No compartas datos sensibles de
+                    terceros.</p>
+                </div>
+
+                <!-- 4. Datos y privacidad -->
+                <div id="datos" class="mb-5">
+                  <h3 class="h4 fw-bold mb-3">4. Datos y privacidad</h3>
+                  <p class="text-muted">Tus datos financieros son <strong>privados y encriptados</strong>. No vendemos
+                    datos. Ver <a th:href="@{/privacy}" class="fw-500">Política de Privacidad</a>.</p>
+                  <div class="row g-3">
+                    <div class="col-md-6">
+                      <div class="bg-light p-3 rounded">
+                        <small><strong>Encriptación:</strong> BCrypt (contraseñas)</small>
+                      </div>
+                    </div>
+                    <div class="col-md-6">
+                      <div class="bg-light p-3 rounded">
+                        <small><strong>Sesiones:</strong> Cookies seguras + CSRF</small>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- 5. Cuenta Premium -->
+                <div id="premium" class="mb-5">
+                  <h3 class="h4 fw-bold mb-3">5. Cuenta Premium</h3>
+                  <div class="alert alert-info">
+                    <i class="bi bi-lightning-charge text-info-custom me-2"></i>
+                    <span class="badge bg-info text-dark me-2">Próximamente</span>
+                    Exportar CSV, reportes PDF, soporte prioritario.
+                  </div>
+                  <p class="text-muted">Suscripción mensual. Cancelación anytime.</p>
+                </div>
+
+                <!-- 6. Responsabilidades -->
+                <div id="responsabilidad" class="mb-5">
+                  <h3 class="h4 fw-bold mb-3">6. Responsabilidades</h3>
+                  <p class="text-muted mb-0">EasyFinance no es asesor financiero. Usas bajo tu propio riesgo. Sin
+                    garantía de disponibilidad 100%.</p>
+                </div>
+
+                <!-- 7. Terminación -->
+                <div id="terminacion" class="mb-5">
+                  <h3 class="h4 fw-bold mb-3">7. Terminación</h3>
+                  <p class="text-muted">Podemos suspender cuentas por violaciones. Recuperación de datos: 30 días
+                    post-terminación.</p>
+                </div>
+
+                <!-- 8. Modificaciones -->
+                <div id="modificaciones" class="mb-5">
+                  <h3 class="h4 fw-bold mb-3">8. Modificaciones</h3>
+                  <p class="text-muted">Podemos actualizar términos. Notificación por email o en app. Uso continuado =
+                    aceptación.</p>
+                </div>
+
+                <!-- 9. Contacto -->
+                <div id="contacto">
+                  <h3 class="h4 fw-bold mb-3">9. Contacto</h3>
+                  <p class="text-muted">
+                    ¿Dudas? <a th:href="@{/contact}" class="fw-500">Contáctanos</a> o
+                    <a href="mailto:legal@easyfinance.com">legal@easyfinance.com</a>
+                  </p>
+                  <a th:href="@{/contact}" class="btn btn-primary-custom mt-3">
+                    <i class="bi bi-chat-dots me-2"></i>Enviar consulta
+                  </a>
+                </div>
+
+              </div>
+            </div>
+
+            <!-- Acciones rápidas -->
+            <div class="text-center mt-5">
+              <a th:href="@{/register}" class="btn btn-primary-custom btn-lg me-3">
+                <i class="bi bi-person-plus me-2"></i>Aceptar y registrarse
+              </a>
+              <a th:href="@{/privacy}" class="btn btn-secondary-custom btn-lg">
+                <i class="bi bi-shield-check me-2"></i>Política de Privacidad
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Footer -->
+  <footer class="bg-light mt-5">
+    <div class="col-12">
+      <div class="footer-content d-flex flex-column flex-md-row justify-content-between align-items-center pb-5 px-4">
+        <!-- Copyright -->
+        <div class="footer-copyright mb-4 mb-md-0 text-center text-md-start">
+          <p class="mb-0 text-primary-custom fw-500">Copyright © EasyFinance 2026</p>
+          <small class="text-muted">Todos los derechos reservados</small>
+        </div>
+
+        <!-- Links -->
+        <nav class="footer-links mb-4 mb-md-0" aria-label="Enlaces del pie de página">
+          <ul class="list-unstyled d-flex gap-4 mb-0">
+            <li><a th:href="@{/privacy}" class="text-secondary text-decoration-none fw-500">Privacidad</a></li>
+            <li><a th:href="@{/terms}" class="text-secondary text-decoration-none fw-500">Términos</a></li>
+            <li><a th:href="@{/contact}" class="text-secondary text-decoration-none fw-500">Contacto</a></li>
+            <li><a th:href="@{/help}" class="text-secondary text-decoration-none fw-500">Ayuda</a></li>
+          </ul>
+        </nav>
+
+        <!-- Social Links -->
+        <div class="footer-social d-flex gap-4 mx-4">
+          <a href="#" class="social-link" aria-label="Síguenos en Instagram">
+            <i class="bi bi-instagram"></i>
+          </a>
+          <a href="#" class="social-link" aria-label="Síguenos en LinkedIn">
+            <i class="bi bi-linkedin"></i>
+          </a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script th:src="@{/libs/bootstrap/js/bootstrap.bundle.min.js}"></script>
+</body>
+
+</html>

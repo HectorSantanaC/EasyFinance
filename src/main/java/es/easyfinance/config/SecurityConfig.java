@@ -32,7 +32,10 @@ public class SecurityConfig {
             				"/index", 
             				"/login", 
             				"/register",
-            				"/contact").permitAll()
+            				"/contact",
+            				"/help",
+            				"/terms",
+            				"/privacy").permitAll()
             		
             		.requestMatchers("/api/categorias/**", 
             				"/api/roles/**", 
