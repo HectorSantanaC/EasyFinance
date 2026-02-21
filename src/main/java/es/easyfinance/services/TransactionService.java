@@ -91,7 +91,7 @@ public class TransactionService {
     	transactionRepository.deleteById(id);
     }
     
-    // Balance = ingresos - gastos
+    // Balance mensual
     public BigDecimal calcularBalanceMesActual(String email) {
     	return calcularIngresosMesActual(email).subtract(calcularGastosMesActual(email));
     }
@@ -106,7 +106,7 @@ public class TransactionService {
 	        	.map(TransactionModel::getCantidad)
 	        	.filter(Objects::nonNull)
 	        	.reduce(BigDecimal.ZERO, BigDecimal::add);
-        }
+    }
       
     // Gasto mensual
     public BigDecimal calcularGastosMesActual(String email) {
@@ -118,7 +118,7 @@ public class TransactionService {
     			.map(TransactionModel::getCantidad)
     			.filter(Objects::nonNull)
     			.reduce(BigDecimal.ZERO, BigDecimal::add);
-    	}
+    }
     
     // Ahorro mensual
     public BigDecimal calcularAhorrosMesActual(String email) {
@@ -130,57 +130,82 @@ public class TransactionService {
     			.map(TransactionModel::getCantidad)
     			.filter(Objects::nonNull)
     			.reduce(BigDecimal.ZERO, BigDecimal::add);
-      }
+    }
     
     // Filtros
     public Page<TransactionModel> findByFilters(UserModel usuario, TransactionFilterModel filtro, Pageable pageable) {
-    	
+
         TransactionTypeModel tipoEnum = null;
-        
         if (filtro.getTipo() != null && !filtro.getTipo().isEmpty()) {
             tipoEnum = TransactionTypeModel.valueOf(filtro.getTipo());
         }
-        
+
         CategoryModel categoriaModel = null;
         if (filtro.getCategoria() != null && !filtro.getCategoria().isEmpty()) {
             Long catId = Long.parseLong(filtro.getCategoria());
             categoriaModel = categoryRepository.findById(catId).orElse(null);
         }
-        
+
         LocalDate fechaDesde = filtro.getFechaDesde();
         LocalDate fechaHasta = filtro.getFechaHasta();
-        
-        if (fechaDesde == null) fechaDesde = LocalDate.now().withDayOfMonth(1);
-        
-        if (fechaHasta == null) fechaHasta = LocalDate.now().plusMonths(1).withDayOfMonth(1).minusDays(1);
-        
-        if (tipoEnum != null && categoriaModel != null && fechaDesde != null && fechaHasta != null) {
+
+        // Detectar si hay filtro de fecha explícito
+        boolean tieneFiltroFecha = (fechaDesde != null || fechaHasta != null);
+
+        // NO normalizar si NO hay filtro explícito
+        if (!tieneFiltroFecha) {
+            fechaDesde = null;
+            fechaHasta = null;
+        }
+
+        // Combinaciones con fecha
+        if (tipoEnum != null && categoriaModel != null && tieneFiltroFecha) {
+            if (fechaDesde == null) fechaDesde = LocalDate.now().withDayOfMonth(1);
+            if (fechaHasta == null) fechaHasta = LocalDate.now().plusMonths(1).withDayOfMonth(1).minusDays(1);
             return transactionRepository.findByUsuarioIdAndTipoAndCategoriaIdAndFechaBetween(usuario, 
-            		tipoEnum, categoriaModel, fechaDesde, fechaHasta, pageable);
-            
-        } else if (tipoEnum != null && categoriaModel != null) {
-            return transactionRepository.findByUsuarioIdAndTipoAndCategoriaId(usuario, tipoEnum, categoriaModel, pageable);
-            
-        } else if (tipoEnum != null && fechaDesde != null && fechaHasta != null) {
-            return transactionRepository.findByUsuarioIdAndTipoAndFechaBetween(usuario, tipoEnum, fechaDesde, fechaHasta, 
-            		pageable);
-            
-        } else if (categoriaModel != null && fechaDesde != null && fechaHasta != null) {
-            return transactionRepository.findByUsuarioIdAndCategoriaIdAndFechaBetween(usuario, categoriaModel, 
-            		fechaDesde, fechaHasta, pageable);
-            
-        } else if (tipoEnum != null) {
-            return transactionRepository.findByUsuarioIdAndTipo(usuario, tipoEnum, pageable);
-            
-        } else if (categoriaModel != null) {
-            return transactionRepository.findByUsuarioIdAndCategoriaId(usuario, categoriaModel, pageable);
-            
-        } else if (fechaDesde != null && fechaHasta != null) {
-            return transactionRepository.findByUsuarioIdAndFechaBetween(usuario, fechaDesde, fechaHasta, pageable);
-            
+                tipoEnum, categoriaModel, fechaDesde, fechaHasta, pageable);
         }
         
-        return transactionRepository.findByUsuarioId(usuario, pageable);
+        // Tipo + Categoría (sin fecha)
+        else if (tipoEnum != null && categoriaModel != null) {
+            return transactionRepository.findByUsuarioIdAndTipoAndCategoriaId(usuario, tipoEnum, categoriaModel, pageable);
+        }
+        
+        // Tipo + Fecha
+        else if (tipoEnum != null && tieneFiltroFecha) {
+            if (fechaDesde == null) fechaDesde = LocalDate.now().withDayOfMonth(1);
+            if (fechaHasta == null) fechaHasta = LocalDate.now().plusMonths(1).withDayOfMonth(1).minusDays(1);
+            return transactionRepository.findByUsuarioIdAndTipoAndFechaBetween(usuario, tipoEnum, fechaDesde, fechaHasta, pageable);
+        }
+        
+        // Categoría + Fecha
+        else if (categoriaModel != null && tieneFiltroFecha) {
+            if (fechaDesde == null) fechaDesde = LocalDate.now().withDayOfMonth(1);
+            if (fechaHasta == null) fechaHasta = LocalDate.now().plusMonths(1).withDayOfMonth(1).minusDays(1);
+            return transactionRepository.findByUsuarioIdAndCategoriaIdAndFechaBetween(usuario, categoriaModel, fechaDesde, fechaHasta, pageable);
+        }
+        
+        // Solo Tipo (sin fecha)
+        else if (tipoEnum != null) {
+            return transactionRepository.findByUsuarioIdAndTipo(usuario, tipoEnum, pageable);
+        }
+        
+        // Solo Categoría (sin fecha)
+        else if (categoriaModel != null) {
+            return transactionRepository.findByUsuarioIdAndCategoriaId(usuario, categoriaModel, pageable);
+        }
+        
+        // Solo Fecha
+        else if (tieneFiltroFecha) {
+            if (fechaDesde == null) fechaDesde = LocalDate.now().withDayOfMonth(1);
+            if (fechaHasta == null) fechaHasta = LocalDate.now().plusMonths(1).withDayOfMonth(1).minusDays(1);
+            return transactionRepository.findByUsuarioIdAndFechaBetween(usuario, fechaDesde, fechaHasta, pageable);
+        }
+        
+        // SIN NINGÚN FILTRO (TODAS las transacciones)
+        else {
+            return transactionRepository.findByUsuarioId(usuario, pageable);
+        }
     }
-    
+        
 }

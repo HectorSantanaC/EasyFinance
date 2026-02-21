@@ -2,13 +2,15 @@ package es.easyfinance.controllers;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.HashMap;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -24,6 +26,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import es.easyfinance.models.CategoryModel;
 import es.easyfinance.models.SavingsGoalModel;
+import es.easyfinance.models.TransactionFilterModel;
 import es.easyfinance.models.TransactionModel;
 import es.easyfinance.models.TransactionTypeModel;
 import es.easyfinance.models.UserModel;
@@ -48,24 +51,6 @@ public class TransactionController {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         String email = auth.getName();
         return userDetailsService.findByEmail(email);
-    }
-
-	@GetMapping(produces = "application/json")
-	public ResponseEntity<Page<TransactionModel>> listar(@RequestParam(defaultValue = "0") int page,
-	    @RequestParam(defaultValue = "10") int size) {
-	    
-	    UserModel usuario = usuarioActual();
-
-	    Pageable pageable = PageRequest.of(page, size, Sort.by("fecha").descending());
-	    Page<TransactionModel> pageTrans = transactionService.findAllByUsuario(usuario, pageable);
-	    
-	    return ResponseEntity.ok(pageTrans);
-	}
-
-    
-    @GetMapping("/{id}")
-    public TransactionModel buscarPorId(@PathVariable Long id) {
-    	return transactionService.buscarPorId(id);
     }
     
     @PostMapping
@@ -188,6 +173,46 @@ public class TransactionController {
         
         transactionService.borrar(id);
         return ResponseEntity.ok().build();
+    }
+    
+    @GetMapping
+    public ResponseEntity<Map<String, Object>> listar(
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size,
+            @RequestParam(required = false) String tipo,
+            @RequestParam(required = false) Long categoria,
+            @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate fechaDesde,
+            @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate fechaHasta) {
+        
+        UserModel usuario = usuarioActual();
+        Pageable pageable = PageRequest.of(page, size, Sort.by("fecha").descending());
+        
+        TransactionFilterModel filtro = new TransactionFilterModel();
+        filtro.setTipo(tipo);
+        filtro.setCategoria(categoria != null ? categoria.toString() : null);
+        filtro.setFechaDesde(fechaDesde);
+        filtro.setFechaHasta(fechaHasta);
+        
+        Page<TransactionModel> pageTrans = transactionService.findByFilters(usuario, filtro, pageable);
+        
+        Map<String, Object> response = new HashMap<>();
+        response.put("content", pageTrans.getContent());
+        response.put("number", pageTrans.getNumber());
+        response.put("totalPages", pageTrans.getTotalPages());
+        response.put("totalElements", pageTrans.getTotalElements());
+        response.put("size", pageTrans.getSize());
+        
+        return ResponseEntity.ok(response);
+    }
+
+    
+    @GetMapping("/{id}")
+    public ResponseEntity<TransactionModel> getById(@PathVariable Long id) {
+        TransactionModel trans = transactionService.buscarPorId(id);
+        if (trans == null || !trans.getUsuarioId().getId().equals(usuarioActual().getId())) {
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.ok(trans);
     }
 
 }

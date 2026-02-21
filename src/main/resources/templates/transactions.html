@@ -208,7 +208,7 @@
 
                 <div class="col-md-3">
                   <label for="filtroCategoria" class="form-label">Categoría</label>
-                  <select class="form-select" id="filtroCategoria">
+                  <select name="categoria" class="form-select" id="filtroCategoria">
                     <option value="">Todas</option>
                   </select>
                 </div>
@@ -287,72 +287,79 @@
                     </tr>
                   </thead>
                   <tbody id="bodyTransacciones">
-                    <tr th:each="transaccion, transaccionStat : ${transacciones}"
-                      th:class="${transaccionStat.index % 2 == 0} ? 'table-light'">
-                      <td th:text="${transaccion.fechaFormateada}"></td>
-                      <td th:text="${transaccion.descripcion}"></td>
-                      <td th:text="${transaccion.categoriaId?.nombre ?: 'Sin categoría'}"></td>
-                      <td>
-                        <span th:text="${transaccion.tipo?.name() ?: 'NULL'}" th:class="${#strings.toUpperCase(transaccion.tipo?.name() ?: transaccion.tipo) == 'INGRESO' ? 'badge bg-success' :
+                    <th:block th:each="transaccion : ${transacciones}">
+                      <tr th:each="transaccion, transaccionStat : ${transacciones}"
+                        th:class="${transaccionStat.index % 2 == 0} ? 'table-light'">
+                        <td th:text="${transaccion.fechaFormateada}"></td>
+                        <td th:text="${transaccion.descripcion}"></td>
+                        <td th:text="${transaccion.categoriaId?.nombre ?: 'Sin categoría'}"></td>
+                        <td>
+                          <span th:text="${transaccion.tipo?.name() ?: 'NULL'}" th:class="${#strings.toUpperCase(transaccion.tipo?.name() ?: transaccion.tipo) == 'INGRESO' ? 'badge bg-success' :
                                     #strings.toUpperCase(transaccion.tipo?.name() ?: transaccion.tipo) == 'AHORRO' ? 'badge bg-primary' :
                                     'badge bg-danger'}">
-                        </span>
-                      </td>
-                      <td class="text-end fw-bold"
-                        th:text="${#numbers.formatDecimal(transaccion.cantidad, 1, 2)} + ' €'"></td>
-                      <td class="text-center">
-                        <button class="btn btn-sm btn-secondary-custom me-1"
-                          th:onclick="'editarTransaccion(' + ${transaccion.id} + ')'">
-                          <i class="bi bi-pencil"></i>
-                        </button>
-                        <button th:onclick="'borrarTransaccion(' + ${transaccion.id} + ')'"
-                          class="btn btn-sm btn-danger-custom" title="Eliminar transacción">
-                          <i class="bi bi-trash"></i>
-                        </button>
+                          </span>
+                        </td>
+                        <td class="text-end fw-bold"
+                          th:text="${#numbers.formatDecimal(transaccion.cantidad, 1, 2)} + ' €'"></td>
+                        <td class="text-center">
+                          <button class="btn btn-sm btn-secondary-custom me-1"
+                            th:onclick="'editarTransaccion(' + ${transaccion.id} + ')'">
+                            <i class="bi bi-pencil"></i>
+                          </button>
+                          <button th:onclick="'borrarTransaccion(' + ${transaccion.id} + ')'"
+                            class="btn btn-sm btn-danger-custom" title="Eliminar transacción">
+                            <i class="bi bi-trash"></i>
+                          </button>
 
-                      </td>
-                    </tr>
+                        </td>
+                      </tr>
 
-                    <tr th:if="${transacciones == null or transacciones.isEmpty()}" class="text-center">
-                      <td colspan="6" class="py-5 text-muted">
-                        <i class="bi bi-inbox fs-1 d-block mb-2"></i>
-                        <span
-                          th:text="${transacciones == null} ? 'Error: No se cargaron transacciones' : 'No hay transacciones para mostrar'">No
-                          hay transacciones para mostrar</span>
+                      <tr th:if="${transacciones == null or transacciones.isEmpty()}" class="text-center">
+                        <td colspan="6" class="py-5 text-muted">
+                          <i class="bi bi-inbox fs-1 d-block mb-2"></i>
+                          <span
+                            th:text="${transacciones == null} ? 'Error: No se cargaron transacciones' : 'No hay transacciones para mostrar'">No
+                            hay transacciones para mostrar</span>
 
-                      </td>
-                    </tr>
+                        </td>
+                      </tr>
+                    </th:block>
                   </tbody>
                 </table>
-                <nav th:if="${totalPages > 1}">
+
+                <!-- Paginación -->
+                <nav id="paginacion" class="mt-4" style="display: none;">
                   <ul class="pagination justify-content-center">
                     <!-- Anterior -->
-                    <li class="page-item" th:class="${currentPage == 0} ? 'disabled'">
-                      <a class="page-link" th:href="@{/transactions(page=${currentPage - 1})}"
-                        th:attr="data-page=${currentPage - 1}">
+                    <li class="page-item" th:classappend="${currentPage == 0} ? 'disabled'">
+                      <a class="page-link" data-page="0" href="#" th:attr="data-page=${currentPage - 1}">
                         Anterior
                       </a>
                     </li>
 
                     <!-- Números -->
-                    <li th:each="i : ${#numbers.sequence(0, totalPages - 1)}" class="page-item"
-                      th:class="${i == currentPage} ? 'active'">
-                      <a class="page-link" th:href="@{/transactions(page=${i})}" th:attr="data-page=${i}"
-                        th:text="${i + 1}"></a>
-                    </li>
+                    <th:block th:each="i : ${#numbers.sequence(0, totalPages - 1)}">
+                      <li class="page-item" th:classappend="${i == currentPage} ? 'active'">
+                        <a class="page-link" data-page="0" href="#" th:attr="data-page=${i}" th:text="${i + 1}"></a>
+                      </li>
+                    </th:block>
 
                     <!-- Siguiente -->
-                    <li class="page-item" th:class="${currentPage == totalPages - 1} ? 'disabled'">
-                      <a class="page-link" th:href="@{/transactions(page=${currentPage + 1})}"
-                        th:attr="data-page=${currentPage + 1}">
+                    <li class="page-item" th:classappend="${currentPage == totalPages - 1} ? 'disabled'">
+                      <a class="page-link" data-page="0" href="#" th:attr="data-page=${currentPage + 1}">
                         Siguiente
                       </a>
                     </li>
                   </ul>
+
+                  <!-- Info paginación -->
+                  <div class="text-center text-muted small mt-2">
+                    Mostrando <span th:text="${#lists.size(transacciones) + 1}"></span>-
+                    <span th:text="${totalItems}"></span> de <span th:text="${totalItems}"></span> transacciones
+                  </div>
                 </nav>
               </div>
             </section>
-
           </div>
         </main>
 
