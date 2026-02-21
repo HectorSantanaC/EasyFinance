@@ -168,5 +168,4 @@ INSERT INTO categorias (nombre, tipo, es_global, creado_por) VALUES
 ('Salario', 'INGRESO', TRUE, 1),
 ('Freelance', 'INGRESO', TRUE, 1),
 ('Alquiler', 'GASTO', TRUE, 1),
-('Alimentación', 'GASTO', TRUE, 1),
-('Ahorro Emergencia', 'AHORRO', TRUE, 1);
+('Alimentación', 'GASTO', TRUE, 1);
