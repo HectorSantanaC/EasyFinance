@@ -88,7 +88,7 @@ HELP.md
 # ===========================================
 frontend/node_modules/
 frontend/package-lock.json
-src/main/resources/static/libs/
+#src/main/resources/static/libs/
 
 # ===========================================
 # CONFIGURACIÓN LOCAL
