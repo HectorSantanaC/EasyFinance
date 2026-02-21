@@ -99,19 +99,23 @@ document.addEventListener("DOMContentLoaded", function () {
       // Mostrar/ocultar campos por tipo
       const categoriaDiv = document.getElementById("editCategoriaDiv");
       const metaDiv = document.getElementById("editMetaDiv");
-      if (data.tipo === 'AHORRO') {
-        if (categoriaDiv) categoriaDiv.style.display = 'none';
-        if (metaDiv) metaDiv.style.display = 'block';
-        await cargarMetasUsuario("editMeta");
-        setTimeout(() => document.getElementById("editMeta").value = data.metaId?.id || "", 100);
-      } else if (data.tipo === 'INGRESO' || data.tipo === 'GASTO') {
-        if (categoriaDiv) categoriaDiv.style.display = 'block';
-        if (metaDiv) metaDiv.style.display = 'none';
-        await cargarCategoriasPorTipo(data.tipo, "editCategoria");
-        setTimeout(() => document.getElementById("editCategoria").value = data.categoriaId?.id || "", 100);
+
+      const tipo = data.tipo;
+      if (tipo === 'AHORRO') {
+        categoriaDiv.style.display = 'none';
+        metaDiv.style.display = 'block';
+        await cargarMetasUsuario("editMeta");  // ← SIN idSeleccionar
+      } else if (tipo === 'INGRESO' || tipo === 'GASTO') {
+        categoriaDiv.style.display = 'block';
+        metaDiv.style.display = 'none';
+        await cargarCategoriasPorTipo(tipo, "editCategoria");
       }
 
       new bootstrap.Modal(document.getElementById("modalEditar")).show();
+      setTimeout(() => {
+        document.getElementById("editTipo").dispatchEvent(new Event('change'));
+      }, 200);
+
     } catch (error) {
       console.error('Error editar:', error);
       mostrarAlerta("Error cargando transacción", "danger");
@@ -238,10 +242,26 @@ document.addEventListener("DOMContentLoaded", function () {
 
   const editTipoSelect = document.getElementById("editTipo");
   if (editTipoSelect) {
-    editTipoSelect.addEventListener("change", function () {
-      cargarCategoriasPorTipo(this.value, "editCategoria");
+    editTipoSelect.addEventListener("change", async function () {
+      const tipo = this.value;
+      const categoriaDiv = document.getElementById("editCategoriaDiv");
+      const metaDiv = document.getElementById("editMetaDiv");
+
+      if (tipo === 'AHORRO') {
+        categoriaDiv.style.display = 'none';
+        metaDiv.style.display = 'block';
+        await cargarMetasUsuario("editMeta");
+      } else if (tipo === 'INGRESO' || tipo === 'GASTO') {
+        categoriaDiv.style.display = 'block';
+        metaDiv.style.display = 'none';
+        await cargarCategoriasPorTipo(tipo, "editCategoria");
+      } else {
+        categoriaDiv.style.display = 'none';
+        metaDiv.style.display = 'none';
+      }
     });
   }
+
 
   // ===========================================
   // TABLA Y PAGINACIÓN
