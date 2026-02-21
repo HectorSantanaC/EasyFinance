@@ -432,7 +432,7 @@
 
             <!-- Tipo de transacción -->
             <div class="mb-3">
-              <label for="transactionType" class="form-label">Tipo de transacción</label>
+              <label for="transactionType" class="form-label">Tipo de transacción <span class="text-danger">*</span></label>
               <select class="form-select" id="transactionType" name="tipo" required>
                 <option value="">Selecciona un tipo</option>
                 <option value="INGRESO">Ingreso</option>
@@ -450,14 +450,14 @@
 
             <!-- Importe -->
             <div class="mb-3">
-              <label for="transactionAmount" class="form-label">Importe (€)</label>
+              <label for="transactionAmount" class="form-label">Importe (€) <span class="text-danger">*</span></label>
               <input type="number" class="form-control" id="transactionAmount" name="importe" step="0.01" min="0.01"
                 placeholder="0.00" required>
             </div>
 
             <!-- Categoría (se muestra para INGRESO y GASTO) -->
             <div class="mb-3" id="campoCategoria">
-              <label for="transactionCategory" class="form-label">Categoría</label>
+              <label for="transactionCategory" class="form-label">Categoría <span class="text-danger">*</span></label>
               <select class="form-select" id="transactionCategory" name="idCategoria">
                 <option value="">Selecciona una categoría</option>
               </select>
@@ -465,7 +465,7 @@
 
             <!-- Meta de ahorro (se muestra solo para AHORRO) -->
             <div class="mb-3" id="campoMeta" style="display: none;">
-              <label for="transactionGoal" class="form-label">Meta de ahorro</label>
+              <label for="transactionGoal" class="form-label">Meta de ahorro <span class="text-danger">*</span></label>
               <select class="form-select" id="transactionGoal" name="idMeta">
                 <option value="">Selecciona una meta</option>
                 <option value="1">Vacaciones 2026</option>
@@ -477,7 +477,7 @@
 
             <!-- Fecha -->
             <div class="mb-3">
-              <label for="transactionDate" class="form-label">Fecha</label>
+              <label for="transactionDate" class="form-label">Fecha <span class="text-danger">*</span></label>
               <input type="date" class="form-control" id="transactionDate" name="fecha" required>
             </div>
 
@@ -520,14 +520,14 @@
                 <input type="text" id="editDescripcion" class="form-control" required>
               </div>
               <div class="col-md-4">
-                <label class="form-label fw-bold">Importe</label>
+                <label class="form-label fw-bold">Importe <span class="text-danger">*</span></label>
                 <input type="number" id="editImporte" step="0.01" class="form-control" required>
               </div>
             </div>
 
             <div class="row mb-3">
               <div class="col-md-6">
-                <label class="form-label fw-bold">Tipo</label>
+                <label class="form-label fw-bold">Tipo <span class="text-danger">*</span></label>
                 <select id="editTipo" class="form-select">
                   <option value="INGRESO">Ingreso</option>
                   <option value="GASTO">Gasto</option>
@@ -535,20 +535,20 @@
                 </select>
               </div>
               <div class="col-md-6">
-                <label class="form-label fw-bold">Fecha</label>
+                <label class="form-label fw-bold">Fecha <span class="text-danger">*</span></label>
                 <input type="date" id="editFecha" class="form-control" required>
               </div>
             </div>
 
             <div class="mb-3" id="editCategoriaDiv" style="display: none;">
-              <label class="form-label fw-bold">Categoría</label>
+              <label class="form-label fw-bold">Categoría <span class="text-danger">*</span></label>
               <select id="editCategoria" class="form-select">
                 <option value="">Sin categoría</option>
               </select>
             </div>
 
             <div class="mb-3" id="editMetaDiv" style="display: none;">
-              <label class="form-label fw-bold">Categoría</label>
+              <label class="form-label fw-bold">Categoría <span class="text-danger">*</span></label>
               <select id="editMeta" class="form-select">
                 <option value="">Sin categoría</option>
               </select>
