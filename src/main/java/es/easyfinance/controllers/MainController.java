@@ -28,6 +28,7 @@ import es.easyfinance.services.CategoryService;
 import es.easyfinance.services.TransactionService;
 import es.easyfinance.services.UserDetailsServiceImpl;
 import es.easyfinance.services.UserService;
+import jakarta.servlet.http.HttpSession;
 
 @Controller
 public class MainController {
@@ -60,56 +61,83 @@ public class MainController {
 	}
 	
 	@GetMapping(value = "/register")
-	public String register(Model model) {
+	public String register(Model model, HttpSession session) {
 		
-		model.addAttribute("usuario", new UserModel());
+		UserModel usuarioTemp = (UserModel) session.getAttribute("usuarioTemp");
+	    model.addAttribute("usuario", usuarioTemp != null ? usuarioTemp : new UserModel());
+	    
+	    // Limpiar sesión usuario temporal
+	    session.removeAttribute("usuarioTemp");
 		
 		return "register";
 	}
 	
 	@PostMapping(value = "/register")
-	public String processRegister(@ModelAttribute UserModel usuario, 
-	                              RedirectAttributes redirectAttributes) {
+	public String processRegister(@ModelAttribute UserModel usuario,
+								  @RequestParam(required=false) String confirmPassword,
+	                              RedirectAttributes redirectAttributes,
+	                              HttpSession session) {
 	    
-	    // Validación
+	    // Validaciones
+	    if (usuario.getNombre() == null || usuario.getNombre().trim().isEmpty()) {
+	        session.setAttribute("usuarioTemp", usuario);
+	        redirectAttributes.addFlashAttribute("error", "Nombre es obligatorio.");
+	        return "redirect:/register";
+	    }
+	    
+	    if (usuario.getApellidos() == null || usuario.getApellidos().trim().isEmpty()) {
+	        session.setAttribute("usuarioTemp", usuario);
+	        redirectAttributes.addFlashAttribute("error", "Apellidos es obligatorio.");
+	        return "redirect:/register";
+	    }
+	    
 	    if (usuario.getEmail() == null || usuario.getEmail().trim().isEmpty()) {
+	        session.setAttribute("usuarioTemp", usuario);
 	        redirectAttributes.addFlashAttribute("error", "Email es obligatorio.");
 	        return "redirect:/register";
 	    }
 	    
 	    if (userService.emailExiste(usuario.getEmail())) {
+	        session.setAttribute("usuarioTemp", usuario);
 	        redirectAttributes.addFlashAttribute("error", "El email ya está registrado.");
 	        return "redirect:/register";
 	    }
 	    
 	    if (usuario.getContrasena() == null || usuario.getContrasena().length() < 8) {
+	        session.setAttribute("usuarioTemp", usuario);
 	        redirectAttributes.addFlashAttribute("error", "La contraseña debe tener al menos 8 caracteres.");
 	        return "redirect:/register";
 	    }
+	    
+	    if (confirmPassword == null || !usuario.getContrasena().equals(confirmPassword)) {
+	        session.setAttribute("usuarioTemp", usuario);
+	        redirectAttributes.addFlashAttribute("error", "Las contraseñas no coinciden.");
+	        return "redirect:/register";
+	    }	    
 
-	    // Encriptar contraseña
-	    usuario.setContrasena(passwordEncoder.encode(usuario.getContrasena()));
-	    usuario.setFechaRegistro(LocalDate.now());
-	    
-	    // Añadir rol USER
-	    UserModel usuarioGuardado = userService.guardar(usuario);
-	    userService.asignarRolUsuario(usuarioGuardado, 2L);
-	    
-	    usuario.setActivo(true);
-	    usuario.setFechaRegistro(LocalDate.now());
-	    usuario.setCreadoPor(1L);
-	    usuario.setFechaCreacion(LocalDateTime.now()); 
-	    
 	    try {
-	        userService.guardar(usuario);
+	        usuario.setContrasena(passwordEncoder.encode(usuario.getContrasena()));
+	        usuario.setFechaRegistro(LocalDate.now());
+	        usuario.setActivo(true);
+	        usuario.setCreadoPor(1L);
+	        usuario.setFechaCreacion(LocalDateTime.now());
+	        
+	        UserModel usuarioGuardado = userService.guardar(usuario);
+	        userService.asignarRolUsuario(usuarioGuardado, 2L);
+	        
+	        session.removeAttribute("usuarioTemp"); // Limpia usuario temporal
+	        
 	        redirectAttributes.addFlashAttribute("mensajeExito", 
 	            "¡Registro completado! Puedes iniciar sesión.");
+	        
+	        return "redirect:/login";
+	        
 	    } catch (Exception e) {
+	        session.setAttribute("usuarioTemp", usuario);
 	        redirectAttributes.addFlashAttribute("error", "Error: " + e.getMessage());
+	        
 	        return "redirect:/register";
 	    }
-	    
-	    return "redirect:/login";
 	}
 
 	

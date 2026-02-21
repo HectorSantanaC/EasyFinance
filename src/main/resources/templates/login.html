@@ -132,4 +132,13 @@
 
 </body>
 
+<!-- Justo después de <body> -->
+<div th:if="${mensajeExito}"
+  class="alert alert-success alert-dismissible fade show position-fixed top-0 start-50 translate-middle-x mt-3 z-3"
+  role="alert" style="max-width: 500px;">
+  <i class="bi bi-check-circle-fill me-2"></i>
+  <span th:text="${mensajeExito}">Éxito</span>
+  <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+</div>
+
 </html>

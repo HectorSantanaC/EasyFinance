@@ -61,7 +61,8 @@
                   <!-- Nombre -->
                   <div class="mb-3">
                     <label for="nombre" class="form-label fw-semibold">
-                      <i class="bi bi-person me-1 icon-form-label"></i>Nombre
+                      <i class="bi bi-person me-1 icon-form-label"></i>
+                      Nombre <span class="text-danger">*</span>
                     </label>
                     <input type="text" class="form-control" id="nombre" name="nombre" placeholder="Tu nombre" required
                       minlength="2" maxlength="50" autocomplete="given-name" th:field="*{nombre}">
@@ -70,7 +71,8 @@
                   <!-- Apellidos -->
                   <div class="mb-3">
                     <label for="apellidos" class="form-label fw-semibold">
-                      <i class="bi bi-person-lines-fill me-1 icon-form-label"></i>Apellidos
+                      <i class="bi bi-person-lines-fill me-1 icon-form-label"></i>
+                      Apellidos <span class="text-danger">*</span>
                     </label>
                     <input type="text" class="form-control" id="apellidos" name="apellidos" placeholder="Tus apellidos"
                       required minlength="2" maxlength="100" autocomplete="family-name" th:field="*{apellidos}">
@@ -79,7 +81,8 @@
                   <!-- Email -->
                   <div class="mb-3 mb-md-0">
                     <label for="email" class="form-label fw-semibold">
-                      <i class="bi bi-envelope me-1 icon-form-label"></i>Correo electrónico
+                      <i class="bi bi-envelope me-1 icon-form-label"></i>
+                      Correo electrónico <span class="text-danger">*</span>
                     </label>
                     <input type="email" class="form-control" id="email" name="email" placeholder="correo@ejemplo.com"
                       required autocomplete="email" th:field="*{email}">
@@ -93,7 +96,8 @@
                   <!-- Contraseña -->
                   <div class="mb-3">
                     <label for="password" class="form-label fw-semibold">
-                      <i class="bi bi-lock me-1 icon-form-label"></i>Contraseña
+                      <i class="bi bi-lock me-1 icon-form-label"></i>
+                      Contraseña <span class="text-danger">*</span>
                     </label>
                     <div class="input-group">
                       <input type="password" class="form-control" id="password" name="password"

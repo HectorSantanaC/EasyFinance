@@ -59,7 +59,8 @@ public class UserService {
             .orElseThrow(() -> new RuntimeException("Rol no encontrado"));
         
         usuario.getRoles().add(rolUser);
-        // JPA guarda tabla usuarios_roles AUTOMÁTICAMENTE al guardar usuario
+        
+        userRepository.save(usuario);
     }
 
 
