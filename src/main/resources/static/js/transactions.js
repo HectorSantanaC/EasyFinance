@@ -172,7 +172,10 @@ document.addEventListener("DOMContentLoaded", function () {
     btnGuardarEdit.addEventListener("click", async function (e) {
       e.preventDefault();
 
-      if (!transaccionEditando) return;
+      if (!transaccionEditando?.id) {
+        mostrarAlerta("Error: ID transacción no válido", "danger");
+        return;
+      }
 
       const spinner = document.getElementById("spinnerEdit");
       const btn = this;
@@ -183,25 +186,28 @@ document.addEventListener("DOMContentLoaded", function () {
       const tipoEdit = document.getElementById("editTipo").value;
       const categoriaEdit = document.getElementById("editCategoria").value;
       const metaEdit = document.getElementById("editMeta")?.value;
+      const editId = document.getElementById("editId").value;
+
+      if (!editId) {
+        mostrarAlerta("Error: ID no válido", "danger");
+        return;
+      }
 
       const data = {
-        id: document.getElementById("editId").value,
         descripcion: document.getElementById("editDescripcion").value,
-        cantidad: parseFloat(document.getElementById("editImporte").value),
+        importe: document.getElementById("editImporte").value,
         tipo: tipoEdit,
         fecha: document.getElementById("editFecha").value,
       };
 
       if (tipoEdit === 'AHORRO') {
-        data.metaId = metaEdit ? { id: parseInt(metaEdit) } : null;
-        data.categoriaId = null;
+        data.idMeta = metaEdit;  // Cambia a Meta
       } else {
-        data.categoriaId = categoriaEdit ? { id: parseInt(categoriaEdit) } : null;
-        data.metaId = null;
+        data.idCategoria = categoriaEdit;  // Cambia a Categoría
       }
 
       try {
-        const response = await fetch(`/api/transacciones/${data.id}`, {
+        const response = await fetch(`/api/transacciones/${editId}`, {
           method: "PUT",
           headers: {
             "Content-Type": "application/json",

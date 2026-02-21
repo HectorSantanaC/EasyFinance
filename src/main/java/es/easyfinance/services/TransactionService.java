@@ -34,11 +34,14 @@ public class TransactionService {
 	private UserRepository userRepository;
 
 	private Long getCurrentUserId() {
+		
         String email = SecurityContextHolder.getContext().getAuthentication().getName();
         UserModel user = userRepository.findByEmail(email);
+        
         if (user == null) {
             throw new IllegalStateException("Usuario actual no encontrado");
         }
+        
         return user.getId();
     }
 	
@@ -58,8 +61,10 @@ public class TransactionService {
     	
     	// Validación y asignación de categoría por defecto SOLO si no tiene categoría (AHORRO)
         if (transaccion.getCategoriaId() == null) {
+        	
         	CategoryModel defaultCat = categoryRepository.findFirstByNombreAndTipoAndEsGlobal(
                     "Sin categoria", transaccion.getTipo(), true);
+        	
             if (defaultCat != null) {
                 transaccion.setCategoriaId(defaultCat);
             } else {
@@ -68,23 +73,15 @@ public class TransactionService {
             }
         }
         
-        // Actualiza timestamps si no están seteados
-        if (transaccion.getFechaCreacion() == null) {
-            transaccion.setFechaCreacion(LocalDateTime.now());
-        }
-        if (transaccion.getFechaModificacion() == null) {
-            transaccion.setFechaModificacion(LocalDateTime.now());
-        }
-        
+        boolean esCreacion = (transaccion.getId() == null);
         Long currentUserId = getCurrentUserId();
-        transaccion.setCreadoPor(currentUserId);
-        transaccion.setModificadoPor(currentUserId);
         
-        // Asigna usuario actual vía FK ID (simple Long)
-        if (transaccion.getUsuarioId() == null) {
-            UserModel currentUser = userRepository.findById(currentUserId).orElseThrow(
-                () -> new IllegalStateException("Usuario actual no encontrado"));
-            transaccion.setUsuarioId(currentUser);
+        if(esCreacion) {
+                transaccion.setFechaCreacion(LocalDateTime.now());
+                transaccion.setCreadoPor(currentUserId);
+            } else {
+            	transaccion.setFechaModificacion(LocalDateTime.now());
+            	transaccion.setModificadoPor(currentUserId);
         }
 
         return transactionRepository.save(transaccion);
@@ -101,6 +98,7 @@ public class TransactionService {
     
     // Ingreso mensual
     public BigDecimal calcularIngresosMesActual(String email) {
+    	
     	LocalDate inicioMes = LocalDate.now().withDayOfMonth(1);
     	
         return transactionRepository.findByUsuarioIdEmailAndTipoAndFechaGreaterThanEqual(
@@ -112,6 +110,7 @@ public class TransactionService {
       
     // Gasto mensual
     public BigDecimal calcularGastosMesActual(String email) {
+    	
     	LocalDate inicioMes = LocalDate.now().withDayOfMonth(1);
     	
     	return transactionRepository.findByUsuarioIdEmailAndTipoAndFechaGreaterThanEqual(
@@ -123,6 +122,7 @@ public class TransactionService {
     
     // Ahorro mensual
     public BigDecimal calcularAhorrosMesActual(String email) {
+    	
     	LocalDate inicioMes = LocalDate.now().withDayOfMonth(1);
     	
     	return transactionRepository.findByUsuarioIdEmailAndTipoAndFechaGreaterThanEqual(
@@ -151,6 +151,7 @@ public class TransactionService {
         LocalDate fechaHasta = filtro.getFechaHasta();
         
         if (fechaDesde == null) fechaDesde = LocalDate.now().withDayOfMonth(1);
+        
         if (fechaHasta == null) fechaHasta = LocalDate.now().plusMonths(1).withDayOfMonth(1).minusDays(1);
         
         if (tipoEnum != null && categoriaModel != null && fechaDesde != null && fechaHasta != null) {
@@ -178,6 +179,7 @@ public class TransactionService {
             return transactionRepository.findByUsuarioIdAndFechaBetween(usuario, fechaDesde, fechaHasta, pageable);
             
         }
+        
         return transactionRepository.findByUsuarioId(usuario, pageable);
     }
     

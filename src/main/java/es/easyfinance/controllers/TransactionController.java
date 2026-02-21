@@ -51,8 +51,7 @@ public class TransactionController {
     }
 
 	@GetMapping(produces = "application/json")
-	public ResponseEntity<Page<TransactionModel>> listar(
-	    @RequestParam(defaultValue = "0") int page,
+	public ResponseEntity<Page<TransactionModel>> listar(@RequestParam(defaultValue = "0") int page,
 	    @RequestParam(defaultValue = "10") int size) {
 	    
 	    UserModel usuario = usuarioActual();
@@ -73,6 +72,7 @@ public class TransactionController {
     public ResponseEntity<TransactionModel> crear(@RequestParam Map<String, String> data) {
     	
         TransactionModel transaction = new TransactionModel();
+        
         transaction.setDescripcion(data.get("descripcion"));
         transaction.setCantidad(new BigDecimal(data.get("importe")));
         transaction.setTipo(TransactionTypeModel.valueOf(data.get("tipo")));
@@ -84,13 +84,9 @@ public class TransactionController {
             CategoryModel categoria = new CategoryModel();
             categoria.setId(Long.parseLong(data.get("idCategoria")));
             transaction.setCategoriaId(categoria);
-        } else {
-            // AHORRO: set categoriaId = null explícito
-            transaction.setCategoriaId(null);
-        }
-        
-        // AHORRO: META
-        if ("AHORRO".equals(data.get("tipo"))) {
+            
+         // AHORRO: META
+        } else if ("AHORRO".equals(data.get("tipo"))) {
             SavingsGoalModel meta = new SavingsGoalModel();
             meta.setId(Long.parseLong(data.get("idMeta")));
             transaction.setMetaAhorroId(meta);
@@ -109,12 +105,79 @@ public class TransactionController {
     }
     
     @PutMapping("/{id}")
-    public ResponseEntity<TransactionModel> actualizar(@PathVariable Long id, @RequestBody TransactionModel transaction) {
-    	transaction.setId(id);
-    	transaction.setUsuarioId(usuarioActual());
-    	return ResponseEntity.ok(transactionService.guardar(transaction));
+    public ResponseEntity<TransactionModel> actualizar(@PathVariable Long id, @RequestBody Map<String, Object> data) {
+    	
+        TransactionModel original = transactionService.buscarPorId(id);
+        
+        if (original == null || !original.getUsuarioId().getId().equals(usuarioActual().getId())) {
+            return ResponseEntity.notFound().build();
+        }
+
+        // DATOS ORIGINALES META
+        TransactionTypeModel tipoOriginal = original.getTipo();
+        BigDecimal importeOriginal = original.getCantidad();
+        Long metaIdOriginal = original.getMetaAhorroId() != null ? original.getMetaAhorroId().getId() : null;
+
+        // ACTUALIZAR CAMPOS
+        if (data.get("descripcion") != null) {
+            original.setDescripcion((String) data.get("descripcion"));
+        }
+        if (data.get("importe") != null && !"".equals(data.get("importe"))) {
+            original.setCantidad(new BigDecimal(data.get("importe").toString()));
+        }
+        if (data.get("fecha") != null && !"".equals(data.get("fecha"))) {
+            original.setFecha(LocalDate.parse((String) data.get("fecha")));
+        }
+
+        // TIPO
+        TransactionTypeModel nuevoTipo = original.getTipo();
+        if (data.get("tipo") != null && !"".equals(data.get("tipo"))) {
+            nuevoTipo = TransactionTypeModel.valueOf((String) data.get("tipo"));
+            original.setTipo(nuevoTipo);
+        }
+
+        // CATEGORÍA (INGRESO/GASTO)
+        if (data.containsKey("idCategoria") && nuevoTipo != TransactionTypeModel.AHORRO) {
+            String catStr = data.get("idCategoria").toString();
+            if (catStr != null && !"".equals(catStr) && !"null".equals(catStr)) {
+                CategoryModel categoria = new CategoryModel();
+                categoria.setId(Long.parseLong(catStr));
+                original.setCategoriaId(categoria);
+            }
+        }
+        
+        // META (AHORRO)
+        Long metaIdNueva = null;
+        
+        if (nuevoTipo == TransactionTypeModel.AHORRO && data.containsKey("idMeta")) {
+            String metaStr = data.get("idMeta").toString();
+            if (metaStr != null && !"".equals(metaStr) && !"null".equals(metaStr)) {
+                metaIdNueva = Long.parseLong(metaStr);
+                SavingsGoalModel meta = new SavingsGoalModel();
+                meta.setId(metaIdNueva);
+                original.setMetaAhorroId(meta);
+            }
+        }
+
+        // LÓGICA META
+        if (nuevoTipo == TransactionTypeModel.AHORRO && metaIdNueva != null && metaIdNueva.equals(metaIdOriginal)) {
+            SavingsGoalModel metaDb = savingsGoalService.buscarPorId(metaIdNueva);
+            if (metaDb != null) {
+                BigDecimal diff = original.getCantidad().subtract(importeOriginal);
+                metaDb.setCantidadActual(metaDb.getCantidadActual().add(diff));
+                savingsGoalService.guardar(metaDb);
+            }
+        } else if (metaIdOriginal != null && tipoOriginal == TransactionTypeModel.AHORRO && nuevoTipo != TransactionTypeModel.AHORRO) {
+            SavingsGoalModel metaDb = savingsGoalService.buscarPorId(metaIdOriginal);
+            if (metaDb != null) {
+                metaDb.setCantidadActual(metaDb.getCantidadActual().subtract(importeOriginal));
+                savingsGoalService.guardar(metaDb);
+            }
+        }
+
+        return ResponseEntity.ok(transactionService.guardar(original));
     }
-    
+
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> borrar(@PathVariable Long id) {
         // SEGURIDAD: solo propias
@@ -126,6 +189,5 @@ public class TransactionController {
         transactionService.borrar(id);
         return ResponseEntity.ok().build();
     }
-
 
 }

@@ -100,9 +100,7 @@ public class MainController {
 	    usuario.setActivo(true);
 	    usuario.setFechaRegistro(LocalDate.now());
 	    usuario.setCreadoPor(1L);
-	    usuario.setFechaCreacion(LocalDateTime.now());
-	    
-	    
+	    usuario.setFechaCreacion(LocalDateTime.now()); 
 	    
 	    try {
 	        userService.guardar(usuario);
