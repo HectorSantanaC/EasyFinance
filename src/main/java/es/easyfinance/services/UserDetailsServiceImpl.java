@@ -1,6 +1,11 @@
 package es.easyfinance.services;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -16,20 +21,23 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 	@Autowired
 	private UserRepository userRepository;
 
-
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
+    	
         UserModel userModel = userRepository.findByEmail(email);
                 
         if (userModel == null) {
         	throw new UsernameNotFoundException("Usuario no encontrado: " + email);
         }
         
-        String role = "ROLE_" + userModel.getRolId().getNombre().toUpperCase();
+        
+        List<GrantedAuthority> authorities = userModel.getRoles().stream()
+        	    .map(rol -> new SimpleGrantedAuthority("ROLE_" + rol.getNombre().toUpperCase()))
+        	    .collect(Collectors.toList());
         
         return User.withUsername(userModel.getEmail())
                 .password(userModel.getContrasena())
-                .authorities(role)
+                .authorities(authorities)
                 .disabled(!userModel.isActivo())
                 .build();
     }

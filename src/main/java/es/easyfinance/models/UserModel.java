@@ -2,6 +2,8 @@ package es.easyfinance.models;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.HashSet;
+import java.util.Set;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -9,7 +11,8 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
+import jakarta.persistence.JoinTable;
+import jakarta.persistence.ManyToMany;
 import jakarta.persistence.Table;
 
 @Entity
@@ -24,9 +27,13 @@ public class UserModel {
 	private String nombre;
 	private String apellidos;
 	
-	@ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "rol_id")
-	private RolModel rolId;
+	@ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(
+        name = "usuarios_roles",
+        joinColumns = @JoinColumn(name = "usuario_id"),
+        inverseJoinColumns = @JoinColumn(name = "rol_id")
+    )
+    private Set<RolModel> roles = new HashSet<>();
 	
 	private boolean activo = true;
 	private LocalDate fechaRegistro;
@@ -80,12 +87,12 @@ public class UserModel {
 		this.apellidos = apellidos;
 	}
 
-	public RolModel getRolId() {
-		return rolId;
+	public Set<RolModel> getRoles() {
+		return roles;
 	}
 
-	public void setRolId(RolModel rolId) {
-		this.rolId = rolId;
+	public void setRoles(Set<RolModel> roles) {
+		this.roles = roles;
 	}
 
 	public boolean isActivo() {

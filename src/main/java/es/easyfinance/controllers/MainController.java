@@ -21,7 +21,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import es.easyfinance.models.RolModel;
 import es.easyfinance.models.TransactionFilterModel;
 import es.easyfinance.models.TransactionModel;
 import es.easyfinance.models.UserModel;
@@ -92,11 +91,10 @@ public class MainController {
 	    usuario.setContrasena(passwordEncoder.encode(usuario.getContrasena()));
 	    usuario.setFechaRegistro(LocalDate.now());
 	    
-	   
-	 // ASIGNAR ROL USUARIO
-	    RolModel rolUsuario = new RolModel();
-	    rolUsuario.setId(2L);  // ID del rol USUARIO
-	    usuario.setRolId(rolUsuario);
+	    // Añadir rol USER
+	    UserModel usuarioGuardado = userService.guardar(usuario);
+	    userService.asignarRolUsuario(usuarioGuardado, 2L);
+	    
 	    usuario.setActivo(true);
 	    usuario.setFechaRegistro(LocalDate.now());
 	    usuario.setCreadoPor(1L);
