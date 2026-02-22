@@ -13,9 +13,9 @@ git clone git@github.com:HectorSantanaC/EasyFinance.git
 cd EasyFinance
 ```
 
-# 1. MySQL: CREATE DATABASE easyfinance_db
-# 2. application.properties → TU usuario/pass
-# 3. Bootstrap/Chart.js YA incluidos
+### 1. MySQL: CREATE DATABASE easyfinance_db
+### 2. application.properties → TU usuario/pass
+### 3. Bootstrap/Chart.js YA incluidos
 
 ```bash
 mvn clean package
@@ -110,7 +110,7 @@ CREATE DATABASE easyfinance_db CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
 ### 3. Configurar application.properties
 
-# ← CAMBIA TUS DATOS MYSQL
+### ← CAMBIA TUS DATOS MYSQL
 spring.datasource.url=jdbc:mysql://localhost:3306/easyfinance?useSSL=false&serverTimezone=UTC
 spring.datasource.username=root     # TU USUARIO
 spring.datasource.password=         # TU PASS
@@ -153,6 +153,7 @@ Sin Node	                    Instala Node.js 20+
 
 ### 📁 Estructura
 
+```bash
 EasyFinance/
 ├── pom.xml                          # Maven dependencias
 ├── mvnw / mvnw.cmd                  # Maven wrapper
@@ -242,7 +243,7 @@ EasyFinance/
     └── test/                            # Tests JUnit
         └── java/es/easyfinance/
             └── EasyFinanceApplicationTests.java
-
+```
 ---
 
 Héctor Santana - DAW PRW 2025/2026
