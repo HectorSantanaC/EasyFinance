@@ -2,34 +2,51 @@
 
 > Aplicación web de gestión financiera personal desarrollada con Spring Boot
 
-EasyFinance es una plataforma intuitiva para controlar tus finanzas personales: registra ingresos y gastos, visualiza estadísticas en tiempo real y alcanza tus metas de ahorro. Proyecto académico del Ciclo Formativo de Grado Superior en Desarrollo de Aplicaciones Web (DAW).
+EasyFinance es una aplicación web de gestión financiera personal desarrollada como Proyecto de Fin de Ciclo de DAW (Desarrollo de Aplicaciones Web). Permite a usuarios registrar ingresos y gastos, visualizar estadísticas mediante gráficos, definir metas de ahorro y monitorizar su progreso, con un panel de administración para gestionar usuarios y categorías globales.
+
+---
+
+## 🚀 DESPLIEGUE RÁPIDO **(Recomendado)**
+
+```bash
+git clone git@github.com:HectorSantanaC/EasyFinance.git
+cd EasyFinance
+```
+
+# 1. MySQL: CREATE DATABASE easyfinance_db
+# 2. application.properties → TU usuario/pass
+# 3. Bootstrap/Chart.js YA incluidos
+
+```bash
+mvn clean package
+java -jar target/*.jar
+```
+
+http://localhost:8080 → Listo.
 
 ---
 
 ## 📋 Características Principales
 
 ### Gestión de Movimientos
-- ✅ Registro, edición y eliminación de ingresos
-- ✅ Registro, edición y eliminación de gastos
+- ✅ CRUD ingresos/gastos
 - ✅ Filtros por fecha, categoría y tipo de movimiento
 
 ### Dashboard y Visualización
 - 📊 Resumen mensual de ingresos, gastos y saldo disponible
-- 📈 Gráficos interactivos por categoría
+- 📈 Gráficos interactivos por categoría (Chart.js)
 - 📅 Estadísticas y comparativas
 
 ### Metas de Ahorro
-- 🎯 Creación y gestión de metas personalizadas
-- 📊 Seguimiento visual del progreso
-- ✏️ Edición y eliminación de metas
+- 🎯 CRUD metas personalizadas
+- 📊 Progreso visual
 
 ### Gestión de Usuario
-- 👤 Perfil de usuario personalizable
-- 🔒 Cambio seguro de contraseña
-- 🛡️ Autenticación con Spring Security
+- 👤 Perfil + cambio contraseña
+- 🔒 **Spring Security** (BCrypt/CSRF)
 
 ### Panel Administrativo
-- 👥 Gestión de usuarios registrados
+- 👥 Gestión de usuarios (sin acceso a datos financieros)
 - 🏷️ Administración de categorías globales
 
 ---
@@ -37,26 +54,28 @@ EasyFinance es una plataforma intuitiva para controlar tus finanzas personales: 
 ## 🛠️ Tecnologías Utilizadas
 
 ### Backend
-- **Framework**: Spring Boot 3.x
-- **Lenguaje**: Java 17
-- **Seguridad**: Spring Security
-- **Persistencia**: JPA/Hibernate
-- **Gestor de dependencias**: Maven
+| Tecnología | Detalles |
+|------------|----------|
+| **Spring Boot** | 3.x (MVC/Tomcat)[file:1] |
+| **Java** | 17+ |
+| **Spring Security** | Roles USER/ADMIN |
+| **JPA/Hibernate** | ORM MySQL |
+| **Maven** | Dependencias |
 
 ### Frontend
-- **Estructura**: HTML5 semántico
-- **Estilos**: CSS3 + Bootstrap 5
-- **Interactividad**: JavaScript (Vanilla)
-- **Gráficos**: Chart.js
-- **Motor de plantillas**: Thymeleaf
+| Tecnología | Detalles |
+|------------|----------|
+| **HTML5/CSS3/JS** | Vanilla + Thymeleaf[file:1] |
+| **Bootstrap** | 5.3 (CSS/JS/Icons) |
+| **Chart.js** | 4.5 (gráficos UMD) |
+| **Bootstrap Icons** | 1.12 (fonts) |
+| **Thymeleaf**| Plantillas servidor |
 
 ### Base de Datos
-- **SGBD**: MySQL 8.x
-- **Diseño**: Modelo relacional normalizado
+- **MySQL 8.x**: Esquema relacional (USUARIO, MOVIMIENTO, CATEGORIA, META_AHORRO, ROL)
 
-### Control de Versiones
-- **Git** + **GitHub**
-- **Metodología**: Git Flow (ramas `main` y `develop`)
+### Herramientas
+- Git/GitHub, Spring Tools Suite, MySQL Workbench[file:1]
 
 ---
 
@@ -68,9 +87,7 @@ Antes de ejecutar el proyecto, asegúrate de tener instalado:
 - 📦 **Maven 3.8+**
 - 🗄️ **MySQL 8.4+**
 - 🔧 **Git**
-- 💻 **IDE recomendado**: IntelliJ IDEA, Eclipse o VS Code (con extensiones Java)
-
-> 💡 **Recomendación**: Instala MySQL Workbench 8.0 CE para administrar la base de datos de forma visual.
+- 💻 **IDE**: IntelliJ IDEA, Eclipse (Spring Tools) o VS Code (con extensiones Java)
 
 ---
 
@@ -81,3 +98,152 @@ Antes de ejecutar el proyecto, asegúrate de tener instalado:
 ```bash
 git clone git@github.com:HectorSantanaC/EasyFinance.git
 cd EasyFinance
+```
+
+### 2. Configurar Base de Datos MySQL
+Inicia MySQL (puerto 3306).
+
+Crea esquema:
+```bash
+CREATE DATABASE easyfinance_db CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+```
+
+### 3. Configurar application.properties
+
+# ← CAMBIA TUS DATOS MYSQL
+spring.datasource.url=jdbc:mysql://localhost:3306/easyfinance?useSSL=false&serverTimezone=UTC
+spring.datasource.username=root     # TU USUARIO
+spring.datasource.password=         # TU PASS
+spring.jpa.hibernate.ddl-auto=update
+spring.jpa.show-sql=true
+server.port=8080
+spring.thymeleaf.cache=false
+
+### 4. 🚨 Bootstrap + Chart.js + Icons
+
+```bash
+npm install
+npm run copy-libs
+```
+
+Verifica: static/libs/bootstrap/, bootstrap-icons/, chart.js/
+
+### 5. Compilar y Ejecutar
+
+```bash
+mvn clean spring-boot:run
+```
+URL: http://localhost:8080
+
+### 6. Probar
+
+/register → Cuenta
+
+Login → /dashboard (gráficos)
+
+Admin → /admin
+
+### ⚠️ Errores Comunes
+
+**Error**                     **Solución**
+Sin gráficos/estilos	        npm run copy-libs
+Puerto 8080	                  server.port=8081
+MySQL denied	                Credenciales properties
+Sin Node	                    Instala Node.js 20+
+
+### 📁 Estructura
+
+EasyFinance/
+├── pom.xml                          # Maven dependencias
+├── mvnw / mvnw.cmd                  # Maven wrapper
+├── docs
+│   ├── Plan de proyecto PDF
+│   ├── Documento de alcance PDF
+│   ├── Diagrama de casos de uso PDF
+│   ├── Diagrama ER PDF
+│   ├── Diseño Técnico PDF
+│   └── Documento de despligue PDF
+│ 
+├── frontend
+│   ├── copy-libs.js
+│   └── package.json
+│ 
+└── src/
+    ├── main/
+    │   ├── java/es/easyfinance/
+    │   │   ├── EasyFinanceApplication.java  # @SpringBootApplication
+    │   │   ├── config/
+    │   │   │   ├──LoginSuccesHandler.java
+    │   │   │   └── SecurityConfig.java      # Spring Security
+    │   │   ├── controllers/
+    │   │   │   ├── CategoryController.java
+    │   │   │   ├── DashboarController.java
+    │   │   │   ├── MainController.java
+    │   │   │   ├── UserController.java
+    │   │   │   ├── TransactionController.java
+    │   │   │   ├── SavingsGoalController.java
+    │   │   │   └── RolController.java
+    │   │   ├── models/
+    │   │   │   ├── CategoryModel.java
+    │   │   │   ├── RolModel.java
+    │   │   │   ├── SavingsGoalModel.java
+    │   │   │   ├── TransactionFilterModel.java
+    │   │   │   ├── TransactionModel.java
+    │   │   │   ├── TransactionTypeModel.java
+    │   │   │   └── UserModel.java
+    │   │   ├── repositories/
+    │   │   │   ├── CategoryRepository.java
+    │   │   │   ├── DashboarRepository.java
+    │   │   │   ├── UserRepository.java
+    │   │   │   ├── TransactionRepository.java
+    │   │   │   ├── SavingsGoalRepository.java
+    │   │   │   └── RolRepository.java
+    │   │   └── services/
+    │   │   │   ├── CategoryService.java
+    │   │   │   ├── DashboarService.java
+    │   │   │   ├── UserService.java
+    │   │   │   ├── TransactionService.java
+    │   │   │   ├── SavingsGoalService.java
+    │   │   │   └── RolService.java
+    │   │
+    │   └── resources/
+    │       ├── application.properties     # DB config
+    │       ├── db/
+    │       │   └── easyfinance_db.sql
+    │       ├── static/
+    │       │   │   └── assets/imgages
+    │       │   ├── js/
+    │       │   │   ├── admin-categories.js
+    │       │   │   ├── common.js
+    │       │   │   ├── dashboard.js
+    │       │   │   ├── login.js
+    │       │   │   ├── register.js
+    │       │   │   ├── savings.js
+    │       │   │   └── transactions.js
+    │       │   └── libs/
+    │       │       ├── bootstrap
+    │       │       ├── chart.js
+    │       │       └── bootstrap-icons/
+    │       └── templates/                 # Thymeleaf
+    │           ├── admin-categories.html
+    │           ├── admin-users.html
+    │           ├── categories.html
+    │           ├── contact.html
+    │           ├── dashboard.html
+    │           ├── help.html
+    │           ├── index.html
+    │           ├── login.html
+    │           ├── privacy.html
+    │           ├── register.html
+    │           ├── savings.html
+    │           ├── terms.html
+    │           └── transactions.html
+    │
+    └── test/                            # Tests JUnit
+        └── java/es/easyfinance/
+            └── EasyFinanceApplicationTests.java
+
+---
+
+Héctor Santana - DAW PRW 2025/2026
+MIT License
