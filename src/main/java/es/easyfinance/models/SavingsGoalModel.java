@@ -23,9 +23,10 @@ public class SavingsGoalModel {
 	private Long id;
 	
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "usuario_id")
+	@JoinColumn(name = "usuario_id", nullable = false)
 	private UserModel usuarioId;
 	
+	@Column(name = "nombre", nullable = false, length = 100)
 	private String nombre;
 	private String descripcion;
 	
@@ -35,8 +36,12 @@ public class SavingsGoalModel {
 	@Column(precision = 10, scale = 2)
 	private BigDecimal cantidadActual;
 	
+	@Column(name = "fecha_inicio", nullable = false)
 	private LocalDate fechaInicio;
+	
+	@Column(name = "fecha_objetivo", nullable = false)
 	private LocalDate fechaObjetivo;
+	
 	private boolean completada = false;
 	private LocalDateTime fechaCompletada;
 	private Long creadoPor;
