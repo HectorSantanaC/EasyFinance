@@ -26,20 +26,23 @@ public class TransactionModel {
 	private Long id;
 	
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "usuario_id")
+	@JoinColumn(name = "usuario_id", nullable = false)
 	private UserModel usuarioId;
 	
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "categoria_id")
+	@JoinColumn(name = "categoria_id", nullable = false)
 	private CategoryModel categoriaId;
 	
 	@Enumerated(EnumType.STRING)
+	@Column(name = "tipo", nullable = false, length = 10)
 	private TransactionTypeModel tipo;
 	
-	@Column(precision = 10, scale = 2)
+	@Column(name = "cantidad", nullable = false, precision = 10, scale = 2)
 	private BigDecimal cantidad;
 	
 	private String descripcion;
+	
+	@Column(name = "fecha", nullable = false)
 	private LocalDate fecha;
 
 	@ManyToOne(fetch = FetchType.LAZY)
