@@ -29,7 +29,7 @@ public class SavingsGoalModel {
 	private String nombre;
 	private String descripcion;
 	
-	@Column(precision = 10, scale = 2)
+	@Column(name = "cantidad_objetivo", nullable = false, precision = 10, scale = 2)
 	private BigDecimal cantidadObjetivo;
 	
 	@Column(precision = 10, scale = 2)
