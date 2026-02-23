@@ -2,6 +2,7 @@ package es.easyfinance.models;
 
 import java.time.LocalDateTime;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
@@ -22,6 +23,7 @@ public class CategoryModel {
 	private String descripcion;
 	
 	@Enumerated(EnumType.STRING)
+	@Column(name = "tipo", nullable = false, length = 10)
 	private TransactionTypeModel tipo;
 	
 	private boolean esGlobal = false;
