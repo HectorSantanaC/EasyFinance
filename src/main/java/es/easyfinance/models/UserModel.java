@@ -5,6 +5,7 @@ import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.Set;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
@@ -22,9 +23,17 @@ public class UserModel {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
+	
+	@Column(unique = true, length = 100)
 	private String email;
+	
+	@Column(name = "contrasena", nullable = false, length = 255)
 	private String contrasena;
+	
+	@Column(name = "nombre", nullable = false, length = 50)
 	private String nombre;
+	
+	@Column(name = "apellidos", nullable = false, length = 100)
 	private String apellidos;
 	
 	@ManyToMany(fetch = FetchType.EAGER)
@@ -36,7 +45,10 @@ public class UserModel {
     private Set<RolModel> roles = new HashSet<>();
 	
 	private boolean activo = true;
+	
+	@Column(name = "fecha_registro", nullable = false)
 	private LocalDate fechaRegistro;
+	
 	private LocalDateTime ultimoAcceso;
 	private Long creadoPor;
 	private LocalDateTime fechaCreacion;

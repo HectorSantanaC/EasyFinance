@@ -2,6 +2,7 @@ package es.easyfinance.models;
 
 import java.time.LocalDateTime;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -16,8 +17,12 @@ public class RolModel {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	
+	@Column(name = "nombre", nullable = false, unique = true, length = 50)
 	private String nombre;
+	
+	@Column(name = "descripcion", length = 255)
 	private String descripcion;
+	
 	private Long creadoPor;
 	private LocalDateTime fechaCreacion;
 	private Long modificadoPor;
