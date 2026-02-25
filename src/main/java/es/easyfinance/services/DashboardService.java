@@ -13,6 +13,10 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import es.easyfinance.models.CategoryModel;
@@ -26,6 +30,30 @@ public class DashboardService {
 	
 	@Autowired
     private DashboardRepository dashboardRepository;
+	
+	@Autowired
+	private TransactionService transactionService;
+	
+	private Map<String, Object> getResumenBasico(UserModel usuario) {
+	    String email = usuario.getEmail();
+	    
+	    Map<String, Object> data = new HashMap<>();
+	    data.put("balanceMes", transactionService.calcularBalanceMesActual(email));
+	    data.put("ingresosMes", transactionService.calcularIngresosMesActual(email));
+	    data.put("gastosMes", transactionService.calcularGastosMesActual(email));
+	    data.put("ahorrosMes", transactionService.calcularAhorrosMesActual(email));
+	    
+	    Pageable pageable = PageRequest.of(0, 5, Sort.by("fecha").descending());
+	    Page<TransactionModel> ultimas = transactionService.findAllByUsuario(usuario, pageable);
+	    data.put("ultimasTransacciones", ultimas.getContent());
+	    
+	    return data;
+	}
+
+	public Map<String, Object> getDashboardResumen(UserModel usuario) {  // ← PÚBLICO para controllers
+	    return getResumenBasico(usuario);
+	}
+
 
     public Map<String, Object> getDatosGraficos(UserModel usuario) {
     	

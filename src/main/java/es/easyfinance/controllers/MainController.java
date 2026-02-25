@@ -4,6 +4,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.TextStyle;
 import java.util.Locale;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -25,6 +26,7 @@ import es.easyfinance.models.TransactionFilterModel;
 import es.easyfinance.models.TransactionModel;
 import es.easyfinance.models.UserModel;
 import es.easyfinance.services.CategoryService;
+import es.easyfinance.services.DashboardService;
 import es.easyfinance.services.TransactionService;
 import es.easyfinance.services.UserDetailsServiceImpl;
 import es.easyfinance.services.UserService;
@@ -44,6 +46,9 @@ public class MainController {
 	
 	@Autowired
 	private UserService userService;
+	
+	@Autowired
+	private DashboardService dashboardService;
 
 	@Autowired
 	private BCryptPasswordEncoder passwordEncoder;
@@ -152,18 +157,13 @@ public class MainController {
 		UserModel usuario = usuarioActual();
 		
 		// Balance, ingresos, gastos y ahorros
-		String email = usuario.getEmail();
-		
-		model.addAttribute("balanceMes", transactionService.calcularBalanceMesActual(email));
-		model.addAttribute("ingresosMes", transactionService.calcularIngresosMesActual(email));
-		model.addAttribute("gastosMes", transactionService.calcularGastosMesActual(email));
-		model.addAttribute("ahorrosMes", transactionService.calcularAhorrosMesActual(email));
-		
-		// Transacciones
-	    Pageable pageable = PageRequest.of(0, 5, Sort.by("fecha").descending());
-	    Page<TransactionModel> ultimas = transactionService.findAllByUsuario(usuario, pageable);
+		Map<String, Object> data = dashboardService.getDashboardResumen(usuario);
 	    
-	    model.addAttribute("ultimasTransacciones", ultimas.getContent());
+	    model.addAttribute("balanceMes", data.get("balanceMes"));
+	    model.addAttribute("ingresosMes", data.get("ingresosMes"));
+	    model.addAttribute("gastosMes", data.get("gastosMes"));
+	    model.addAttribute("ahorrosMes", data.get("ahorrosMes"));
+	    model.addAttribute("ultimasTransacciones", data.get("ultimasTransacciones"));
 	    
 	    // Fecha
 	    LocalDate ahora = LocalDate.now();
@@ -186,12 +186,10 @@ public class MainController {
 		UserModel usuario = usuarioActual();
 		
 		// Ingresos y gastos
-		String email = usuario.getEmail();
-		
-		
-		model.addAttribute("ingresosMes", transactionService.calcularIngresosMesActual(email));
-		model.addAttribute("gastosMes", transactionService.calcularGastosMesActual(email));
-		model.addAttribute("balanceMes", transactionService.calcularBalanceMesActual(email));
+		Map<String, Object> resumen = dashboardService.getDashboardResumen(usuario);
+	    model.addAttribute("ingresosMes", resumen.get("ingresosMes"));
+	    model.addAttribute("gastosMes", resumen.get("gastosMes"));
+	    model.addAttribute("balanceMes", resumen.get("balanceMes"));
         
 		// Transacciones
         Pageable pageable = PageRequest.of(page, size, Sort.by("fecha").descending());

@@ -32,7 +32,7 @@ public class LoginSuccesHandler extends SimpleUrlAuthenticationSuccessHandler {
             userRepository.save(user);
         }
         
-        // Redirección por rol (opcional)
+        // Redirección por rol
         if (auth.getAuthorities().stream().anyMatch(a -> a.getAuthority().equals("ROLE_ADMIN"))) {
             getRedirectStrategy().sendRedirect(request, response, "/admin-users");
         } else {
